@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 use App\Models\Progress;
 use App\Models\Soal;
+use App\Models\Achievement;
 
 class GameController extends Controller
 {
@@ -430,7 +430,72 @@ class GameController extends Controller
         */
 
         $progress->save();
+        
+/*
+|--------------------------------------------------------------------------
+| ACHIEVEMENT SYSTEM
+|--------------------------------------------------------------------------
+*/
 
+// Pemula
+if($progress->score >= 10){
+
+    Achievement::firstOrCreate([
+
+        'user_id' => Auth::id(),
+
+        'title' => 'Pemula'
+
+    ],[
+
+        'icon' => '🌱',
+
+        'description' =>
+        'Menyelesaikan quiz pertama'
+
+    ]);
+
+}
+
+// Cerdas
+if($progress->score >= 100){
+
+    Achievement::firstOrCreate([
+
+        'user_id' => Auth::id(),
+
+        'title' => 'Cerdas'
+
+    ],[
+
+        'icon' => '🧠',
+
+        'description' =>
+        'Mencapai score 100'
+
+    ]);
+
+}
+
+// Combo Master
+if(session('combo',0) >= 10){
+
+    Achievement::firstOrCreate([
+
+        'user_id' => Auth::id(),
+
+        'title' => 'Combo Master'
+
+    ],[
+
+        'icon' => '🔥',
+
+        'description' =>
+        'Mencapai combo x10'
+
+    ]);
+
+}
         /*
         |--------------------------------------------------------------------------
         | RETURN VIEW

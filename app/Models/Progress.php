@@ -14,13 +14,18 @@ class Progress extends Model
 
     protected $fillable = [
 
-        'user_id',
-        'score',
-        'high_score',
-        'last_soal_id'
+    'user_id',
+    'score',
+    'high_score',
+    'last_soal_id',
+    'level',
+    'combo',
+    'last_index',
+    'health',
+    'login_streak',
+    'last_claim'
 
-    ];
-
+];
     /*
     |--------------------------------------------------------------------------
     | RELASI USER
