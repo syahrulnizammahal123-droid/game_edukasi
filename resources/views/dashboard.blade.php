@@ -157,7 +157,22 @@
                     </span>
 
                 </a>
+                 <a
+    href="/riwayat"
+    class="glass rounded-[25px] p-5 block"
+>
+    <div class="text-4xl mb-3">
+        📜
+    </div>
 
+    <h3 class="font-bold text-lg">
+        Riwayat Permainan
+    </h3>
+
+    <p class="text-white/60 text-sm">
+        Lihat seluruh hasil quiz yang pernah dimainkan
+    </p>
+</a>
                 <!-- Leaderboard -->
                 <a href="/leaderboard"
                     class="flex items-center gap-4
