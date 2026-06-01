@@ -57,7 +57,8 @@ Route::get('/logout',
 */
 
 Route::get('/dashboard',
-    [AuthController::class, 'dashboard']);
+    [AuthController::class, 'dashboard'])
+    ->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -70,27 +71,32 @@ Route::get('/game', function () {
 
     return redirect('/game/level');
 
-});
+})->middleware('auth');
 
 // PILIH LEVEL
 Route::get('/game/level',
-    [GameController::class, 'level']);
+    [GameController::class, 'level'])
+    ->middleware('auth');
 
 // START GAME
 Route::get('/game/start/{level}',
-    [GameController::class, 'start']);
+    [GameController::class, 'start'])
+    ->middleware('auth');
 
 // JAWAB SOAL
 Route::post('/game/jawab',
-    [GameController::class, 'jawab']);
+    [GameController::class, 'jawab'])
+    ->middleware('auth');
 
 // NEXT SOAL
 Route::get('/game/next',
-    [GameController::class, 'next']);
+    [GameController::class, 'next'])
+    ->middleware('auth');
 
 // HASIL GAME
 Route::get('/game/hasil',
-    [GameController::class, 'hasil']);
+    [GameController::class, 'hasil'])
+    ->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +105,19 @@ Route::get('/game/hasil',
 */
 
 Route::get('/leaderboard',
-    [GameController::class, 'leaderboard']);
+    [GameController::class, 'leaderboard'])
+    ->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| RIWAYAT PERMAINAN
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/riwayat',
+    [GameController::class, 'riwayat'])
+    ->middleware('auth')
+    ->name('riwayat');
 
 /*
 |--------------------------------------------------------------------------
@@ -109,24 +127,30 @@ Route::get('/leaderboard',
 
 // LIST SOAL
 Route::get('/soal',
-    [GameController::class, 'soal']);
+    [GameController::class, 'soal'])
+    ->middleware('auth');
 
 // FORM TAMBAH SOAL
 Route::get('/soal/create',
-    [GameController::class, 'createSoal']);
+    [GameController::class, 'createSoal'])
+    ->middleware('auth');
 
 // SIMPAN SOAL
 Route::post('/soal/store',
-    [GameController::class, 'storeSoal']);
+    [GameController::class, 'storeSoal'])
+    ->middleware('auth');
 
 // FORM EDIT SOAL
 Route::get('/soal/edit/{id}',
-    [GameController::class, 'editSoal']);
+    [GameController::class, 'editSoal'])
+    ->middleware('auth');
 
 // UPDATE SOAL
 Route::post('/soal/update/{id}',
-    [GameController::class, 'updateSoal']);
+    [GameController::class, 'updateSoal'])
+    ->middleware('auth');
 
 // HAPUS SOAL
 Route::get('/soal/delete/{id}',
-    [GameController::class, 'deleteSoal']);
+    [GameController::class, 'deleteSoal'])
+    ->middleware('auth');
