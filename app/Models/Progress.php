@@ -23,7 +23,10 @@ class Progress extends Model
     'last_index',
     'health',
     'login_streak',
-    'last_claim'
+    'last_claim',
+    'total_play',
+    'correct_answer',
+    'wrong_answer'
 
 ];
     /*

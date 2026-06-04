@@ -133,26 +133,34 @@ class AuthController extends Controller
 
         );
 
-        /*
-        |--------------------------------------------------------------------------
-        | XP SYSTEM
-        |--------------------------------------------------------------------------
-        */
+       /*
+|--------------------------------------------------------------------------
+| XP SYSTEM
+|--------------------------------------------------------------------------
+*/
 
-        $xp = $progress->high_score * 10;
+$xp = $progress->high_score;
 
-        $level = floor($xp / 100) + 1;
+// BENARKAN KESALAHAN 1: Rumus level otomatis disamakan dengan rumus kelipatan 10 XP yang ada di Blade leaderboard Anda
+$level = floor(($xp * 10) / 100) + 1;
 
-        $currentXp = $xp % 100;
+$currentXp = ($xp % 10) * 10;
 
-        $progressPercent = $currentXp;
+$progressPercent = $currentXp;
 
-        /*
-        |--------------------------------------------------------------------------
-        | RANK SYSTEM
-        |--------------------------------------------------------------------------
-        */
+/*
+|--------------------------------------------------------------------------
+| SAVE LEVEL TO DATABASE
+|--------------------------------------------------------------------------
+*/
 
+if ($progress->level != $level) {
+
+    $progress->update([
+        'level' => $level
+    ]);
+
+}
         $allPlayers = Progress::orderByDesc(
             'high_score'
         )->get();
@@ -182,19 +190,20 @@ class AuthController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $title = 'New Adventurer';
+        // BENARKAN KESALAHAN 2: Penamaan Title diubah agar lebih formal dan akademis (cocok untuk skripsi)
+        $title = 'Novice Learner';
 
         if ($level >= 10) {
 
-            $title = 'Quiz Legend';
+            $title = 'Grandmaster Scholar';
 
         } elseif ($level >= 5) {
 
-            $title = 'Quiz Warrior';
+            $title = 'Advanced Thinker';
 
         } elseif ($level >= 3) {
 
-            $title = 'Rising Hero';
+            $title = 'Active Explorer';
 
         }
 
@@ -226,6 +235,7 @@ class AuthController extends Controller
 
             'progress',
             'xp',
+            'currentXp', // Ditambahkan ke compact agar bisa dibaca di dashboard tanpa error
             'level',
             'progressPercent',
             'rank',

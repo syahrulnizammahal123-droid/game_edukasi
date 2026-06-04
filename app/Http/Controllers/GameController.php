@@ -273,7 +273,10 @@ class GameController extends Controller
     {
         $progress = Progress::firstWhere('user_id', Auth::id());
         $score = $progress->score;
-
+         $progress->increment('total_play');
+         $progress->increment('correct_answer');
+         $progress->increment('wrong_answer');
+         
         // GRADE SYSTEM
         $grade = 'D';
         if ($score >= 90) {
