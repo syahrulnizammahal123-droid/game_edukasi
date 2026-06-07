@@ -6,150 +6,98 @@ use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
-| DEFAULT
+| DEFAULT & HOME REDIRECT
 |--------------------------------------------------------------------------
 */
 
 Route::get('/', function () {
-
     return redirect('/dashboard');
-
 });
 
 /*
 |--------------------------------------------------------------------------
-| LOGIN
+| AUTHENTICATION (LOGIN, REGISTER, LOGOUT)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login',
-    [AuthController::class, 'showLogin']
-)->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/login',
-    [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/logout', [AuthController::class, 'logout']);
 
 /*
 |--------------------------------------------------------------------------
-| REGISTER
+| DASHBOARD HUB
 |--------------------------------------------------------------------------
 */
 
-Route::get('/register',
-    [AuthController::class, 'showRegister']);
-
-Route::post('/register',
-    [AuthController::class, 'register']);
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
-| LOGOUT
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/logout',
-    [AuthController::class, 'logout']);
-
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/dashboard',
-    [AuthController::class, 'dashboard'])
-    ->middleware('auth');
-
-/*
-|--------------------------------------------------------------------------
-| GAME
+| GAME CORE PLATFORM
 |--------------------------------------------------------------------------
 */
 
 // REDIRECT /game
 Route::get('/game', function () {
-
     return redirect('/game/level');
-
 })->middleware('auth');
 
-// PILIH LEVEL
-Route::get('/game/level',
-    [GameController::class, 'level']
-)->name('game.level');
-// START GAME
-Route::get('/game/start/{level}',
-    [GameController::class, 'start'])
-    ->middleware('auth');
+// PILIH LEVEL INTERFACE
+Route::get('/game/level', [GameController::class, 'level'])->name('game.level')->middleware('auth');
 
-// JAWAB SOAL
-Route::post('/game/jawab',
-    [GameController::class, 'jawab'])
-    ->middleware('auth');
+// START SYSTEM GAME
+Route::get('/game/start/{level}', [GameController::class, 'start'])->middleware('auth');
 
-// NEXT SOAL
-Route::get('/game/next',
-    [GameController::class, 'next'])
-    ->middleware('auth');
+// JAWAB TANTANGAN SOAL
+Route::post('/game/jawab', [GameController::class, 'jawab'])->middleware('auth');
 
-// HASIL GAME
-Route::get('/game/hasil',
-    [GameController::class, 'hasil'])
-    ->middleware('auth');
+// NEXT QUEST SOAL
+Route::get('/game/next', [GameController::class, 'next'])->middleware('auth');
+
+// HASIL SKOR GAME
+Route::get('/game/hasil', [GameController::class, 'hasil'])->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
-| LEADERBOARD
+| LEADERBOARD SYSTEM
 |--------------------------------------------------------------------------
 */
 
-Route::get('/leaderboard',
-    [GameController::class, 'leaderboard'])
-    ->middleware('auth');
+Route::get('/leaderboard', [GameController::class, 'leaderboard'])->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
-| RIWAYAT PERMAINAN
+| BATTLE RECORD (RIWAYAT PERMAINAN)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/riwayat',
-    [GameController::class, 'riwayat'])
-    ->middleware('auth')
-    ->name('riwayat');
+Route::get('/riwayat', [GameController::class, 'riwayat'])->middleware('auth')->name('riwayat');
 
 /*
 |--------------------------------------------------------------------------
-| CRUD SOAL
+| MANAGEMENT BANK SOAL CRUD (SINKRONISASI GAME CONTROLLER)
 |--------------------------------------------------------------------------
 */
 
-// LIST SOAL
-Route::get('/soal',
-    [GameController::class, 'soal'])
-    ->middleware('auth');
+// 1. LIST SEMUA SOAL (Menampilkan Tabel Bank Soal)
+Route::get('/soal', [GameController::class, 'soal'])->middleware('auth');
 
-// FORM TAMBAH SOAL
-Route::get('/soal/create',
-    [GameController::class, 'createSoal'])
-    ->middleware('auth');
+// 2. FORM TAMBAH SOAL
+Route::get('/soal/create', [GameController::class, 'createSoal'])->middleware('auth');
 
-// SIMPAN SOAL
-Route::post('/soal/store',
-    [GameController::class, 'storeSoal'])
-    ->middleware('auth');
+// 3. SIMPAN SOAL BARU (Menggunakan standard POST)
+Route::post('/soal', [GameController::class, 'storeSoal'])->middleware('auth');
 
-// FORM EDIT SOAL
-Route::get('/soal/edit/{id}',
-    [GameController::class, 'editSoal'])
-    ->middleware('auth');
+// 4. FORM EDIT SOAL (Menggunakan parameter standar {id})
+Route::get('/soal/{id}/edit', [GameController::class, 'editSoal'])->middleware('auth');
 
-// UPDATE SOAL
-Route::post('/soal/update/{id}',
-    [GameController::class, 'updateSoal'])
-    ->middleware('auth');
+// 5. UPDATE DATA SOAL (Disinkronkan menggunakan PUT/PATCH sesuai standar HTML modern)
+Route::put('/soal/{id}', [GameController::class, 'updateSoal'])->middleware('auth');
 
-// HAPUS SOAL
-Route::get('/soal/delete/{id}',
-    [GameController::class, 'deleteSoal'])
-    ->middleware('auth');
+// 6. HAPUS SOAL DARI DATABASE (Disinkronkan menggunakan DELETE demi keamanan data kuis)
+Route::delete('/soal/{id}', [GameController::class, 'deleteSoal'])->middleware('auth');
