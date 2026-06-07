@@ -75,9 +75,8 @@ Route::get('/game', function () {
 
 // PILIH LEVEL
 Route::get('/game/level',
-    [GameController::class, 'level'])
-    ->middleware('auth');
-
+    [GameController::class, 'level']
+)->name('game.level');
 // START GAME
 Route::get('/game/start/{level}',
     [GameController::class, 'start'])

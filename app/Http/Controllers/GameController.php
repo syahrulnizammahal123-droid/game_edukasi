@@ -42,7 +42,7 @@ class GameController extends Controller
         $soalIds = Soal::where('level', $level)->inRandomOrder()->pluck('id')->toArray();
 
         if (empty($soalIds)) {
-            return redirect()->route('game.level')->with('error', 'Soal untuk Level ' . $level . ' belum diisi di database.');
+            return redirect('/game/level');
         }
 
         $lastIndex = $progress->last_index ?? 0;

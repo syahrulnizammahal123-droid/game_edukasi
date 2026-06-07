@@ -162,7 +162,7 @@
     class="glass rounded-[25px] p-5 block"
 >
     <div class="text-4xl mb-3">
-        📜
+        
     </div>
 
     <h3 class="font-bold text-lg">
