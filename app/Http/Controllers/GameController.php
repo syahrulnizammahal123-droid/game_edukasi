@@ -8,409 +8,342 @@ use App\Models\Progress;
 use App\Models\Soal;
 use App\Models\Achievement;
 use App\Models\GameHistory;
+use App\Models\User;
 
 class GameController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | HALAMAN LEVEL
+    | CORE GAMEPLAY FEATURES
     |--------------------------------------------------------------------------
     */
+
     public function level()
     {
-        // CEK LOGIN
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
-
-        // USER LOGIN
-        $user = Auth::user();
-
-        // PROGRESS PLAYER
-        $progress = Progress::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'score' => 0,
-                'last_soal_id' => 0,
-                'high_score' => 0,
-                'level' => 1,
-                'combo' => 0,
-                'last_index' => 0
-            ]
-        );
-
-        // XP PLAYER
-        $xp = $progress->high_score * 10;
-
-        // LEVEL PLAYER
-        $playerLevel = floor($xp / 100) + 1;
-
-        // RETURN VIEW
-        return view('game.level', compact('progress', 'xp', 'playerLevel'));
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | START GAME
-    |--------------------------------------------------------------------------
-    */
-    public function start($level)
-    {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
-
         $progress = Progress::firstOrCreate(
             ['user_id' => Auth::id()],
-            [
-                'score' => 0,
-                'high_score' => 0,
-                'last_soal_id' => 0,
-                'level' => 1,
-                'combo' => 0,
-                'last_index' => 0
-            ]
+            ['score' => 0, 'high_score' => 0, 'last_soal_id' => 0, 'level' => 1, 'combo' => 0, 'last_index' => 0]
         );
 
-        // AMBIL SOAL
-        $soals = Soal::query()
-            ->where('level', '=', $level)
-            ->inRandomOrder()
-            ->get()
-            ->toArray();
+        return view('game.level', [
+            'playerLevel' => $progress->level,
+            'xp'          => $progress->score,
+            'progress'    => $progress
+        ]);
+    }
 
-        // JIKA SOAL KOSONG
-        if (count($soals) == 0) {
-            return redirect('/soal')->with('error', 'Soal level ini belum tersedia');
+    public function start($level)
+    {
+        $progress = Progress::firstOrCreate(
+            ['user_id' => Auth::id()],
+            ['score' => 0, 'high_score' => 0, 'last_soal_id' => 0, 'level' => $level, 'combo' => 0, 'last_index' => 0]
+        );
+
+        $soalIds = Soal::where('level', $level)->inRandomOrder()->pluck('id')->toArray();
+
+        if (empty($soalIds)) {
+            return redirect()->route('game.level')->with('error', 'Soal untuk Level ' . $level . ' belum diisi di database.');
         }
 
-        // CEK LAST INDEX
         $lastIndex = $progress->last_index ?? 0;
-
-        // JIKA INDEX MELEBIHI TOTAL SOAL
-        if ($lastIndex >= count($soals)) {
+        if ($lastIndex >= count($soalIds)) {
             $lastIndex = 0;
         }
 
-        // SESSION GAME
         session([
-            'index' => $lastIndex,
-            'level' => $level,
-            'combo' => $progress->combo ?? 0,
-            'filtered_soal' => $soals
+            'game_level'    => $level,
+            'game_soal_ids' => $soalIds,
+            'index'         => $lastIndex,
+            'combo'         => $progress->combo ?? 0,
+            'hearts'        => 3, 
+            'correct_count' => $lastIndex == 0 ? 0 : session('correct_count', 0),
+            'wrong_count'   => $lastIndex == 0 ? 0 : session('wrong_count', 0),
         ]);
 
-        // MESSAGE RESUME
-        if ($lastIndex > 0) {
-            session()->flash('success', '💾 Progress game berhasil dipulihkan');
-        }
-
-        // RETURN VIEW
         return view('game.main', [
-            'soal' => $soals[$lastIndex],
+            'soal'     => Soal::find($soalIds[$lastIndex]),
             'progress' => $progress,
-            'total' => count($soals)
+            'total'    => count($soalIds),
+            'hearts'   => session('hearts')
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | JAWAB SOAL
-    |--------------------------------------------------------------------------
-    */
     public function jawab(Request $request)
     {
+        $request->validate(['jawaban' => 'required|string']);
+
         $progress = Progress::firstWhere('user_id', Auth::id());
-        $index = session('index');
-        $soals = session('filtered_soal');
-        $soal = $soals[$index];
+        $index    = session('index');
+        $soalIds  = session('game_soal_ids');
+        
+        if (!$soalIds || !isset($soalIds[$index])) {
+            return redirect()->route('game.level')->with('error', 'Sesi permainan telah berakhir.');
+        }
 
-        // CEK JAWABAN
-        if ($request->jawaban == $soal['jawaban']) {
-            // COMBO SYSTEM
-            $combo = session('combo', 0);
-            $combo++;
-            session(['combo' => $combo]);
+        $soal = Soal::find($soalIds[$index]);
+        $gameOver = false;
 
-            // SCORE DASAR
+        if ($request->jawaban == $soal->jawaban) {
+            $combo = session('combo', 0) + 1;
+            session(['combo' => $combo, 'correct_count' => session('correct_count', 0) + 1]);
+
             $scoreTambah = 10;
-            $bonusText = '';
+            if ($combo >= 10) $scoreTambah += 20;
+            elseif ($combo >= 5) $scoreTambah += 10;
+            elseif ($combo >= 3) $scoreTambah += 5;
 
-            // BONUS COMBO
-            if ($combo >= 10) {
-                $scoreTambah += 20;
-                $bonusText = ' 👑 ULTRA COMBO x10';
-            } elseif ($combo >= 5) {
-                $scoreTambah += 10;
-                $bonusText = ' ⚡ Super Combo x5';
-            } elseif ($combo >= 3) {
-                $scoreTambah += 5;
-                $bonusText = ' 🔥 Combo x3';
-            }
-
-            // BONUS LEVEL
-            if (session('level') >= 2) {
-                $scoreTambah += 5;
-            }
-
-            // TAMBAH SCORE
+            if (session('game_level') >= 2) { $scoreTambah += 5; }
             $progress->score += $scoreTambah;
 
-            // HIGH SCORE
             if ($progress->score > $progress->high_score) {
                 $progress->high_score = $progress->score;
             }
 
-            // MESSAGE
-            session([
-                'message' => '🎉 Jawaban Benar +' . $scoreTambah . $bonusText,
-                'status' => 'benar'
-            ]);
+            session(['message' => '🎉 Jawaban Benar +' . $scoreTambah, 'status' => 'benar']);
         } else {
-            // RESET COMBO
-            session(['combo' => 0]);
+            $hearts = session('hearts', 3) - 1;
+            session(['combo' => 0, 'wrong_count' => session('wrong_count', 0) + 1, 'hearts' => $hearts]);
 
-            // MESSAGE
-            session([
-                'message' => '❌ Jawaban Salah, Combo Reset',
-                'status' => 'salah'
-            ]);
+            if ($hearts <= 0) {
+                $gameOver = true;
+                session(['message' => '💀 Game Over! Nyawa kamu habis.', 'status' => 'salah']);
+            } else {
+                session(['message' => '❌ Jawaban Salah! Sisa Nyawa: ' . $hearts, 'status' => 'salah']);
+            }
         }
 
-        // UPDATE PROGRESS
-        $progress->last_soal_id = $index + 1;
-        $progress->level = session('level');
-        $progress->combo = session('combo', 0);
-        $progress->last_index = session('index');
-
-        // SAVE
+        $progress->last_soal_id = $soal->id;
+        $progress->level        = session('game_level');
+        $progress->combo        = session('combo', 0);
+        $progress->last_index   = $index;
         $progress->save();
         
-        // ACHIEVEMENT SYSTEM
-        // Pemula
-        if ($progress->score >= 10) {
-            Achievement::firstOrCreate([
-                'user_id' => Auth::id(),
-                'title' => 'Pemula'
-            ], [
-                'icon' => '🌱',
-                'description' => 'Menyelesaikan quiz pertama'
-            ]);
-        }
+        $this->checkAchievements($progress);
 
-        // Cerdas
-        if ($progress->score >= 100) {
-            Achievement::firstOrCreate([
-                'user_id' => Auth::id(),
-                'title' => 'Cerdas'
-            ], [
-                'icon' => '🧠',
-                'description' => 'Mencapai score 100'
-            ]);
-        }
-
-        // Combo Master
-        if (session('combo', 0) >= 10) {
-            Achievement::firstOrCreate([
-                'user_id' => Auth::id(),
-                'title' => 'Combo Master'
-            ], [
-                'icon' => '🔥',
-                'description' => 'Mencapai combo x10'
-            ]);
-        }
-
-        // RETURN VIEW
         return view('game.penjelasan', [
-            'benar' => $soal['jawaban'],
+            'benar'       => $soal->jawaban,
             'jawabanUser' => $request->jawaban,
-            'penjelasan' => $soal['penjelasan'],
-            'progress' => $progress,
-            'soal' => $soal,
-            'combo' => session('combo', 0),
-            'message' => session('message'),
-            'status' => session('status')
+            'penjelasan'  => $soal->penjelasan,
+            'progress'    => $progress,
+            'soal'        => $soal,
+            'combo'       => session('combo', 0),
+            'message'     => session('message'),
+            'status'      => session('status'),
+            'gameOver'    => $gameOver
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | NEXT SOAL
-    |--------------------------------------------------------------------------
-    */
     public function next()
     {
-        $index = session('index') + 1;
-        $soals = session('filtered_soal');
-
-        // JIKA SOAL HABIS
-        if ($index >= count($soals)) {
-            return redirect('/game/hasil');
+        if (session('hearts', 3) <= 0) {
+            return redirect()->route('game.hasil');
         }
 
-        // UPDATE SESSION
+        $index   = session('index') + 1;
+        $soalIds = session('game_soal_ids');
+
+        if (!$soalIds || $index >= count($soalIds)) {
+            return redirect()->route('game.hasil');
+        }
+
         session(['index' => $index]);
 
-        // UPDATE PROGRESS
         $progress = Progress::firstWhere('user_id', Auth::id());
         $progress->last_index = $index;
         $progress->save();
 
-        // RETURN VIEW
         return view('game.main', [
-            'soal' => $soals[$index],
+            'soal'     => Soal::find($soalIds[$index]),
             'progress' => $progress,
-            'total' => count($soals)
+            'total'    => count($soalIds),
+            'hearts'   => session('hearts')
         ]);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | HASIL QUIZ
-    |--------------------------------------------------------------------------
-    */
     public function hasil()
     {
         $progress = Progress::firstWhere('user_id', Auth::id());
-        $score = $progress->score;
-         $progress->increment('total_play');
-         $progress->increment('correct_answer');
-         $progress->increment('wrong_answer');
-         
-        // GRADE SYSTEM
-        $grade = 'D';
-        if ($score >= 90) {
-            $grade = 'S';
-        } elseif ($score >= 80) {
-            $grade = 'A';
-        } elseif ($score >= 70) {
-            $grade = 'B';
-        } elseif ($score >= 60) {
-            $grade = 'C';
-        }
+        $score    = $progress->score;
 
-        // STAR SYSTEM
-        $stars = 1;
-        if ($score >= 90) {
-            $stars = 5;
-        } elseif ($score >= 80) {
-            $stars = 4;
-        } elseif ($score >= 70) {
-            $stars = 3;
-        } elseif ($score >= 60) {
-            $stars = 2;
-        }
+        $correctAnswers = session('correct_count', 0);
+        $wrongAnswers   = session('wrong_count', 0);
+        $totalSesiSoal  = $correctAnswers + $wrongAnswers;
+        $akurasi = $totalSesiSoal > 0 ? round(($correctAnswers / $totalSesiSoal) * 100) : 0;
 
-        // RESET PROGRESS SETELAH QUIZ SELESAI
-        $progress->last_index = 0;
-        $progress->combo = 0;
-        $progress->score = 0; // Mengosongkan score sesi sekarang agar tidak terakumulasi berkelanjutan
-        $progress->save();
+        $progress->update([
+            'total_play'     => $progress->total_play + 1,
+            'correct_answer' => $progress->correct_answer + $correctAnswers,
+            'wrong_answer'   => $progress->wrong_answer + $wrongAnswers,
+        ]);
+          
+        $grade = $score >= 90 ? 'S' : ($score >= 80 ? 'A' : ($score >= 70 ? 'B' : ($score >= 60 ? 'C' : 'D')));
+        $stars = $score >= 90 ? 5 : ($score >= 80 ? 4 : ($score >= 70 ? 3 : ($score >= 60 ? 2 : 1)));
 
-        // RETURN VIEW
+        GameHistory::create([
+            'user_id'    => Auth::id(),
+            'level'      => session('game_level', 1),
+            'score'      => $score,
+            'grade'      => $grade,
+            'stars'      => $stars,
+            'created_at' => now()
+        ]);
+
+        $progress->update(['last_index' => 0, 'combo' => 0, 'score' => 0]);
+        session()->forget(['game_soal_ids', 'index', 'combo', 'correct_count', 'wrong_count', 'hearts']);
+
         return view('game.hasil', [
-            'score' => $score,
+            'score'      => $score,
             'high_score' => $progress->high_score,
-            'grade' => $grade,
-            'stars' => $stars
+            'grade'      => $grade,
+            'stars'      => $stars,
+            'akurasi'    => $akurasi,
+            'isKalah'    => session('hearts', 3) <= 0
         ]);
     }
 
     /*
     |--------------------------------------------------------------------------
-    | LEADERBOARD
+    | LEADERBOARD & HISTORY FEATURES
     |--------------------------------------------------------------------------
     */
     public function leaderboard()
-    {
-        $data = Progress::with('user')
-            ->orderBy('high_score', 'desc')
-            ->get();
+{
+    $progress = Progress::firstOrCreate(
+        ['user_id' => Auth::id()],
+        [
+            'score' => 0,
+            'high_score' => 0,
+            'level' => 1
+        ]
+    );
 
-        $myId = Auth::id();
+    $xp = $progress->high_score;
 
-        return view('game.leaderboard', compact('data', 'myId'));
+    $level = max(1, floor($xp / 100) + 1);
+
+    $rank = Progress::where('high_score', '>', $progress->high_score)->count() + 1;
+
+    $topPlayers = Progress::with('user')
+        ->orderByDesc('high_score')
+        ->take(10)
+        ->get();
+
+    $progressPercent = min(100, ($xp % 100));
+
+    $hour = now()->format('H');
+
+    if ($hour < 12) {
+        $greeting = '🌅 Selamat Pagi';
+    } elseif ($hour < 15) {
+        $greeting = '☀️ Selamat Siang';
+    } elseif ($hour < 18) {
+        $greeting = '🌇 Selamat Sore';
+    } else {
+        $greeting = '🌙 Selamat Malam';
     }
+
+    $title = match (true) {
+        $level >= 10 => 'Mythic Master',
+        $level >= 7  => 'Grand Master',
+        $level >= 5  => 'Elite Warrior',
+        $level >= 3  => 'Adventure Knight',
+        default      => 'Beginner'
+    };
+
+    return view('game.leaderboard', compact(
+        'progress',
+        'xp',
+        'level',
+        'rank',
+        'topPlayers',
+        'progressPercent',
+        'greeting',
+        'title'
+    ));
+}
+
+public function riwayat()
+{
+    $data = GameHistory::where('user_id', Auth::id())
+        ->latest()
+        ->get();
+
+    return view('game.riwayat', compact('data'));
+}
 
     /*
     |--------------------------------------------------------------------------
-    | CRUD SOAL
+    | BACKOFFICE / CRUD SOAL FEATURES
     |--------------------------------------------------------------------------
     */
-
-    // LIST SOAL
     public function soal()
     {
-        $data = Soal::orderBy('id', 'desc')->get();
-        return view('soal.index', compact('data'));
+        $soals = Soal::orderBy('level')->orderBy('id')->get();
+        return view('soal.index', compact('soals'));
     }
 
-    // FORM TAMBAH
     public function createSoal()
     {
         return view('soal.create');
     }
 
-    // SIMPAN SOAL
     public function storeSoal(Request $request)
     {
-        Soal::create([
-            'pertanyaan' => $request->pertanyaan,
-            'A' => $request->A,
-            'B' => $request->B,
-            'C' => $request->C,
-            'D' => $request->D,
-            'jawaban' => $request->jawaban,
-            'penjelasan' => $request->penjelasan,
-            'level' => $request->level
+        $data = $request->validate([
+            'level' => 'required|integer',
+            'pertanyaan' => 'required|string',
+            'opsi_a' => 'required|string',
+            'opsi_b' => 'required|string',
+            'opsi_c' => 'required|string',
+            'opsi_d' => 'required|string',
+            'jawaban' => 'required|string',
+            'penjelasan' => 'nullable|string',
         ]);
 
-        return redirect('/soal')->with('success', 'Soal berhasil ditambahkan');
+        Soal::create($data);
+        return redirect()->route('soal.index')->with('success', 'Soal berhasil ditambahkan!');
     }
 
-    // FORM EDIT
     public function editSoal($id)
     {
         $soal = Soal::findOrFail($id);
         return view('soal.edit', compact('soal'));
     }
 
-    // UPDATE SOAL
     public function updateSoal(Request $request, $id)
     {
         $soal = Soal::findOrFail($id);
-        $soal->update([
-            'pertanyaan' => $request->pertanyaan,
-            'A' => $request->A,
-            'B' => $request->B,
-            'C' => $request->C,
-            'D' => $request->D,
-            'jawaban' => $request->jawaban,
-            'penjelasan' => $request->penjelasan,
-            'level' => $request->level
+        $data = $request->validate([
+            'level' => 'required|integer',
+            'pertanyaan' => 'required|string',
+            'opsi_a' => 'required|string',
+            'opsi_b' => 'required|string',
+            'opsi_c' => 'required|string',
+            'opsi_d' => 'required|string',
+            'jawaban' => 'required|string',
+            'penjelasan' => 'nullable|string',
         ]);
 
-        return redirect('/soal')->with('success', 'Soal berhasil diupdate');
+        $soal->update($data);
+        return redirect()->route('soal.index')->with('success', 'Soal berhasil diperbarui!');
     }
 
-    // HAPUS SOAL
     public function deleteSoal($id)
     {
         Soal::findOrFail($id)->delete();
-        return redirect('/soal')->with('success', 'Soal berhasil dihapus');
+        return redirect()->route('soal.index')->with('success', 'Soal berhasil dihapus!');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RIWAYAT PERMAINAN
-    |--------------------------------------------------------------------------
-    */
-    public function riwayat()
+    private function checkAchievements($progress) 
     {
-        $data = GameHistory::where('user_id', Auth::id())
-            ->latest()
-            ->get();
-
-        return view('game.riwayat', compact('data'));
+        if ($progress->score >= 10) {
+            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Pemula'], ['icon' => '🌱', 'description' => 'Menyelesaikan quiz pertama']);
+        }
+        if ($progress->score >= 100) {
+            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Cerdas'], ['icon' => '🧠', 'description' => 'Mencapai score 100']);
+        }
+        if (session('combo', 0) >= 10) {
+            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Combo Master'], ['icon' => '🔥', 'description' => 'Mencapai combo x10']);
+        }
     }
 }

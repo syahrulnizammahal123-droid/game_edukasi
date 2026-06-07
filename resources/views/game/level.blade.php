@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pilih Level</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet"
+        <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
@@ -41,29 +38,24 @@
     style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
 >
 
-    <!-- OVERLAY -->
-    <div class="fixed inset-0 bg-[#07111f]/80 -z-10"></div>
+        <div class="fixed inset-0 bg-[#07111f]/80 -z-10"></div>
 
-    <!-- GLOW -->
-    <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-400/20 blur-3xl rounded-full"></div>
+        <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-400/20 blur-3xl rounded-full"></div>
 
     <div class="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/20 blur-3xl rounded-full"></div>
 
-    <!-- MAIN -->
-    <div class="relative z-10 min-h-screen p-5 lg:p-8 pb-32">
+        <div class="relative z-10 min-h-screen p-5 lg:p-8 pb-32">
 
         <div class="max-w-7xl mx-auto">
 
-            <!-- HEADER -->
-            <div
+                        <div
                 class="glass rounded-[35px]
                 p-6 lg:p-8 mb-8"
             >
 
                 <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-                    <!-- LEFT -->
-                    <div>
+                                        <div>
 
                         <p class="text-cyan-300 font-semibold mb-3">
                             Mode Petualangan
@@ -79,11 +71,9 @@
 
                     </div>
 
-                    <!-- RIGHT -->
-                    <div class="flex gap-4">
+                                        <div class="flex gap-4">
 
-                        <!-- DASHBOARD -->
-                        <a href="/dashboard"
+                                                <a href="/dashboard"
                             class="w-14 h-14 rounded-2xl
                             glass flex items-center justify-center
                             text-white hover:bg-white/10 transition"
@@ -93,8 +83,7 @@
 
                         </a>
 
-                        <!-- LEADERBOARD -->
-                        <a href="/leaderboard"
+                                                <a href="/leaderboard"
                             class="w-14 h-14 rounded-2xl
                             bg-gradient-to-r from-cyan-400 to-blue-600
                             flex items-center justify-center
@@ -111,16 +100,14 @@
 
             </div>
 
-            <!-- PLAYER INFO -->
-            <div
+                        <div
                 class="glass rounded-[35px]
                 p-6 lg:p-8 mb-8"
             >
 
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
 
-                    <!-- LEVEL -->
-                    <div
+                                        <div
                         class="bg-white/5 border border-white/10
                         rounded-[30px] p-5"
                     >
@@ -145,8 +132,7 @@
 
                     </div>
 
-                    <!-- XP -->
-                    <div
+                                        <div
                         class="bg-white/5 border border-white/10
                         rounded-[30px] p-5"
                     >
@@ -171,8 +157,7 @@
 
                     </div>
 
-                    <!-- HIGH SCORE -->
-                    <div
+                                        <div
                         class="bg-white/5 border border-white/10
                         rounded-[30px] p-5"
                     >
@@ -197,8 +182,7 @@
 
                     </div>
 
-                    <!-- STAGE -->
-                    <div
+                                        <div
                         class="bg-white/5 border border-white/10
                         rounded-[30px] p-5"
                     >
@@ -218,7 +202,7 @@
                         </p>
 
                         <h2 class="text-white text-4xl font-extrabold mt-2">
-                            {{ min($playerLevel,3) }}/3
+                            3/3
                         </h2>
 
                     </div>
@@ -227,11 +211,9 @@
 
             </div>
 
-            <!-- LEVEL GRID -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- LEVEL 1 -->
-                <div
+                                <div
                     class="rounded-[40px]
                     bg-gradient-to-br from-cyan-500 to-blue-700
                     p-8 text-white
@@ -240,11 +222,9 @@
                     card-hover"
                 >
 
-                    <!-- GLOW -->
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
+                                        <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
 
-                    <!-- ICON -->
-                    <div
+                                        <div
                         class="w-24 h-24 rounded-[30px]
                         bg-white/20
                         flex items-center justify-center
@@ -255,8 +235,7 @@
 
                     </div>
 
-                    <!-- CONTENT -->
-                    <p class="text-cyan-100 mb-3">
+                                        <p class="text-cyan-100 mb-3">
                         Tahap Pemula
                     </p>
 
@@ -268,8 +247,7 @@
                         Mulai perjalanan pertama dan selesaikan quiz dasar untuk meningkatkan kemampuanmu.
                     </p>
 
-                    <!-- INFO -->
-                    <div
+                                        <div
                         class="bg-white/10 rounded-[30px]
                         p-5 mb-8"
                     >
@@ -300,8 +278,7 @@
 
                     </div>
 
-                    <!-- BUTTON -->
-                    <a href="/game/start/1"
+                                        <a href="/game/start/1"
                         class="flex items-center justify-center gap-4
                         bg-white text-cyan-700
                         py-5 rounded-[30px]
@@ -316,60 +293,17 @@
 
                 </div>
 
-                <!-- LEVEL 2 -->
-                <div
+                                <div
                     class="rounded-[40px]
-                    {{ $playerLevel >= 2
-                        ? 'bg-gradient-to-br from-purple-500 to-pink-700 shadow-[0_0_45px_rgba(168,85,247,0.3)]'
-                        : 'glass border border-white/10 opacity-70'
-                    }}
+                    bg-gradient-to-br from-purple-500 to-pink-700 shadow-[0_0_45px_rgba(168,85,247,0.3)]
                     p-8 text-white
                     relative overflow-hidden
                     card-hover"
                 >
 
-                    <!-- LOCK -->
-                    @if($playerLevel < 2)
+                                        <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
 
-                        <div
-                            class="absolute inset-0
-                            bg-black/40 backdrop-blur-sm
-                            flex items-center justify-center
-                            z-20"
-                        >
-
-                            <div class="text-center">
-
-                                <div
-                                    class="w-24 h-24 rounded-full
-                                    bg-white/10
-                                    flex items-center justify-center
-                                    mx-auto mb-5"
-                                >
-
-                                    <i class="fa-solid fa-lock text-4xl"></i>
-
-                                </div>
-
-                                <p class="text-xl font-bold">
-                                    Level Terkunci
-                                </p>
-
-                                <p class="text-white/60 mt-2">
-                                    Capai Level 2 untuk membuka
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    @endif
-
-                    <!-- GLOW -->
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
-
-                    <!-- ICON -->
-                    <div
+                                        <div
                         class="w-24 h-24 rounded-[30px]
                         bg-white/20
                         flex items-center justify-center
@@ -380,8 +314,7 @@
 
                     </div>
 
-                    <!-- CONTENT -->
-                    <p class="text-pink-100 mb-3">
+                                        <p class="text-pink-100 mb-3">
                         Tahap Menengah
                     </p>
 
@@ -393,8 +326,7 @@
                         Tantangan lebih sulit dengan soal yang membutuhkan ketelitian dan strategi.
                     </p>
 
-                    <!-- INFO -->
-                    <div
+                                        <div
                         class="bg-white/10 rounded-[30px]
                         p-5 mb-8"
                     >
@@ -417,105 +349,40 @@
                                 Status
                             </span>
 
-                            <span class="font-bold
-                                {{ $playerLevel >= 2 ? 'text-green-300' : 'text-red-300' }}">
-                                {{ $playerLevel >= 2 ? 'Terbuka' : 'Terkunci' }}
+                            <span class="font-bold text-green-300">
+                                Terbuka
                             </span>
 
                         </div>
 
                     </div>
 
-                    <!-- BUTTON -->
-                    @if($playerLevel >= 2)
+                                        <a href="/game/start/2"
+                        class="flex items-center justify-center gap-4
+                        bg-white text-purple-700
+                        py-5 rounded-[30px]
+                        text-lg font-bold"
+                    >
 
-                        <a href="/game/start/2"
-                            class="flex items-center justify-center gap-4
-                            bg-white text-purple-700
-                            py-5 rounded-[30px]
-                            text-lg font-bold"
-                        >
+                        <i class="fa-solid fa-play"></i>
 
-                            <i class="fa-solid fa-play"></i>
+                        Mainkan
 
-                            Mainkan
-
-                        </a>
-
-                    @else
-
-                        <button
-                            disabled
-                            class="w-full flex items-center justify-center gap-4
-                            bg-white/10 text-white/50
-                            py-5 rounded-[30px]
-                            text-lg font-bold cursor-not-allowed"
-                        >
-
-                            <i class="fa-solid fa-lock"></i>
-
-                            Terkunci
-
-                        </button>
-
-                    @endif
+                    </a>
 
                 </div>
 
-                <!-- LEVEL 3 -->
-                <div
+                                <div
                     class="rounded-[40px]
-                    {{ $playerLevel >= 3
-                        ? 'bg-gradient-to-br from-orange-500 to-red-700 shadow-[0_0_45px_rgba(249,115,22,0.3)]'
-                        : 'glass border border-white/10 opacity-70'
-                    }}
+                    bg-gradient-to-br from-orange-500 to-red-700 shadow-[0_0_45px_rgba(249,115,22,0.3)]
                     p-8 text-white
                     relative overflow-hidden
                     card-hover"
                 >
 
-                    <!-- LOCK -->
-                    @if($playerLevel < 3)
+                                        <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
 
-                        <div
-                            class="absolute inset-0
-                            bg-black/40 backdrop-blur-sm
-                            flex items-center justify-center
-                            z-20"
-                        >
-
-                            <div class="text-center">
-
-                                <div
-                                    class="w-24 h-24 rounded-full
-                                    bg-white/10
-                                    flex items-center justify-center
-                                    mx-auto mb-5"
-                                >
-
-                                    <i class="fa-solid fa-lock text-4xl"></i>
-
-                                </div>
-
-                                <p class="text-xl font-bold">
-                                    Level Terkunci
-                                </p>
-
-                                <p class="text-white/60 mt-2">
-                                    Capai Level 3 untuk membuka
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    @endif
-
-                    <!-- GLOW -->
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
-
-                    <!-- ICON -->
-                    <div
+                                        <div
                         class="w-24 h-24 rounded-[30px]
                         bg-white/20
                         flex items-center justify-center
@@ -526,8 +393,7 @@
 
                     </div>
 
-                    <!-- CONTENT -->
-                    <p class="text-orange-100 mb-3">
+                                        <p class="text-orange-100 mb-3">
                         Tahap Lanjutan
                     </p>
 
@@ -539,8 +405,7 @@
                         Ujian terakhir untuk petualang sejati dengan tingkat kesulitan tertinggi.
                     </p>
 
-                    <!-- INFO -->
-                    <div
+                                        <div
                         class="bg-white/10 rounded-[30px]
                         p-5 mb-8"
                     >
@@ -563,48 +428,26 @@
                                 Status
                             </span>
 
-                            <span class="font-bold
-                                {{ $playerLevel >= 3 ? 'text-green-300' : 'text-red-300' }}">
-                                {{ $playerLevel >= 3 ? 'Terbuka' : 'Terkunci' }}
+                            <span class="font-bold text-green-300">
+                                Terbuka
                             </span>
 
                         </div>
 
                     </div>
 
-                    <!-- BUTTON -->
-                    @if($playerLevel >= 3)
+                                        <a href="/game/start/3"
+                        class="flex items-center justify-center gap-4
+                        bg-white text-orange-700
+                        py-5 rounded-[30px]
+                        text-lg font-bold"
+                    >
 
-                        <a href="/game/start/3"
-                            class="flex items-center justify-center gap-4
-                            bg-white text-orange-700
-                            py-5 rounded-[30px]
-                            text-lg font-bold"
-                        >
+                        <i class="fa-solid fa-play"></i>
 
-                            <i class="fa-solid fa-play"></i>
+                        Mainkan
 
-                            Mainkan
-
-                        </a>
-
-                    @else
-
-                        <button
-                            disabled
-                            class="w-full flex items-center justify-center gap-4
-                            bg-white/10 text-white/50
-                            py-5 rounded-[30px]
-                            text-lg font-bold cursor-not-allowed"
-                        >
-
-                            <i class="fa-solid fa-lock"></i>
-
-                            Terkunci
-
-                        </button>
-
-                    @endif
+                    </a>
 
                 </div>
 
