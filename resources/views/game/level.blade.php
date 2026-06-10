@@ -106,6 +106,42 @@
                 </div>
             </div>
 
+            <div class="glass rounded-[35px] p-6 lg:p-8 mb-8 border border-white/5 bg-slate-900/30">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-bullseye text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-black uppercase tracking-wider text-cyan-300">Target Kompetensi Siswa Berdasarkan Level</h3>
+                        <p class="text-[11px] text-white/40">Pemetaan capaian indikator berpikir kritis siswa pada setiap tingkatan</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 bg-white/5 border border-white/5 rounded-2xl flex gap-3 items-start">
+                        <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold flex items-center justify-center shrink-0">1</span>
+                        <div>
+                            <h4 class="font-bold text-white/90 mb-1">Level 1: Berpikir Logis</h4>
+                            <p class="text-white/50 leading-relaxed text-[11px]">Siswa mampu mengidentifikasi fakta dasar, menyusun konsep penalaran awal, dan memetakan komponen utama dalam masalah.</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white/5 border border-white/5 rounded-2xl flex gap-3 items-start">
+                        <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-300 font-bold flex items-center justify-center shrink-0">2</span>
+                        <div>
+                            <h4 class="font-bold text-white/90 mb-1">Level 2: Analisis Kausal</h4>
+                            <p class="text-white/50 leading-relaxed text-[11px]">Siswa mampu meneliti hubungan sebab-akibat dari data kuis, menemukan pola kekeliruan logika, dan mendeteksi bias informasi.</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white/5 border border-white/5 rounded-2xl flex gap-3 items-start">
+                        <span class="w-6 h-6 rounded-lg bg-orange-500/20 text-orange-300 font-bold flex items-center justify-center shrink-0">3</span>
+                        <div>
+                            <h4 class="font-bold text-white/90 mb-1">Level 3: Evaluasi Strategis</h4>
+                            <p class="text-white/50 leading-relaxed text-[11px]">Siswa mampu melakukan komparasi antar solusi alternatif, mengukur validitas argumen akhir, serta merumuskan kesimpulan logis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 <div class="rounded-[40px] bg-gradient-to-br from-cyan-500 to-blue-700 p-8 text-white shadow-[0_0_45px_rgba(59,130,246,0.25)] relative overflow-hidden card-hover border border-white/10">
@@ -122,7 +158,7 @@
                         <div class="flex justify-between"><span class="text-cyan-200">Status</span><span class="font-bold text-green-300">Terbuka</span></div>
                     </div>
                     
-                    <a href="{{ route('game.start', ['level' => 1]) }}" class="flex items-center justify-center gap-3 bg-white text-cyan-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                    <a href="/game/start/1" class="flex items-center justify-center gap-3 bg-white text-cyan-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
                         <i class="fa-solid fa-circle-play"></i><span>Mainkan</span>
                     </a>
                 </div>
@@ -147,7 +183,7 @@
                     </div>
                     
                     @if($playerLevel >= 2)
-                        <a href="{{ route('game.start', ['level' => 2]) }}" class="flex items-center justify-center gap-3 bg-white text-purple-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                        <a href="/game/start/2" class="flex items-center justify-center gap-3 bg-white text-purple-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
                             <i class="fa-solid fa-circle-play"></i><span>Mainkan</span>
                         </a>
                     @else
@@ -157,7 +193,7 @@
                     @endif
                 </div>
 
-                <div class="rounded-[40px] bg-gradient-to-br from-orange-500 to-red-700 shadow-[0_0_45px_rgba(249,115,22,0.2)] p-8 text-white relative overflow-hidden card-hover border border-white/10 {{ ($playerLevel < 3) ? 'opacity-60 filter saturate-[0.8]' : '' }}">
+                <div class="rounded-[40px] bg-gradient-to-br from-orange-500 to-red-700 shadow-[0_0_45px_rgba(249,115,22,0.2)] p-8 text-white relative overflow-hidden card-hover border border-white/10 {{ ($playerLevel < 3) ? 'opacity-65 filter saturate-[0.8]' : '' }}">
                     <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
                     <div class="w-24 h-24 rounded-[30px] bg-white/20 flex items-center justify-center mb-8 shadow-inner">
                         <i class="fa-solid {{ ($playerLevel >= 3) ? 'fa-crown' : 'fa-lock' }} text-5xl"></i>
@@ -177,7 +213,7 @@
                     </div>
                     
                     @if($playerLevel >= 3)
-                        <a href="{{ route('game.start', ['level' => 3]) }}" class="flex items-center justify-center gap-3 bg-white text-orange-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                        <a href="/game/start/3" class="flex items-center justify-center gap-3 bg-white text-orange-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
                             <i class="fa-solid fa-circle-play"></i><span>Mainkan</span>
                         </a>
                     @else
@@ -191,7 +227,6 @@
         </div>
     </div>
 
-    {{-- Jika halaman macet total saat diklik, kamu bisa matikan/comment sementara kedua baris @include di bawah ini untuk mendeteksi letak bug --}}
     @include('components.loading')
     @include('components.sound')
 
