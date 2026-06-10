@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasil Jawaban</title>
+    <title>Hasil Evaluasi Jawaban - Guiz Adventure</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
-
         body{
             font-family:'Poppins',sans-serif;
         }
@@ -24,310 +19,127 @@
         .glass{
             background:rgba(255,255,255,0.08);
             backdrop-filter:blur(18px);
-            border:1px solid rgba(255,255,255,0.08);
+            -webkit-backdrop-filter:blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(34, 211, 238, 0.25);
+        }
     </style>
-
 </head>
 
-<body
-    class="relative min-h-screen bg-cover bg-center bg-fixed bg-no-repeat overflow-x-hidden"
-    style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
->
+<body class="relative min-h-screen bg-cover bg-center bg-fixed bg-no-repeat overflow-x-hidden text-white" style="background-image:url('{{ asset('images/bg-login.jpg') }}')">
 
-    <!-- Overlay -->
     <div class="fixed inset-0 bg-[#07111f]/80 -z-10"></div>
 
-    <!-- Glow -->
     @if($status == 'benar')
-
-        <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-400/20 blur-3xl rounded-full"></div>
-
-        <div class="absolute bottom-0 right-0 w-72 h-72 bg-green-500/20 blur-3xl rounded-full"></div>
-
+        <div class="absolute top-0 left-0 w-80 h-80 bg-emerald-500/10 blur-3xl rounded-full pointer-events-none animate-pulse"></div>
     @else
-
-        <div class="absolute top-0 left-0 w-72 h-72 bg-red-500/20 blur-3xl rounded-full"></div>
-
-        <div class="absolute bottom-0 right-0 w-72 h-72 bg-orange-500/20 blur-3xl rounded-full"></div>
-
+        <div class="absolute top-0 left-0 w-80 h-80 bg-red-500/10 blur-3xl rounded-full pointer-events-none animate-pulse"></div>
     @endif
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-purple-500/10 blur-3xl rounded-full pointer-events-none"></div>
 
-    <!-- MAIN -->
-    <div class="relative z-10 min-h-screen flex items-center justify-center p-5">
+    <div class="relative z-10 min-h-screen p-5 lg:p-8 flex items-center justify-center">
+        <div class="max-w-3xl w-full mx-auto space-y-6">
 
-        <div class="w-full max-w-4xl">
-
-            <!-- STATUS CARD -->
-            <div
-                class="rounded-[40px] p-8 lg:p-10 mb-6
-                {{ $status == 'benar'
-                    ? 'bg-gradient-to-br from-cyan-500/20 to-green-500/20 border border-cyan-400/20'
-                    : 'bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-400/20'
-                }}"
-            >
-
-                <!-- TOP -->
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
-                    <!-- LEFT -->
-                    <div class="flex items-center gap-5">
-
-                        <!-- ICON -->
-                        <div
-                            class="w-24 h-24 rounded-[30px]
-                            flex items-center justify-center
-                            {{ $status == 'benar'
-                                ? 'bg-gradient-to-br from-cyan-400 to-green-500'
-                                : 'bg-gradient-to-br from-red-500 to-orange-500'
-                            }}"
-                        >
-
-                            @if($status == 'benar')
-
-                                <i class="fa-solid fa-check text-white text-4xl"></i>
-
-                            @else
-
-                                <i class="fa-solid fa-xmark text-white text-4xl"></i>
-
-                            @endif
-
+            <div class="glass rounded-[35px] p-6 lg:p-8 text-center border relative overflow-hidden
+                {{ $status == 'benar' ? 'border-emerald-500/30 bg-gradient-to-b from-emerald-500/5 to-transparent' : 'border-red-500/30 bg-gradient-to-b from-red-500/5 to-transparent' }}
+            ">
+                
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    @if($status == 'benar')
+                        <div class="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 text-4xl drop-shadow-[0_0_15px_rgba(52,211,153,0.4)]">
+                            <i class="fa-solid fa-circle-check animate-bounce"></i>
                         </div>
-
-                        <!-- TEXT -->
-                        <div>
-
-                            <p class="text-white/60 font-semibold mb-2">
-                                Hasil Jawaban
-                            </p>
-
-                            <h1 class="text-4xl lg:text-5xl font-extrabold text-white">
-
-                                {{ $status == 'benar'
-                                    ? 'Jawaban Benar'
-                                    : 'Jawaban Salah'
-                                }}
-
-                            </h1>
-
-                            <p class="text-white/70 mt-3">
-
-                                {{ $message }}
-
-                            </p>
-
+                    @else
+                        <div class="w-20 h-20 rounded-full bg-red-500/20 border border-red-400/40 flex items-center justify-center text-red-400 text-4xl drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">
+                            <i class="fa-solid fa-circle-xmark animate-shake"></i>
                         </div>
+                    @endif
 
-                    </div>
+                    <h1 class="text-2xl lg:text-4xl font-black tracking-wide">
+                        {{ $message }}
+                    </h1>
 
-                    <!-- COMBO -->
-                    <div
-                        class="glass rounded-[30px]
-                        px-6 py-5 min-w-[180px]"
-                    >
-
-                        <div class="flex items-center gap-3 mb-3">
-
-                            <div
-                                class="w-12 h-12 rounded-2xl
-                                bg-gradient-to-br from-pink-500 to-purple-600
-                                flex items-center justify-center"
-                            >
-
-                                <i class="fa-solid fa-fire text-white"></i>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-white/60 text-sm">
-                                    Combo
-                                </p>
-
-                                <h2 class="text-white text-3xl font-bold">
-                                    {{ $combo }}
-                                </h2>
-
-                            </div>
-
+                    @if($status == 'benar' && $combo >= 3)
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-black tracking-widest uppercase animate-pulse">
+                            <i class="fa-solid fa-fire"></i> {{ $combo }}x Combo Streak Fire!
                         </div>
-
-                    </div>
-
+                    @endif
                 </div>
-
             </div>
 
-            <!-- DETAIL -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-
-                <!-- JAWABAN PEMAIN -->
-                <div
-                    class="glass rounded-[35px] p-6"
-                >
-
-                    <div class="flex items-center gap-4 mb-5">
-
-                        <div
-                            class="w-14 h-14 rounded-2xl
-                            bg-gradient-to-br from-purple-500 to-pink-600
-                            flex items-center justify-center"
-                        >
-
-                            <i class="fa-solid fa-user text-white"></i>
-
-                        </div>
-
-                        <div>
-
-                            <p class="text-white/60 text-sm">
-                                Jawaban Kamu
-                            </p>
-
-                            <h2 class="text-white text-2xl font-bold">
-                                Pilihan {{ $jawabanUser }}
-                            </h2>
-
-                        </div>
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="glass rounded-2xl p-4 flex items-center gap-4 border border-white/5 bg-slate-900/30">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 font-bold text-sm">
+                        User
                     </div>
-
-                    <div
-                        class="bg-white/5 border border-white/10
-                        rounded-3xl p-5"
-                    >
-
-                        <p class="text-white/80 leading-relaxed">
-
-                            {{ $soal[$jawabanUser] ?? '-' }}
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <!-- JAWABAN BENAR -->
-                <div
-                    class="glass rounded-[35px] p-6"
-                >
-
-                    <div class="flex items-center gap-4 mb-5">
-
-                        <div
-                            class="w-14 h-14 rounded-2xl
-                            bg-gradient-to-br from-cyan-400 to-blue-600
-                            flex items-center justify-center"
-                        >
-
-                            <i class="fa-solid fa-check text-white"></i>
-
-                        </div>
-
-                        <div>
-
-                            <p class="text-white/60 text-sm">
-                                Jawaban Benar
-                            </p>
-
-                            <h2 class="text-white text-2xl font-bold">
-                                Pilihan {{ $benar }}
-                            </h2>
-
-                        </div>
-
-                    </div>
-
-                    <div
-                        class="bg-white/5 border border-white/10
-                        rounded-3xl p-5"
-                    >
-
-                        <p class="text-white/80 leading-relaxed">
-
-                            {{ $soal[$benar] ?? '-' }}
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- PENJELASAN -->
-            <div
-                class="glass rounded-[35px]
-                p-6 lg:p-8 mb-6"
-            >
-
-                <!-- TITLE -->
-                <div class="flex items-center gap-4 mb-6">
-
-                    <div
-                        class="w-16 h-16 rounded-3xl
-                        bg-gradient-to-br from-cyan-400 to-blue-600
-                        flex items-center justify-center"
-                    >
-
-                        <i class="fa-solid fa-book-open text-white text-xl"></i>
-
-                    </div>
-
                     <div>
-
-                        <p class="text-cyan-300 text-sm font-semibold">
-                            Penjelasan
-                        </p>
-
-                        <h2 class="text-white text-3xl font-bold">
-                            Pembahasan Soal
-                        </h2>
-
+                        <p class="text-[10px] text-white/40 uppercase font-bold tracking-wider">Jawaban Kamu</p>
+                        <h4 class="text-sm font-bold mt-0.5 {{ $status == 'benar' ? 'text-emerald-400' : 'text-red-400' }}">
+                            Opsi ({{ strtoupper($jawabanUser) }})
+                        </h4>
                     </div>
-
                 </div>
 
-                <!-- CONTENT -->
-                <div
-                    class="bg-white/5 border border-white/10
-                    rounded-[30px] p-6"
-                >
-
-                    <p class="text-white/80 text-lg leading-relaxed">
-
-                        {{ $penjelasan }}
-
-                    </p>
-
+                <div class="glass rounded-2xl p-4 flex items-center gap-4 border border-white/5 bg-slate-900/30">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-sm">
+                        Key
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-white/40 uppercase font-bold tracking-wider">Kunci Jawaban Benar</p>
+                        <h4 class="text-sm font-bold text-cyan-400 mt-0.5">
+                            Opsi ({{ strtoupper($benar) }})
+                        </h4>
+                    </div>
                 </div>
-
             </div>
 
-            <!-- BUTTON -->
-            <div class="flex justify-center">
+            <div class="glass rounded-[35px] p-6 lg:p-8 border border-white/5">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-brain text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-cyan-300 text-xs font-semibold uppercase tracking-wider">Analisis Berpikir Kritis</p>
+                        <h3 class="text-white font-bold text-lg">Pembahasan Solusi</h3>
+                    </div>
+                </div>
 
-                <a href="/game/next"
-                    class="inline-flex items-center gap-4
-                    bg-gradient-to-r from-cyan-400 to-blue-600
-                    text-white px-8 py-5 rounded-[25px]
-                    text-lg font-bold shadow-[0_0_35px_rgba(59,130,246,0.4)]
-                    hover:scale-[1.03] transition duration-300"
-                >
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 lg:p-6 leading-relaxed text-xs lg:text-sm text-white/80 space-y-4">
+                    <p class="font-bold text-white mb-2"><i class="fa-solid fa-quote-left text-cyan-400 mr-2 opacity-50"></i>Konteks Pertanyaan:</p>
+                    <p class="italic bg-black/10 p-3 rounded-xl border border-white/5 mb-4 text-white/60">"{{ $soal->pertanyaan }}"</p>
+                    
+                    <p class="font-bold text-white pt-2 border-t border-white/5"><i class="fa-solid fa-circle-info text-cyan-400 mr-2 opacity-70"></i>Penjelasan Ilmiah:</p>
+                    <p class="text-justify">
+                        {{ $penjelasan ?? 'Tidak ada data penjelasan detail/pembahasan akademis untuk soal nomor kuis petualangan ini.' }}
+                    </p>
+                </div>
+            </div>
 
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                    Lanjut Soal
-
-                </a>
-
+            <div class="pt-2">
+                @if($gameOver)
+                    <a href="/game/hasil" class="w-full text-center inline-flex items-center justify-center gap-3 bg-gradient-to-r from-red-500 via-orange-600 to-red-700 text-white px-6 py-4 rounded-[24px] font-black tracking-wide text-md btn-hover shadow-lg shadow-red-500/20">
+                        <i class="fa-solid fa-skull-crossbones text-lg"></i>
+                        <span>LIHAT HASIL EVALUASI AKHIR</span>
+                    </a>
+                @else
+                    <a href="/game/next" class="w-full text-center inline-flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white px-6 py-4 rounded-[24px] font-black tracking-wide text-md btn-hover shadow-lg shadow-blue-500/20 group">
+                        <span>LANJUTKAN PETUALANGAN KUIS</span>
+                        <i class="fa-solid fa-circle-arrow-right text-lg transition-transform group-hover:translate-x-1"></i>
+                    </a>
+                @endif
             </div>
 
         </div>
-
     </div>
 
+    @include('components.loading')
+    @include('components.sound')
 </body>
 </html>
