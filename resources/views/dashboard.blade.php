@@ -59,7 +59,6 @@
     <div class="relative z-10 flex min-h-screen">
 
         <aside class="hidden lg:flex flex-col w-72 p-6 glass border-r border-white/10 shrink-0">
-            
             <div class="flex items-center gap-4 mb-10">
                 <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                     <i class="fa-solid fa-gamepad text-white text-xl"></i>
@@ -207,13 +206,13 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 
-                <div class="lg:col-span-2 space-y-4">
+                <div class="lg:col-span-2 space-y-6">
                     <div class="glass rounded-[30px] p-6 border border-white/5">
                         <h3 class="font-black text-lg mb-5 flex items-center gap-2.5">
                             <i class="fa-solid fa-bullseye text-pink-400 text-base"></i> Papan Misi Quest Harian
                         </h3>
                         
-                        <div class="p-4 bg-white/5 border border-white/5 rounded-2xl space-y-3 row-cyber">
+                        <div class="p-4 bg-white/5 border border-white/5 rounded-2xl space-y-3 card-cyber">
                             <div class="flex justify-between items-center">
                                 <h4 class="text-sm font-bold text-white/90">Quiz Explorer Master</h4>
                                 <span class="text-xs text-cyan-300 font-extrabold bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-400/20">+25 XP Multiplier</span>
@@ -224,6 +223,35 @@
                                     <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300" style="width: {{ min(($progress->high_score / 5) * 100, 100) }}%"></div>
                                 </div>
                                 <div class="text-right text-[10px] text-white/40 font-bold tracking-wide">{{ min($progress->high_score, 5) }}/5 Soal Selesai</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-[30px] p-6 border border-white/5">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 border-b border-white/5 pb-3">
+                            <div>
+                                <h3 class="font-black text-lg flex items-center gap-2.5">
+                                    <i class="fa-solid fa-brain text-cyan-400 text-base"></i> Parameter Berpikir Kritis
+                                </h3>
+                                <p class="text-[11px] text-white/40 mt-0.5">Analisis instrumen indikator evaluasi kognitif mahasiswa secara dinamis</p>
+                            </div>
+                            <span class="text-[10px] bg-cyan-400/10 text-cyan-300 font-extrabold px-3 py-1 rounded-full border border-cyan-400/20 uppercase text-center self-start">
+                                {{ ($xp ?? 0) >= 100 ? 'Tingkat Kognitif: Tinggi' : 'Tingkat Kognitif: Dasar' }}
+                            </span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">1. Aspek Analisis (Pemetaan Argumen)</span><span class="text-cyan-400">80%</span></div>
+                                <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-cyan-500" style="width: 80%"></div></div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">2. Aspek Evaluasi (Kredibilitas Data)</span><span class="text-purple-400">65%</span></div>
+                                <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-purple-400 to-purple-500" style="width: 65%"></div></div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">3. Aspek Inferensi (Penarikan Kesimpulan Logis)</span><span class="text-yellow-400">55%</span></div>
+                                <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-yellow-400 to-orange-500" style="width: 55%"></div></div>
                             </div>
                         </div>
                     </div>
