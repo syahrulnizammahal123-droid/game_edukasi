@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard - Guiz Adventure</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
@@ -50,22 +46,16 @@
 
 <body class="relative min-h-screen bg-cover bg-center bg-fixed bg-no-repeat overflow-x-hidden text-white" style="background-image:url('{{ asset('images/bg-login.jpg') }}')">
 
-    <!-- Ambient Tech Overlay Background -->
     <div class="fixed inset-0 bg-[#030712]/90 -z-20"></div>
     <div class="fixed inset-0 bg-gradient-to-tr from-purple-950/20 via-transparent to-cyan-950/20 -z-10"></div>
 
-    <!-- Floating Glow Particles -->
     <div class="absolute top-20 left-10 w-48 h-48 rounded-full bg-cyan-500/10 blur-3xl animate-pulse pointer-events-none"></div>
     <div class="absolute top-1/3 right-10 w-64 h-64 rounded-full bg-purple-500/10 blur-3xl pointer-events-none"></div>
     <div class="absolute bottom-20 left-1/3 w-72 h-72 rounded-full bg-pink-500/10 blur-3xl animate-pulse pointer-events-none"></div>
 
-    <!-- SYSTEM MAIN CONTAINER -->
     <div class="relative z-10 flex min-h-screen">
 
-        <!-- SIDEBAR NAVIGATION (Desktop Only) -->
         <aside class="hidden lg:flex flex-col w-80 p-6 glass border-r border-white/10 shrink-0">
-            
-            <!-- Logo Brand -->
             <div class="flex items-center gap-4 mb-10">
                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                     <i class="fa-solid fa-gamepad text-white text-xl"></i>
@@ -76,7 +66,6 @@
                 </div>
             </div>
 
-            <!-- Mini Profile Indicator -->
             <div class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/5 mb-8">
                 <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-800">
                     <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover">
@@ -87,7 +76,6 @@
                 </div>
             </div>
 
-            <!-- Menu Links -->
             <nav class="space-y-2 flex-1">
                 <a href="/dashboard" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-medium">
                     <i class="fa-solid fa-columns text-lg text-cyan-400"></i>
@@ -111,7 +99,6 @@
                 </a>
             </nav>
 
-            <!-- Logout System -->
             <div class="pt-4 border-t border-white/5">
                 <a href="/logout" class="flex items-center justify-center gap-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 p-4 rounded-2xl font-semibold transition border border-red-500/20">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -120,10 +107,8 @@
             </div>
         </aside>
 
-        <!-- MAIN LEADERBOARD PLATFORM CONTAINER -->
         <main class="flex-1 p-4 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto pb-24">
             
-            <!-- MOBILE NAVIGATION BAR -->
             <div class="lg:hidden flex items-center justify-between mb-6 p-4 glass rounded-2xl border border-white/5">
                 <div>
                     <h1 class="text-xl font-extrabold">Guiz Adventure</h1>
@@ -139,19 +124,17 @@
                 </div>
             </div>
 
-            <!-- HEADER TITLE SYSTEM -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white shadow-[0_0_25px_rgba(234,179,8,0.3)]">
                         <i class="fa-solid fa-crown text-2xl animate-pulse"></i>
                     </div>
                     <div>
                         <h1 class="text-3xl font-black tracking-wide">Global Leaderboard</h1>
-                        <p class="text-sm text-cyan-400/80 font-medium">Panggung kehormatan para petualang kuis terbaik dunia</p>
+                        <p class="text-sm text-cyan-400/80 font-medium">Panggung kehormatan siswa dengan kompetensi penalaran terbaik</p>
                     </div>
                 </div>
 
-                <!-- MODERN FILTER BUTTONS -->
                 <div class="flex items-center gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/5 self-start md:self-auto">
                     <button class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">All-Time</button>
                     <button class="px-4 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white hover:bg-white/5 transition">Bulanan</button>
@@ -159,10 +142,33 @@
                 </div>
             </div>
 
-            <!-- VISUAL TOP 3 PODIUM SYSTEM -->
+            <div class="glass rounded-3xl p-6 mb-8 border border-white/5 bg-slate-900/30">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-chart-bar text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-black uppercase tracking-wider text-cyan-300">Rasio Ketepatan Jawaban Kelas</h3>
+                        <p class="text-[11px] text-white/40">Mengukur tingkat pemahaman kognitif siswa secara klasikal</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><span class="text-white/60">Akurasi Soal Mudah</span><span class="text-green-400 font-bold">82%</span></div>
+                        <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-green-400 rounded-full" style="width: 82%"></div></div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><span class="text-white/60">Akurasi Soal Menengah</span><span class="text-purple-400 font-bold">68%</span></div>
+                        <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-purple-400 rounded-full" style="width: 68%"></div></div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><span class="text-white/60">Akurasi Soal Sulit</span><span class="text-yellow-400 font-bold">54%</span></div>
+                        <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-yellow-400 rounded-full" style="width: 54%"></div></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end mb-12 max-w-4xl mx-auto">
-                
-                <!-- Peringkat 2 (Kiri) -->
                 @if(isset($topPlayers[1]))
                 <div class="glass rounded-[30px] p-6 text-center border relative overflow-hidden order-2 md:order-1 podium-glow-2 min-h-[250px] flex flex-col justify-center">
                     <div class="absolute top-4 left-4 w-8 h-8 bg-slate-400 text-slate-950 font-black rounded-full flex items-center justify-center text-sm shadow">2</div>
@@ -177,7 +183,6 @@
                 </div>
                 @endif
 
-                <!-- Peringkat 1 (Tengah - Lebih Tinggi) -->
                 @if(isset($topPlayers[0]))
                 <div class="glass rounded-[32px] p-8 text-center border-2 relative overflow-hidden order-1 md:order-2 podium-glow-1 min-h-[290px] flex flex-col justify-center bg-gradient-to-b from-amber-500/10 to-transparent transform md:-translate-y-4">
                     <div class="absolute top-0 inset-x-0 flex justify-center"><div class="w-24 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div></div>
@@ -193,7 +198,6 @@
                 </div>
                 @endif
 
-                <!-- Peringkat 3 (Kanan) -->
                 @if(isset($topPlayers[2]))
                 <div class="glass rounded-[30px] p-6 text-center border relative overflow-hidden order-3 podium-glow-3 min-h-[230px] flex flex-col justify-center">
                     <div class="absolute top-4 left-4 w-8 h-8 bg-amber-700 text-white font-black rounded-full flex items-center justify-center text-sm shadow">3</div>
@@ -207,10 +211,8 @@
                     </div>
                 </div>
                 @endif
-
             </div>
 
-            <!-- SEARCH & SEARCH INDICATOR BAR -->
             <div class="glass rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/5 bg-slate-900/20">
                 <div class="relative w-full sm:max-w-xs">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-xs"></i>
@@ -221,33 +223,24 @@
                 </div>
             </div>
 
-            <!-- MODERN SEPARATED TABLE ROWS SYSTEM (Rank 4+) -->
             <div class="space-y-3">
-                
-                <!-- Table Header Metadata -->
                 <div class="hidden md:grid grid-cols-12 px-6 text-xs text-white/40 font-bold uppercase tracking-wider">
                     <div class="col-span-2">Posisi Peringkat</div>
-                    <div class="col-span-5">Petualang Kuis</div>
-                    <div class="col-span-3 text-center">Level Leveling</div>
+                    <div class="col-span-5">Siswa</div>
+                    <div class="col-span-3 text-center">Tingkat Level</div>
                     <div class="col-span-2 text-right">Skor Akumulasi</div>
                 </div>
 
-                <!-- Dynamic Player List Loop -->
                 @if(isset($topPlayers) && count($topPlayers) > 0)
                     @foreach($topPlayers as $index => $player)
-                        <!-- Tampilkan baris untuk semua pemain, atau modifikasi dari indeks ke-3 untuk melewatkan podium atas -->
                         <div class="glass rounded-2xl p-4 md:p-5 grid grid-cols-3 md:grid-cols-12 items-center border border-white/5 row-hover">
-                            
-                            <!-- Rank Position Status -->
                             <div class="col-span-1 md:col-span-2 flex items-center gap-3">
                                 <span class="text-sm font-black text-white/80 w-8">#{{ $index + 1 }}</span>
-                                <!-- Badge indicator up trend -->
                                 <span class="text-[10px] text-emerald-400 flex items-center gap-1 bg-emerald-400/10 px-1.5 py-0.5 rounded-md font-bold hidden md:inline-flex">
-                                    <i class="fa-solid fa-caret-up"></i> Naik
+                                    <i class="fa-solid fa-caret-up"></i> Aktif
                                 </span>
                             </div>
 
-                            <!-- Avatar & Username Profile Info -->
                             <div class="col-span-1 md:col-span-5 flex items-center gap-4 justify-center md:justify-start">
                                 <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-0.5 shrink-0">
                                     <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $player->user->name ?? 'User' }}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
@@ -258,40 +251,33 @@
                                 </div>
                             </div>
 
-                            <!-- Level Cap System -->
                             <div class="hidden md:block col-span-3 text-center">
                                 <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 text-xs font-bold border border-cyan-500/20">
                                     Lv {{ floor(($player->high_score * 10) / 100) + 1 }}
                                 </span>
                             </div>
 
-                            <!-- Score Status Points -->
                             <div class="col-span-1 md:col-span-2 text-right">
                                 <span class="text-base font-black text-cyan-400 tracking-wide">{{ $player->high_score }}</span>
                                 <span class="text-[10px] text-white/40 block md:inline font-medium"> Pts</span>
                             </div>
-
                         </div>
                     @endforeach
                 @else
-                    <!-- Empty State Handling -->
                     <div class="glass rounded-3xl p-12 text-center border border-white/5">
                         <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-white/30 mx-auto mb-4">
                             <i class="fa-solid fa-users-slash text-2xl"></i>
                         </div>
                         <h4 class="font-bold text-lg">Leaderboard Kosong</h4>
-                        <p class="text-xs text-white/40 max-w-xs mx-auto mt-1">Belum ada petualang yang mendaftar skor terbaik musim ini.</p>
+                        <p class="text-xs text-white/40 max-w-xs mx-auto mt-1">Belum ada siswa yang mendaftar skor terbaik musim ini.</p>
                     </div>
                 @endif
-
             </div>
 
         </main>
     </div>
 
-    <!-- BLADE UTILITIES COMPONENT INCLUDES -->
     @include('components.loading')
     @include('components.sound')
-
 </body>
 </html>
