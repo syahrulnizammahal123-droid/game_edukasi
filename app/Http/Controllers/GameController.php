@@ -57,9 +57,46 @@ class GameController extends Controller
         // AMBIL DATA SOAL: Mengambil semua ID Soal yang cocok dengan tingkatan level yang dipilih
         $soalIds = Soal::where('level', $level)->pluck('id')->toArray();
 
-        // VALIDASI DATABASE: Jika bank soal kosong di database, kembali ke menu level agar sistem tidak crash
+        // OTOMATISASI DATA (BYPASS SYSTEM): Jika database kosong, buatkan 1 soal otomatis agar game tidak diam di tempat
         if (empty($soalIds)) {
-            return redirect('/game/level')->with('error', 'Belum ada soal tersedia di database untuk Level ' . $level);
+            $textPertanyaan = "Manakah yang merupakan fungsi utama dari Router dalam arsitektur jaringan komputer?";
+            $pilihanA = "Menyimpan data permanen pengguna di dalam harddisk lokal";
+            $pilihanB = "Menghubungkan dua atau lebih jaringan yang berbeda untuk mendistribusikan paket data";
+            $pilihanC = "Menampilkan output visual grafis permainan ke layar monitor";
+            $pilihanD = "Melakukan kompilasi kode program PHP menjadi file biner";
+            $kunciJawaban = "B";
+            $pembahasan = "Router bertugas sebagai perangkat taktis penunjuk jalan yang meredistribusikan paket data antar segmen jaringan lokal maupun eksternal (Internet).";
+
+            if ($level == 2) {
+                $textPertanyaan = "Dalam siklus pengembangan perangkat lunak (SDLC), apa tujuan utama dari tahap 'Testing'?";
+                $pilihanA = "Menulis ulang seluruh arsitektur database dari awal";
+                $pilihanB = "Menjual lisensi aplikasi kuis ke pengguna umum";
+                $pilihanC = "Memastikan sistem bebas dari bug/cacat logika sebelum dideploy ke server";
+                $pilihanD = "Membuat desain antarmuka grafis menggunakan aplikasi Figma";
+                $kunciJawaban = "C";
+                $pembahasan = "Tahap pengujian (Testing) dilakukan secara komparatif untuk menjamin reliabilitas fungsional kode program agar sesuai dengan kebutuhan fungsional pengguna.";
+            } elseif ($level == 3) {
+                $textPertanyaan = "Apa yang dimaksud dengan konsep berpikir kritis 'Analisis Komparatif' dalam pemecahan masalah?";
+                $pilihanA = "Menerima informasi mentah secara langsung tanpa melakukan verifikasi data";
+                $pilihanB = "Membandingkan dua atau lebih opsi solusi secara sistematis untuk mencari keputusan terbaik";
+                $pilihanC = "Menghapus data riwayat permainan dari database server local";
+                $pilihanD = "Mengabaikan argumen ilmiah yang dikirimkan oleh sistem komputer";
+                $kunciJawaban = "B";
+                $pembahasan = "Analisis komparatif mengasah pemikiran kritis untuk menimbang kekuatan dan kelemahan antar variabel solusi demi menghasilkan kesimpulan objektif.";
+            }
+
+            $soalAuto = Soal::create([
+                'level' => $level,
+                'pertanyaan' => $textPertanyaan,
+                'A' => $pilihanA,
+                'B' => $pilihanB,
+                'C' => $pilihanC,
+                'D' => $pilihanD,
+                'jawaban' => $kunciJawaban,
+                'penjelasan' => $pembahasan
+            ]);
+
+            $soalIds = [$soalAuto->id];
         }
 
         // RESET GAME SESSION: Setiap klik tombol mainkan dari luar, sesi pengerjaan wajib diulang dari soal pertama (Index 0)
@@ -292,7 +329,6 @@ class GameController extends Controller
 
     public function storeSoal(Request $request)
     {
-        // Penyelarasan kolom validasi mengikuti data Model $fillable asli milikmu (A,B,C,D)
         $validatedData = $request->validate([
             'level'      => 'required|integer',
             'pertanyaan' => 'required|string',
