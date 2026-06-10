@@ -14,9 +14,17 @@ class GameController extends Controller
 {
     public function level()
     {
+        // Menyediakan 2 parameter array terpisah agar Intelephense tidak error
         $progress = Progress::firstOrCreate(
             ['user_id' => Auth::id()],
-            ['score' => 0, 'high_score' => 0, 'last_soal_id' => 0, 'level' => 1, 'combo' => 0, 'last_index' => 0]
+            [
+                'score' => 0,
+                'high_score' => 0,
+                'last_soal_id' => 0,
+                'level' => 1,
+                'combo' => 0,
+                'last_index' => 0
+            ]
         );
 
         $calculatedLevel = max(1, floor($progress->high_score / 100) + 1);
@@ -38,13 +46,19 @@ class GameController extends Controller
         $progress = Progress::firstWhere('user_id', Auth::id());
         if (!$progress) {
             $progress = Progress::create([
-                'user_id' => Auth::id(), 'score' => 0, 'high_score' => 0, 'last_soal_id' => 0, 'level' => 1, 'combo' => 0, 'last_index' => 0
+                'user_id' => Auth::id(),
+                'score' => 0,
+                'high_score' => 0,
+                'last_soal_id' => 0,
+                'level' => 1,
+                'combo' => 0,
+                'last_index' => 0
             ]);
         }
 
         $soalIds = Soal::where('level', $level)->pluck('id')->toArray();
 
-        // OTOMATISASI DATA SOAL JIKA DATABASE KOSONG
+        // OTOMATISASI GENERATE SOAL JIKA DATABASE KOSONG
         if (empty($soalIds)) {
             $textPertanyaan = "Manakah yang merupakan fungsi utama dari Router dalam arsitektur jaringan komputer?";
             $pilihanA = "Menyimpan data permanen pengguna di dalam harddisk lokal";
@@ -73,16 +87,29 @@ class GameController extends Controller
             }
 
             $soalAuto = Soal::create([
-                'level' => $level, 'pertanyaan' => $textPertanyaan, 'A' => $pilihanA, 'B' => $pilihanB, 'C' => $pilihanC, 'D' => $pilihanD, 'jawaban' => $kunciJawaban, 'penjelasan' => $pembahasan
+                'level' => (int)$level,
+                'pertanyaan' => $textPertanyaan,
+                'A' => $pilihanA,
+                'B' => $pilihanB,
+                'C' => $pilihanC,
+                'D' => $pilihanD,
+                'jawaban' => $kunciJawaban,
+                'penjelasan' => $pembahasan
             ]);
             $soalIds = [$soalAuto->id];
         }
 
         session([
-            'game_level' => $level, 'game_soal_ids' => $soalIds, 'index' => 0, 'combo' => 0, 'hearts' => 3, 'correct_count' => 0, 'wrong_count' => 0,
+            'game_level' => $level,
+            'game_soal_ids' => $soalIds,
+            'index' => 0,
+            'combo' => 0,
+            'hearts' => 3,
+            'correct_count' => 0,
+            'wrong_count' => 0,
         ]);
 
-        $progress->score = 0; 
+        $progress->score = 0;
         $progress->combo = 0;
         $progress->last_index = 0;
         $progress->save();
@@ -199,7 +226,7 @@ class GameController extends Controller
 
         GameHistory::create([
             'user_id'    => Auth::id(),
-            'level'      => session('game_level', 1),
+            'level'      => (int)session('game_level', 1),
             'score'      => $score,
             'grade'      => $grade,
             'stars'      => $stars,
@@ -229,7 +256,8 @@ class GameController extends Controller
     public function leaderboard()
     {
         $progress = Progress::firstOrCreate(
-            ['user_id' => Auth::id()], ['score' => 0, 'high_score' => 0, 'level' => 1]
+            ['user_id' => Auth::id()], 
+            ['score' => 0, 'high_score' => 0, 'level' => 1]
         );
 
         $xp = $progress->high_score;
@@ -276,7 +304,14 @@ class GameController extends Controller
     public function storeSoal(Request $request)
     {
         $validatedData = $request->validate([
-            'level' => 'required|integer', 'pertanyaan' => 'required|string', 'A' => 'required|string', 'B' => 'required|string', 'C' => 'required|string', 'D' => 'required|string', 'jawaban' => 'required|string|max:2', 'penjelasan' => 'nullable|string',
+            'level'      => 'required|integer', 
+            'pertanyaan' => 'required|string', 
+            'A'          => 'required|string', 
+            'B'          => 'required|string', 
+            'C'          => 'required|string', 
+            'D'          => 'required|string', 
+            'jawaban'    => 'required|string|max:2', 
+            'penjelasan' => 'nullable|string',
         ]);
 
         Soal::create($validatedData);
@@ -293,7 +328,14 @@ class GameController extends Controller
     {
         $soal = Soal::findOrFail($id);
         $validatedData = $request->validate([
-            'level' => 'required|integer', 'pertanyaan' => 'required|string', 'A' => 'required|string', 'B' => 'required|string', 'C' => 'required|string', 'D' => 'required|string', 'jawaban' => 'required|string|max:2', 'penjelasan' => 'nullable|string',
+            'level'      => 'required|integer', 
+            'pertanyaan' => 'required|string', 
+            'A'          => 'required|string', 
+            'B'          => 'required|string', 
+            'C'          => 'required|string', 
+            'D'          => 'required|string', 
+            'jawaban'    => 'required|string|max:2', 
+            'penjelasan' => 'nullable|string',
         ]);
 
         $soal->update($validatedData);
@@ -309,13 +351,25 @@ class GameController extends Controller
     private function checkAchievements($progress) 
     {
         if ($progress->score >= 10) {
-            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Pemula'], ['icon' => '🌱', 'description' => 'Menyelesaikan kuis pertama']);
+            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
+            Achievement::firstOrCreate(
+                ['user_id' => Auth::id(), 'title' => 'Pemula'],
+                ['icon' => '🌱', 'description' => 'Menyelesaikan kuis pertama']
+            );
         }
         if ($progress->score >= 100) {
-            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Cerdas'], ['icon' => '🧠', 'description' => 'Mencapai skor 100']);
+            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
+            Achievement::firstOrCreate(
+                ['user_id' => Auth::id(), 'title' => 'Cerdas'],
+                ['icon' => '🧠', 'description' => 'Mencapai skor 100']
+            );
         }
         if (session('combo', 0) >= 10) {
-            Achievement::firstOrCreate(['user_id' => Auth::id(), 'title' => 'Combo Master'], ['icon' => '🔥', 'description' => 'Mencapai rekor kombo x10']);
+            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
+            Achievement::firstOrCreate(
+                ['user_id' => Auth::id(), 'title' => 'Combo Master'],
+                ['icon' => '🔥', 'description' => 'Mencapai rekor kombo x10']
+            );
         }
     }
 }
