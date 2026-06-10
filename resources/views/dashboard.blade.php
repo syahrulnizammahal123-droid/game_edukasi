@@ -130,7 +130,7 @@
                             Siap Memulai Petualangan?
                         </h1>
                         <p class="text-white/60 max-w-xl text-xs lg:text-sm leading-relaxed pt-1">
-                            Jelajahi gerbang pengetahuan super edukatif, taklukkan ribuan tantangan kuis berbasis logika kognitif, dan klaim posisi takhta terbaikmu di puncak peringkat global!
+                            Jelajahi gerbang pengetahuan edukatif, taklukkan ribuan tantangan kuis berbasis logika kognitif, dan klaim posisi takhta terbaikmu di puncak peringkat global!
                         </p>
                         <div class="pt-3">
                             <a href="/game/level" class="inline-flex items-center gap-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:opacity-95 text-white px-6 py-4 rounded-2xl font-black text-sm shadow-xl shadow-blue-500/20 transition-all transform hover:-translate-y-0.5">
@@ -231,9 +231,9 @@
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 border-b border-white/5 pb-3">
                             <div>
                                 <h3 class="font-black text-lg flex items-center gap-2.5">
-                                    <i class="fa-solid fa-brain text-cyan-400 text-base"></i> Parameter Berpikir Kritis
+                                    <i class="fa-solid fa-brain text-cyan-400 text-base"></i> Parameter Berpikir Kritis Siswa
                                 </h3>
-                                <p class="text-[11px] text-white/40 mt-0.5">Analisis instrumen indikator evaluasi kognitif mahasiswa secara dinamis</p>
+                                <p class="text-[11px] text-white/40 mt-0.5">Analisis instrumen indikator evaluasi kognitif siswa secara dinamis</p>
                             </div>
                             <span class="text-[10px] bg-cyan-400/10 text-cyan-300 font-extrabold px-3 py-1 rounded-full border border-cyan-400/20 uppercase text-center self-start">
                                 {{ ($xp ?? 0) >= 100 ? 'Tingkat Kognitif: Tinggi' : 'Tingkat Kognitif: Dasar' }}
@@ -242,15 +242,15 @@
 
                         <div class="space-y-4">
                             <div class="space-y-1.5">
-                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">1. Aspek Analisis (Pemetaan Argumen)</span><span class="text-cyan-400">80%</span></div>
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">1. Aspek Analisis (Pemetaan Argumen Soal)</span><span class="text-cyan-400">80%</span></div>
                                 <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-cyan-500" style="width: 80%"></div></div>
                             </div>
                             <div class="space-y-1.5">
-                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">2. Aspek Evaluasi (Kredibilitas Data)</span><span class="text-purple-400">65%</span></div>
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">2. Aspek Evaluasi (Kredibilitas Argumen)</span><span class="text-purple-400">65%</span></div>
                                 <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-purple-400 to-purple-500" style="width: 65%"></div></div>
                             </div>
                             <div class="space-y-1.5">
-                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">3. Aspek Inferensi (Penarikan Kesimpulan Logis)</span><span class="text-yellow-400">55%</span></div>
+                                <div class="flex justify-between text-xs font-semibold"><span class="text-white/70">3. Aspek Inferensi (Penarikan Kesimpulan Siswa)</span><span class="text-yellow-400">55%</span></div>
                                 <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5"><div class="h-full rounded-full bg-gradient-to-r from-yellow-400 to-orange-500" style="width: 55%"></div></div>
                             </div>
                         </div>
