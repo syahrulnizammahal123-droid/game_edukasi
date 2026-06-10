@@ -8,17 +8,19 @@
 
     @vite('resources/css/app.css')
 
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Modifikasi glassmorphism agar teks lebih kontras dan nyaman dibaca */
         .glass {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(18px);
@@ -30,7 +32,6 @@
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Efek kilatan neon border saat baris disorot mouse */
         .row-cyber:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(34, 211, 238, 0.35);
@@ -38,7 +39,6 @@
             box-shadow: 0 10px 25px rgba(34, 211, 238, 0.1);
         }
 
-        /* Scrollbar kustom bertema game */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -88,7 +88,6 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-
             <div class="glass rounded-2xl p-5 flex items-center justify-between group">
                 <div class="space-y-1">
                     <p class="text-[10px] text-white/50 uppercase font-bold tracking-widest">Total Pertempuran</p>
@@ -118,11 +117,20 @@
                     <i class="fa-solid fa-chart-simple text-base"></i>
                 </div>
             </div>
-
         </div>
 
-        <div class="space-y-3">
+        @if($data->count() > 0)
+        <div class="glass rounded-[30px] p-6 mb-8 border border-white/5 bg-slate-900/40">
+            <h3 class="font-black text-sm uppercase tracking-wider text-cyan-300 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-chart-line"></i> Grafik Grafik Perkembangan Penalaran Kognitif Siswa
+            </h3>
+            <div class="w-full relative h-64 md:h-72">
+                <canvas id="growthChart"></canvas>
+            </div>
+        </div>
+        @endif
 
+        <div class="space-y-3">
             <div class="hidden md:grid grid-cols-12 px-6 text-[11px] text-white/40 font-bold uppercase tracking-wider mb-2">
                 <div class="col-span-2">Token ID</div>
                 <div class="col-span-3">Waktu Selesai</div>
@@ -135,7 +143,6 @@
             @if($data->count() > 0)
                 @foreach($data as $index => $item)
                     <div class="glass rounded-2xl p-4 grid grid-cols-2 md:grid-cols-12 items-center row-cyber gap-y-3 gap-x-2">
-                        
                         <div class="col-span-1 md:col-span-2 flex items-center gap-2.5">
                             <div class="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-black text-white/70">
                                 {{ $index + 1 }}
@@ -192,7 +199,6 @@
                                 @endif
                             </div>
                         </div>
-
                     </div>
                 @endforeach
             @else
@@ -200,14 +206,10 @@
                     <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-5 text-white/20 animate-pulse">
                         <i class="fa-solid fa-shield-halved text-3xl"></i>
                     </div>
-                    
-                    <h2 class="text-xl lg:text-2xl font-black tracking-wide">
-                        Belum Ada Rekam Aktivitas
-                    </h2>
+                    <h2 class="text-xl lg:text-2xl font-black tracking-wide">Belum Ada Rekam Aktivitas</h2>
                     <p class="text-white/50 text-xs max-w-xs mx-auto mt-2 leading-relaxed">
                         Arsip petualangan kosong. Selesaikan misi pertempuran kuis pertamamu untuk mulai merekam data log permainan.
                     </p>
-                    
                     <div class="pt-6">
                         <a href="/game/level"
                             class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:to-indigo-700 text-white text-xs px-6 py-3.5 rounded-xl font-bold shadow-lg shadow-blue-500/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
@@ -217,13 +219,62 @@
                     </div>
                 </div>
             @endif
-
         </div>
-
     </div>
 
     @include('components.loading')
     @include('components.sound')
+
+    @if($data->count() > 0)
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mengambil 7 data riwayat kuis terakhir (diurutkan dari yang lama ke baru)
+            const rawData = @json($data->take(7)->reverse()->values());
+            
+            const labels = rawData.map((item, index) => `Kuis #${index + 1}`);
+            const scores = rawData.map(item => item.score);
+
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Skor Capaian Siswa (Pts)',
+                        data: scores,
+                        borderColor: '#22d3ee', // Warna Cyan khas Guiz Adventure
+                        backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#0ea5e9',
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        tension: 0.35, // Membuat garis melengkung estetik ala game
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { family: 'Poppins', size: 11 } },
+                            min: 0
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { family: 'Poppins', size: 11 } }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endif
 
 </body>
 </html>
