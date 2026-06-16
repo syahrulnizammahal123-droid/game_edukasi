@@ -1,265 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Quiz - Pendaftaran Siswa</title>
 
-    <title>Adventure Quiz Register</title>
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
-
-        body{
+        body {
             font-family: 'Poppins', sans-serif;
         }
-
     </style>
-
 </head>
 
-<body
-    class="min-h-screen flex items-center justify-center bg-cover bg-center p-5"
-    style="background-image: url('{{ asset('images/bg-login.jpg') }}');"
->
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center p-5 relative overflow-hidden" style="background-image: url('{{ asset('images/bg-login.jpg') }}');">
 
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-[#081120]/70 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-[#081120]/75 backdrop-blur-sm -z-10"></div>
 
-    <!-- CARD -->
-    <div class="relative z-10 w-full max-w-md">
+    <div class="absolute top-[-10%] right-[-10%] w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-96 h-96 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
 
-        <div
-            class="bg-white/10 border border-white/10
-            backdrop-blur-2xl rounded-[40px]
-            shadow-[0_0_50px_rgba(59,130,246,0.35)]
-            overflow-hidden"
-        >
+    <div class="relative z-10 w-full max-w-md transition-all duration-300 my-auto">
+        <div class="bg-white/10 border border-white/10 backdrop-blur-2xl rounded-[40px] shadow-[0_0_50px_rgba(59,130,246,0.35)] overflow-hidden">
 
-            <!-- TOP -->
-            <div class="relative p-8 text-center">
+            <div class="relative p-6 pt-8 text-center">
+                <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-cyan-400/25 to-transparent pointer-events-none"></div>
 
-                <!-- Glow -->
-                <div class="absolute top-0 left-0 w-full h-40
-                    bg-gradient-to-b from-cyan-400/20 to-transparent">
+                <div class="relative z-10 mx-auto w-24 h-24 rounded-[26px] bg-gradient-to-br from-cyan-400 via-blue-500 to-blue-600 flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.6)] transform hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-user-plus text-white text-4xl"></i>
                 </div>
 
-                <!-- LOGO -->
-                <div
-                    class="relative z-10 mx-auto w-28 h-28 rounded-[30px]
-                    bg-gradient-to-br from-cyan-400 to-blue-600
-                    flex items-center justify-center
-                    shadow-[0_0_40px_rgba(59,130,246,0.6)]"
-                >
-
-                    <i class="fa-solid fa-shield-halved text-white text-5xl"></i>
-
-                </div>
-
-                <!-- TITLE -->
-                <h1 class="mt-6 text-4xl font-extrabold text-white">
-                    Create Account
+                <h1 class="mt-5 text-3xl font-extrabold text-white tracking-tight">
+                    Buat Akun Baru
                 </h1>
-
-                <p class="mt-2 text-cyan-200 text-sm">
-                    Buat akun dan mulai petualangan
+                <p class="mt-1 text-cyan-200/80 text-xs font-medium">
+                    Daftarkan dirimu untuk memulai petualangan kuis
                 </p>
-
             </div>
 
-            <!-- FORM -->
-            <div class="px-6 pb-8">
+            <div class="px-8 pb-8">
 
-                <!-- ERROR -->
                 @if($errors->any())
-
-                    <div class="mb-4 bg-red-500/20 border border-red-400/20
-                        text-red-200 px-4 py-3 rounded-2xl text-sm">
-
+                    <div class="mb-4 bg-red-500/20 border border-red-500/30 text-red-200 px-4 py-3 rounded-2xl text-xs font-medium space-y-1">
                         @foreach($errors->all() as $error)
-
-                            <div>{{ $error }}</div>
-
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation text-red-400 text-[10px]"></i>
+                                <span>{{ $error }}</span>
+                            </div>
                         @endforeach
-
                     </div>
-
                 @endif
 
-                <form method="POST" action="{{ url('/register') }}">
-
+                <form method="POST" action="{{ url('/register') }}" class="space-y-4">
                     @csrf
 
-                    <!-- NAME -->
-                    <div class="mb-5">
-
-                        <label class="text-white text-sm font-medium mb-2 block">
-                            Username
+                    <div>
+                        <label class="text-white/90 text-xs font-semibold mb-1.5 block uppercase tracking-wider">
+                            Nama Lengkap
                         </label>
-
-                        <div class="relative">
-
+                        <div class="relative group">
                             <input
                                 type="text"
                                 name="name"
-                                placeholder="Masukkan username"
+                                value="{{ old('name') }}"
+                                placeholder="Masukkan nama lengkap siswa"
                                 required
-                                class="w-full bg-white/10 border border-white/10
-                                rounded-2xl px-5 py-4 pl-14
-                                text-white placeholder:text-white/50
-                                focus:outline-none focus:ring-2
-                                focus:ring-cyan-400"
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 pl-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 focus:bg-white/10 transition-all duration-200 text-sm"
                             >
-
-                            <i class="fa-solid fa-user
-                                absolute left-5 top-1/2 -translate-y-1/2
-                                text-cyan-300">
-                            </i>
-
+                            <i class="fa-solid fa-user absolute left-4.5 left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm"></i>
                         </div>
-
                     </div>
 
-                    <!-- EMAIL -->
-                    <div class="mb-5">
-
-                        <label class="text-white text-sm font-medium mb-2 block">
+                    <div>
+                        <label class="text-white/90 text-xs font-semibold mb-1.5 block uppercase tracking-wider">
                             Email
                         </label>
-
-                        <div class="relative">
-
+                        <div class="relative group">
                             <input
                                 type="email"
                                 name="email"
-                                placeholder="Masukkan email"
+                                value="{{ old('email') }}"
+                                placeholder="Masukkan email siswa"
                                 required
-                                class="w-full bg-white/10 border border-white/10
-                                rounded-2xl px-5 py-4 pl-14
-                                text-white placeholder:text-white/50
-                                focus:outline-none focus:ring-2
-                                focus:ring-cyan-400"
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 pl-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 focus:bg-white/10 transition-all duration-200 text-sm"
                             >
-
-                            <i class="fa-solid fa-envelope
-                                absolute left-5 top-1/2 -translate-y-1/2
-                                text-cyan-300">
-                            </i>
-
+                            <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm"></i>
                         </div>
-
                     </div>
 
-                    <!-- PASSWORD -->
-                    <div class="mb-6">
-
-                        <label class="text-white text-sm font-medium mb-2 block">
+                    <div>
+                        <label class="text-white/90 text-xs font-semibold mb-1.5 block uppercase tracking-wider">
                             Password
                         </label>
-
-                        <div class="relative">
-
+                        <div class="relative group">
                             <input
                                 type="password"
                                 name="password"
                                 id="password"
-                                placeholder="Masukkan password"
+                                placeholder="Buat password baru"
                                 required
-                                class="w-full bg-white/10 border border-white/10
-                                rounded-2xl px-5 py-4 pl-14 pr-14
-                                text-white placeholder:text-white/50
-                                focus:outline-none focus:ring-2
-                                focus:ring-cyan-400"
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 pl-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 focus:bg-white/10 transition-all duration-200 text-sm"
                             >
-
-                            <i class="fa-solid fa-lock
-                                absolute left-5 top-1/2 -translate-y-1/2
-                                text-cyan-300">
-                            </i>
-
-                            <button
-                                type="button"
-                                onclick="togglePassword()"
-                                class="absolute right-5 top-1/2 -translate-y-1/2
-                                text-cyan-300"
-                            >
-
-                                <i class="fa-solid fa-eye"></i>
-
-                            </button>
-
+                            <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm"></i>
                         </div>
-
                     </div>
 
-                    <!-- BUTTON -->
-                    <button
-                        type="submit"
-                        class="w-full py-4 rounded-2xl
-                        bg-gradient-to-r from-cyan-400 to-blue-600
-                        text-white font-bold text-lg
-                        shadow-[0_0_30px_rgba(59,130,246,0.5)]
-                        hover:scale-[1.02]
-                        transition duration-300"
-                    >
+                    <div>
+                        <label class="text-white/90 text-xs font-semibold mb-1.5 block uppercase tracking-wider">
+                            Konfirmasi Password
+                        </label>
+                        <div class="relative group">
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                id="password_confirmation"
+                                placeholder="Ulangi password"
+                                required
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 pl-12 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 focus:bg-white/10 transition-all duration-200 text-sm"
+                            >
+                            <i class="fa-solid fa-shield-check absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-sm"></i>
+                        </div>
+                    </div>
 
-                        Create Account
-
-                    </button>
-
+                    <div class="pt-2">
+                        <button
+                            type="submit"
+                            class="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-blue-600 text-white font-extrabold text-sm shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 uppercase tracking-wide"
+                        >
+                            Daftar Sekarang <i class="fa-solid fa-circle-check text-xs ml-1"></i>
+                        </button>
+                    </div>
                 </form>
 
-                <!-- LOGIN -->
-                <p class="text-center text-white/70 text-sm mt-6">
-
-                    Sudah punya akun?
-
+                <p class="text-center text-white/50 text-xs font-medium mt-5">
+                    Sudah memiliki akun petualang? 
                     <a
                         href="{{ url('/login') }}"
-                        class="text-cyan-300 font-semibold hover:text-cyan-200"
+                        class="text-cyan-300 font-bold hover:text-cyan-200 underline underline-offset-4 transition-colors ml-1"
                     >
-                        Login
+                        Login Di Sini
                     </a>
-
                 </p>
 
             </div>
-
         </div>
-
     </div>
 
-    <!-- SCRIPT -->
-    <script>
-
-        function togglePassword() {
-
-            const password =
-                document.getElementById('password');
-
-            if(password.type === 'password'){
-
-                password.type = 'text';
-
-            }else{
-
-                password.type = 'password';
-
-            }
-
-        }
-
-    </script>
-
-@include('components.loading')
-@include('components.sound')
+    @include('components.loading')
+    @include('components.sound')
 </body>
 </html>
