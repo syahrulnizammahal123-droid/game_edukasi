@@ -14,7 +14,6 @@ class GameController extends Controller
 {
     public function level()
     {
-        // Menyediakan 2 parameter array terpisah agar Intelephense tidak error
         $progress = Progress::firstOrCreate(
             ['user_id' => Auth::id()],
             [
@@ -290,10 +289,18 @@ class GameController extends Controller
         return view('game.riwayat', compact('data'));
     }
 
+    /**
+     * KUNCI INTEGRASI: Mengirim data Pilihan Ganda & Benar-Salah ke halaman Bank Soal
+     */
     public function soal()
     {
         $data = Soal::latest()->get(); 
-        return view('soal.index', compact('data'));
+        $soalKilats = \App\Models\SoalKilat::latest()->get(); // <-- Mengambil data game kilat
+
+        return view('soal', [
+            'soals'      => $data,
+            'soalKilats' => $soalKilats
+        ]);
     }
 
     public function createSoal()
@@ -351,21 +358,18 @@ class GameController extends Controller
     private function checkAchievements($progress) 
     {
         if ($progress->score >= 10) {
-            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
             Achievement::firstOrCreate(
                 ['user_id' => Auth::id(), 'title' => 'Pemula'],
                 ['icon' => '🌱', 'description' => 'Menyelesaikan kuis pertama']
             );
         }
         if ($progress->score >= 100) {
-            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
             Achievement::firstOrCreate(
                 ['user_id' => Auth::id(), 'title' => 'Cerdas'],
                 ['icon' => '🧠', 'description' => 'Mencapai skor 100']
             );
         }
         if (session('combo', 0) >= 10) {
-            // Memisahkan kriteria pencarian dan isi data ke 2 array terpisah
             Achievement::firstOrCreate(
                 ['user_id' => Auth::id(), 'title' => 'Combo Master'],
                 ['icon' => '🔥', 'description' => 'Mencapai rekor kombo x10']
