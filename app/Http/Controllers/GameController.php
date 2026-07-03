@@ -57,7 +57,6 @@ class GameController extends Controller
 
         $soalIds = Soal::where('level', $level)->pluck('id')->toArray();
 
-        // OTOMATISASI GENERATE SOAL JIKA DATABASE KOSONG
         if (empty($soalIds)) {
             $textPertanyaan = "Manakah yang merupakan fungsi utama dari Router dalam arsitektur jaringan komputer?";
             $pilihanA = "Menyimpan data permanen pengguna di dalam harddisk lokal";
@@ -290,14 +289,18 @@ class GameController extends Controller
     }
 
     /**
-     * KUNCI INTEGRASI: Mengirim data Pilihan Ganda & Benar-Salah ke halaman Bank Soal
+     * PROTEKSI SUPER ADMIN: Hanya mengizinkan user bermodel role 'admin' untuk memproses bank soal
      */
     public function soal()
     {
-        $data = Soal::latest()->get(); 
-        $soalKilats = \App\Models\SoalKilat::latest()->get(); // <-- Mengambil data game kilat
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Akses Terbatas! Hanya untuk akun Super Admin.');
+        }
 
-        return view('soal', [
+        $data = Soal::latest()->get(); 
+        $soalKilats = \App\Models\SoalKilat::latest()->get(); 
+
+        return view('soal.index', [
             'soals'      => $data,
             'soalKilats' => $soalKilats
         ]);
@@ -305,11 +308,14 @@ class GameController extends Controller
 
     public function createSoal()
     {
+        if (Auth::user()->role !== 'admin') { abort(403); }
         return view('soal.create');
     }
 
     public function storeSoal(Request $request)
     {
+        if (Auth::user()->role !== 'admin') { abort(403); }
+
         $validatedData = $request->validate([
             'level'      => 'required|integer', 
             'pertanyaan' => 'required|string', 
@@ -327,12 +333,15 @@ class GameController extends Controller
 
     public function editSoal($id)
     {
+        if (Auth::user()->role !== 'admin') { abort(403); }
         $soal = Soal::findOrFail($id);
         return view('soal.edit', compact('soal'));
     }
 
     public function updateSoal(Request $request, $id)
     {
+        if (Auth::user()->role !== 'admin') { abort(403); }
+        
         $soal = Soal::findOrFail($id);
         $validatedData = $request->validate([
             'level'      => 'required|integer', 
@@ -351,6 +360,7 @@ class GameController extends Controller
 
     public function deleteSoal($id)
     {
+        if (Auth::user()->role !== 'admin') { abort(403); }
         Soal::findOrFail($id)->delete();
         return redirect('/soal')->with('success', 'Soal kuis berhasil dihapus!');
     }

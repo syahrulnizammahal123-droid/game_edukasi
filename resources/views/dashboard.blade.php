@@ -58,6 +58,7 @@
 
     <div class="relative z-10 flex min-h-screen">
 
+        <!-- SIDEBAR -->
         <aside class="hidden lg:flex flex-col w-72 p-6 glass border-r border-white/10 shrink-0">
             <div class="flex items-center gap-4 mb-10">
                 <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)]">
@@ -104,16 +105,19 @@
             </div>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <main class="flex-1 p-4 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto pb-24">
             
+            <!-- Mobile Header -->
             <div class="lg:hidden flex items-center justify-between mb-6 p-4 glass rounded-2xl border border-white/5">
                 <div>
                     <h1 class="text-xl font-black">Guiz Adventure</h1>
                     <p class="text-cyan-400 text-xs font-medium">Main Hub Console</p>
                 </div>
                 <div class="flex items-center gap-3">
+                    <!-- Avatar Kepala Orang diganti Kepala Maskot Gaming/Cyber Hewan Kreatif -->
                     <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-900 border border-white/10 p-0.5">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
                     <a href="/logout" class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 border border-red-500/20">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -121,6 +125,7 @@
                 </div>
             </div>
 
+            <!-- Welcome Banner -->
             <div class="glass rounded-[35px] p-6 lg:p-8 mb-8 relative overflow-hidden border border-cyan-500/20 shadow-[0_0_30px_rgba(34,211,238,0.05)]">
                 <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-cyan-500/5 to-transparent pointer-events-none hidden lg:block"></div>
                 
@@ -144,10 +149,12 @@
                         </div>
                     </div>
 
+                    <!-- Mini Profile Card -->
                     <div class="glass rounded-2xl p-5 min-w-[290px] w-full lg:w-auto border border-white/10 bg-slate-900/50 shadow-inner">
                         <div class="flex items-center gap-3.5 mb-4">
+                            <!-- Avatar Utama diganti dengan konsep kepala robot/hewan gaming futuristik DiceBear -->
                             <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 p-0.5 shrink-0 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-                                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg bg-slate-950">
+                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg bg-slate-950">
                             </div>
                             <div class="min-w-0">
                                 <h3 class="text-white font-black text-base truncate">{{ Auth::user()->name }}</h3>
@@ -170,7 +177,9 @@
                 </div>
             </div>
 
+            <!-- STATS CARDS -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <!-- Level -->
                 <div class="glass rounded-2xl p-5 card-cyber border border-white/5 relative overflow-hidden group">
                     <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 text-white/[0.01] text-7xl font-black group-hover:scale-110 transition-transform pointer-events-none"><i class="fa-solid fa-bolt"></i></div>
                     <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
@@ -180,6 +189,7 @@
                     <h2 class="text-2xl font-black mt-1 text-white tracking-wide">{{ $level ?? 1 }}</h2>
                 </div>
 
+                <!-- XP -->
                 <div class="glass rounded-2xl p-5 card-cyber border border-white/5 relative overflow-hidden group">
                     <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 text-white/[0.01] text-7xl font-black group-hover:scale-110 transition-transform pointer-events-none"><i class="fa-solid fa-fire"></i></div>
                     <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 mb-4 shadow-[0_0_15px_rgba(244,63,94,0.1)]">
@@ -189,6 +199,7 @@
                     <h2 class="text-2xl font-black mt-1 text-pink-400 tracking-wide">{{ $xp ?? 0 }}</h2>
                 </div>
 
+                <!-- High Score -->
                 <div class="glass rounded-2xl p-5 card-cyber border border-white/5 relative overflow-hidden group">
                     <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 text-white/[0.01] text-7xl font-black group-hover:scale-110 transition-transform pointer-events-none"><i class="fa-solid fa-trophy"></i></div>
                     <div class="w-10 h-10 rounded-xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center text-yellow-400 mb-4 shadow-[0_0_15px_rgba(234,179,8,0.1)]">
@@ -198,19 +209,24 @@
                     <h2 class="text-2xl font-black mt-1 text-yellow-400 tracking-wide">{{ $progress->high_score }}</h2>
                 </div>
 
+                <!-- Login Streak -->
                 <div class="glass rounded-2xl p-5 card-cyber border border-white/5 relative overflow-hidden group">
                     <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 text-white/[0.01] text-7xl font-black group-hover:scale-110 transition-transform pointer-events-none"><i class="fa-solid fa-calendar-day"></i></div>
                     <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-4 shadow-[0_0_15px_rgba(249,115,22,0.1)]">
                         <i class="fa-solid fa-calendar-day text-base"></i>
                     </div>
                     <p class="text-[10px] text-white/40 uppercase font-bold tracking-widest">Login Streak</p>
-                    <h2 class="text-2xl font-black mt-1 text-orange-400 tracking-wide">🔥 {{ $progress->login_streak ?? 1 }} H</h2>
+                    <h2 class="text-2xl font-black mt-1 text-orange-400 tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-fire-lines text-orange-400 animate-pulse"></i> <span>{{ $progress->login_streak ?? 1 }} H</span>
+                    </h2>
                 </div>
             </div>
 
+            <!-- LOWER SECTIONS -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 
                 <div class="lg:col-span-2 space-y-6">
+                    <!-- Daily Quests -->
                     <div class="glass rounded-[30px] p-6 border border-white/5">
                         <h3 class="font-black text-lg mb-5 flex items-center gap-2.5">
                             <i class="fa-solid fa-bullseye text-pink-400 text-base"></i> Papan Misi Quest Harian
@@ -231,6 +247,7 @@
                         </div>
                     </div>
 
+                    <!-- Critical Thinking Stats -->
                     <div class="glass rounded-[30px] p-6 border border-white/5">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 border-b border-white/5 pb-3">
                             <div>
@@ -261,6 +278,7 @@
                     </div>
                 </div>
 
+                <!-- Adventure Pass Rewards -->
                 <div class="space-y-4">
                     <div class="glass rounded-[30px] p-5 border border-white/5">
                         <div class="flex items-center justify-between mb-4">
@@ -272,6 +290,7 @@
                         </div>
 
                         <div class="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+                            <!-- Tier 1 -->
                             <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 {{ ($level ?? 1) >= 1 ? 'border border-cyan-500/30 bg-cyan-500/5' : 'opacity-40' }}">
                                 <div class="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs font-black shrink-0">T1</div>
                                 <div class="flex-1 min-w-0">
@@ -281,6 +300,7 @@
                                 @if(($level ?? 1) >= 1) <i class="fa-solid fa-circle-check text-cyan-400 text-base"></i> @endif
                             </div>
 
+                            <!-- Tier 3 -->
                             <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 {{ ($level ?? 1) >= 3 ? 'border border-emerald-500/30 bg-emerald-500/5' : 'opacity-40' }}">
                                 <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs font-black shrink-0">T3</div>
                                 <div class="flex-1 min-w-0">
@@ -290,6 +310,7 @@
                                 @if(($level ?? 1) >= 3) <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i> @endif
                             </div>
 
+                            <!-- Tier 5 -->
                             <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 {{ ($level ?? 1) >= 5 ? 'border border-yellow-500/30 bg-yellow-500/5' : 'opacity-40' }}">
                                 <div class="w-8 h-8 rounded-lg bg-yellow-400/20 flex items-center justify-center text-yellow-400 text-xs font-black shrink-0">T5</div>
                                 <div class="flex-1 min-w-0">
@@ -304,6 +325,7 @@
 
             </div>
 
+            <!-- GLOBAL LEADERBOARD -->
             <div class="glass rounded-[30px] p-6 border border-white/5">
                 <div class="flex justify-between items-center mb-5">
                     <h3 class="font-black text-base flex items-center gap-2">
@@ -336,6 +358,7 @@
         </main>
     </div>
 
+    <!-- BLADE COMPONENTS -->
     @include('components.loading')
     @include('components.sound')
     @include('components.level-up')

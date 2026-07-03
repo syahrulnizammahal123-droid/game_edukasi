@@ -90,18 +90,29 @@ class GameKilatController extends Controller
         }
 
         $soal = SoalKilat::find($soalIds[$index]);
-        $userAns = ($request->jawaban == 1);
-        $isCorrect = ($userAns === (bool)$soal->jawaban_benar);
-
-        if ($isCorrect) {
-            session(['kilat_score' => session('kilat_score', 0) + 20]);
-            session(['kilat_correct' => session('kilat_correct', 0) + 1]);
-            $status = 'JAWABAN BENAR! +20 XP';
-        } else {
+        
+        // Cek Logika Waktu Habis (Input Value = 9 dari JavaScript Timer)
+        if ($request->jawaban == 9) {
             session(['kilat_wrong' => session('kilat_wrong', 0) + 1]);
-            $status = $request->jawaban == 9 ? 'WAKTU HABIS!' : 'JAWABAN SALAH!';
+            $isCorrect = false;
+            $status = '❌ WAKTU HABIS! Analisis Masalah Terlalu Lama.';
+        } else {
+            // Proses Validasi Jawaban User (1 untuk Benar, 0 untuk Salah)
+            $userAns = ($request->jawaban == 1);
+            $isCorrect = ($userAns === (bool)$soal->jawaban_benar);
+
+            if ($isCorrect) {
+                // SKOR DIPERBANYAK: Sekali benar mendapat +50 XP
+                session(['kilat_score' => session('kilat_score', 0) + 50]);
+                session(['kilat_correct' => session('kilat_correct', 0) + 1]);
+                $status = '🎉 JAWABAN BENAR! +50 XP';
+            } else {
+                session(['kilat_wrong' => session('kilat_wrong', 0) + 1]);
+                $status = '❌ JAWABAN SALAH! Kurang Teliti.';
+            }
         }
 
+        // Pindah ke indeks soal berikutnya di sesi
         session(['kilat_index' => $index + 1]);
 
         return view('game_kilat.penjelasan', compact('soal', 'isCorrect', 'status'));
@@ -117,7 +128,7 @@ class GameKilatController extends Controller
         $total = $correct + $wrong;
         $akurasi = $total > 0 ? round(($correct / $total) * 100) : 0;
 
-        $grade = $akurasi >= 70 ? 'A' : 'B';
+        $grade = $akurasi >= 70 ? 'S' : 'A';
 
         if ($progress && $score > $progress->high_score) {
             $progress->high_score = $score;

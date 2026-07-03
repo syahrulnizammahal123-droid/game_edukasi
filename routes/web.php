@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\GameKilatController; // <-- Mengimpor Controller Game Kilat baru
+use App\Http\Controllers\GameKilatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/leaderboard', [GameController::class, 'leaderboard']);
     Route::get('/riwayat', [GameController::class, 'riwayat'])->name('riwayat');
 
-    // --- CRUD BANK SOAL MANAGEMENT (ADVENTURE QUIZ) ---
+    // --- CRUD BANK SOAL MANAGEMENT (ADVENTURE QUIZ - PILIHAN GANDA) ---
     Route::prefix('soal')->name('soal.')->group(function () {
         Route::get('/', [GameController::class, 'soal'])->name('index');             
         Route::get('/create', [GameController::class, 'createSoal'])->name('create'); 
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [GameController::class, 'deleteSoal'])->name('destroy');
     });
 
-    // --- CRUD BANK SOAL MANAGEMENT (GAME KILAT BENAR/SALAH) ---
+    // --- CRUD BANK SOAL MANAGEMENT (GAME KILAT BENAR / SALAH) ---
     Route::prefix('soal-kilat')->name('soal-kilat.')->group(function () {
         Route::get('/{id}/edit', [GameKilatController::class, 'editSoal'])->name('edit');   
         Route::put('/{id}', [GameKilatController::class, 'updateSoal'])->name('update');    
