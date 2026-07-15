@@ -23,6 +23,9 @@
 
     <div class="fixed inset-0 bg-[#07111f]/85 -z-10"></div>
 
+    <audio id="audio-benar" src="{{ asset('sounds/correct.mp3') }}" preload="auto"></audio>
+    <audio id="audio-salah" src="{{ asset('sounds/wrong.mp3') }}" preload="auto"></audio>
+
     <div class="relative z-10 w-full p-4 lg:p-8 max-w-4xl mx-auto">
         <div class="glass rounded-[35px] p-6 lg:p-10 border border-white/10 shadow-2xl">
             
@@ -95,10 +98,22 @@
             
             document.getElementById('jawaban-terpilih').value = opsiDipilih;
 
+            // Panggil elemen audio
+            const sfxBenar = document.getElementById('audio-benar');
+            const sfxSalah = document.getElementById('audio-salah');
+
             if (opsiDipilih === kunciBenar) {
+                // Mainkan suara benar secara paksa
+                sfxBenar.currentTime = 0;
+                sfxBenar.play().catch(error => console.log("Play diblokir browser:", error));
+
                 tombolTarget.className = "group flex items-center gap-4 p-5 bg-emerald-500/20 border-2 border-emerald-400 rounded-2xl text-left transition duration-200 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
                 badgeTarget.className = "w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-black shrink-0 animate-bounce";
             } else {
+                // Mainkan suara salah secara paksa
+                sfxSalah.currentTime = 0;
+                sfxSalah.play().catch(error => console.log("Play diblokir browser:", error));
+
                 tombolTarget.className = "group flex items-center gap-4 p-5 bg-rose-500/20 border-2 border-rose-500 rounded-2xl text-left transition duration-200 shadow-[0_0_20px_rgba(244,63,94,0.3)] animate-shake";
                 badgeTarget.className = "w-12 h-12 rounded-xl bg-rose-500 flex items-center justify-center text-white font-black shrink-0";
 
@@ -108,12 +123,12 @@
                 }
             }
 
+            // Jeda dinaikkan sedikit ke 1.4 detik agar file audio sempat berbunyi penuh sebelum submit form
             setTimeout(() => {
                 document.getElementById('form-kuis').submit();
-            }, 1200);
+            }, 1400);
         }
 
-        // DETEKSI OTOMATIS: Keluar Game Diam-Diam Tanpa Pemberitahuan Pop-up
         window.addEventListener('visibilitychange', function() {
             if (document.visibilityState === 'hidden' && !sudahKlik) {
                 eksekusiGagalSesi();
@@ -130,12 +145,10 @@
             sudahKlik = true;
             const urlTujuan = "{{ route('game.jawab') }}";
             
-            // Menyiapkan payload data palsu/gagal karena keluar aplikasi sepihak
             const formData = new FormData();
             formData.append('_token', "{{ csrf_token() }}");
-            formData.append('jawaban', 'KABUR'); // Penanda di controller bahwa user keluar
+            formData.append('jawaban', 'KABUR'); 
 
-            // Mengirim data diam-diam ke server bahkan saat tab/browser ditutup
             navigator.sendBeacon(urlTujuan, formData);
         }
     </script>

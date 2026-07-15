@@ -67,8 +67,9 @@
             </div>
 
             <div class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/5 mb-8">
-                <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-800">
-                    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover">
+                <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-950/60 p-1 border border-white/10 shadow-inner">
+                    <!-- Menggunakan avatar maskot hewan/makhluk fantasi (Acme/Bottts) yang serasi dengan tema game -->
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}&colors=cyan,blue,purple" alt="Avatar" class="w-full h-full object-cover">
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
@@ -115,8 +116,8 @@
                     <p class="text-cyan-400 text-xs">Peringkat Global</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ Auth::user()->name }}" alt="Avatar">
+                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-950/60 p-1 border border-white/10 shadow-inner">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}&colors=cyan,blue,purple" alt="Avatar">
                     </div>
                     <a href="/logout" class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 border border-red-500/20">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -172,8 +173,8 @@
                 @if(isset($topPlayers[1]))
                 <div class="glass rounded-[30px] p-6 text-center border relative overflow-hidden order-2 md:order-1 podium-glow-2 min-h-[250px] flex flex-col justify-center">
                     <div class="absolute top-4 left-4 w-8 h-8 bg-slate-400 text-slate-950 font-black rounded-full flex items-center justify-center text-sm shadow">2</div>
-                    <div class="w-20 h-20 rounded-2xl border-2 border-slate-400/50 p-1 mx-auto mb-4 bg-slate-950/40">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $topPlayers[1]->user->name ?? 'User2' }}" alt="Avatar" class="w-full h-full object-cover rounded-xl">
+                    <div class="w-20 h-20 rounded-2xl border-2 border-slate-400/50 p-1 mx-auto mb-4 bg-slate-950/60 shadow-inner">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ $topPlayers[1]->user->name ?? 'User2' }}&colors=cyan" alt="Avatar" class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h3 class="font-extrabold text-lg tracking-wide truncate">{{ $topPlayers[1]->user->name ?? 'Explorer' }}</h3>
                     <p class="text-xs text-white/50 mb-3">Level {{ floor(($topPlayers[1]->high_score * 10) / 100) + 1 }}</p>
@@ -187,8 +188,8 @@
                 <div class="glass rounded-[32px] p-8 text-center border-2 relative overflow-hidden order-1 md:order-2 podium-glow-1 min-h-[290px] flex flex-col justify-center bg-gradient-to-b from-amber-500/10 to-transparent transform md:-translate-y-4">
                     <div class="absolute top-0 inset-x-0 flex justify-center"><div class="w-24 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div></div>
                     <div class="absolute top-4 left-4 w-9 h-9 bg-gradient-to-br from-yellow-400 to-orange-500 text-slate-950 font-black rounded-full flex items-center justify-center text-base shadow-lg shadow-yellow-500/20"><i class="fa-solid fa-crown text-xs"></i></div>
-                    <div class="w-24 h-24 rounded-2xl border-2 border-yellow-400 p-1 mx-auto mb-4 bg-slate-950/50 shadow-2xl shadow-yellow-500/10">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $topPlayers[0]->user->name ?? 'User1' }}" alt="Avatar" class="w-full h-full object-cover rounded-xl">
+                    <div class="w-24 h-24 rounded-2xl border-2 border-yellow-400 p-1 mx-auto mb-4 bg-slate-950/70 shadow-2xl shadow-yellow-500/20">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ $topPlayers[0]->user->name ?? 'User1' }}&colors=amber,yellow" alt="Avatar" class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h3 class="font-black text-xl tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-400 truncate">{{ $topPlayers[0]->user->name ?? 'Supreme King' }}</h3>
                     <p class="text-xs text-yellow-400/70 font-semibold mb-4">Level {{ floor(($topPlayers[0]->high_score * 10) / 100) + 1 }} • Master</p>
@@ -201,8 +202,8 @@
                 @if(isset($topPlayers[2]))
                 <div class="glass rounded-[30px] p-6 text-center border relative overflow-hidden order-3 podium-glow-3 min-h-[230px] flex flex-col justify-center">
                     <div class="absolute top-4 left-4 w-8 h-8 bg-amber-700 text-white font-black rounded-full flex items-center justify-center text-sm shadow">3</div>
-                    <div class="w-20 h-20 rounded-2xl border-2 border-amber-700/50 p-1 mx-auto mb-4 bg-slate-950/40">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $topPlayers[2]->user->name ?? 'User3' }}" alt="Avatar" class="w-full h-full object-cover rounded-xl">
+                    <div class="w-20 h-20 rounded-2xl border-2 border-amber-700/50 p-1 mx-auto mb-4 bg-slate-950/60 shadow-inner">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ $topPlayers[2]->user->name ?? 'User3' }}&colors=purple" alt="Avatar" class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h3 class="font-extrabold text-lg tracking-wide truncate">{{ $topPlayers[2]->user->name ?? 'Explorer' }}</h3>
                     <p class="text-xs text-white/50 mb-3">Level {{ floor(($topPlayers[2]->high_score * 10) / 100) + 1 }}</p>
@@ -242,8 +243,8 @@
                             </div>
 
                             <div class="col-span-1 md:col-span-5 flex items-center gap-4 justify-center md:justify-start">
-                                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-0.5 shrink-0">
-                                    <img src="https://api.dicebear.com/7.x/adventurer/svg?seed={{ $player->user->name ?? 'User' }}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
+                                <div class="w-10 h-10 rounded-xl bg-slate-950/60 border border-white/10 p-1 shrink-0 shadow-inner">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ $player->user->name ?? 'User' }}&colors=blue,cyan" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                                 </div>
                                 <div class="min-w-0 text-center md:text-left">
                                     <h4 class="font-bold text-sm tracking-wide text-white truncate">{{ $player->user->name ?? 'User Anonymous' }}</h4>
