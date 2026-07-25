@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Bank Soal - Guiz Adventure</title>
+    <title>Manajemen Bank Soal - Guiz Adventure</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,157 +12,170 @@
     <style>
         body { font-family: 'Poppins', sans-serif; }
         .glass {
-            background: rgba(11, 19, 35, 0.45);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .row-hover:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(34, 211, 238, 0.2);
         }
     </style>
 </head>
 
-<body class="relative min-h-screen bg-cover bg-center bg-fixed bg-no-repeat text-white antialiased flex" style="background-image:url('{{ asset('images/bg-login.jpg') }}')">
-    <div class="fixed inset-0 bg-[#030712]/85 -z-20"></div>
+<body class="bg-[#070d19] text-white min-h-screen flex">
 
-    <div class="relative z-10 flex w-full min-h-screen">
-
-        <aside class="hidden lg:flex flex-col w-72 p-6 glass border-r border-white/10 shrink-0">
-            <div class="flex items-center gap-4 mb-10">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)]">
-                    <i class="fa-solid fa-gamepad text-white text-xl"></i>
+    <!-- SIDEBAR NAVIGASI -->
+    <aside class="w-64 bg-[#0b1324] border-r border-white/10 p-6 flex flex-col justify-between shrink-0">
+        <div>
+            <!-- LOGO APLIKASI -->
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-cyan-500/30">
+                    <i class="fa-solid fa-gamepad"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-black tracking-wide text-white">Guiz</h1>
-                    <p class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Adventure</p>
+                    <h1 class="font-extrabold text-lg leading-none tracking-wide text-white">Guiz</h1>
+                    <span class="text-[10px] font-black text-cyan-400 tracking-widest uppercase">ADVENTURE</span>
                 </div>
             </div>
 
-            <nav class="space-y-3 flex-1">
-                <a href="/dashboard" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-semibold">
-                    <i class="fa-solid fa-columns text-lg text-cyan-400 w-6 text-center"></i>
+            <!-- MENU SIDEBAR (ROUTE LINK DI-UPDATE) -->
+            <nav class="space-y-2">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
+                    <i class="fa-solid fa-border-all text-lg w-6"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/game/level" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-semibold">
-                    <i class="fa-solid fa-play text-lg text-cyan-400 w-6 text-center"></i>
+
+                <a href="{{ route('game.level') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
+                    <i class="fa-solid fa-play text-lg w-6"></i>
                     <span>Mulai Game</span>
                 </a>
-                <a href="/game-kilat/level" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-semibold">
-                    <i class="fa-solid fa-bolt text-lg text-orange-400 w-6 text-center"></i>
+
+                <a href="{{ route('game-kilat.level') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
+                    <i class="fa-solid fa-bolt text-lg w-6"></i>
                     <span>Game Kilat (B/S)</span>
                 </a>
-                <a href="/soal" class="flex items-center gap-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-4 rounded-2xl font-bold shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                    <i class="fa-solid fa-book-open text-lg w-6 text-center"></i>
+
+                <a href="{{ route('leaderboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
+                    <i class="fa-solid fa-chart-simple text-lg w-6"></i>
+                    <span>Peringkat Global</span>
+                </a>
+
+                <a href="{{ route('riwayat') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
+                    <i class="fa-solid fa-clock-rotate-left text-lg w-6"></i>
+                    <span>Riwayat Kuis</span>
+                </a>
+
+                <a href="{{ route('soal.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-cyan-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25">
+                    <i class="fa-solid fa-book-open text-lg w-6"></i>
                     <span>Kelola Bank Soal</span>
                 </a>
             </nav>
-        </aside>
+        </div>
+    </aside>
 
-        <main class="flex-1 p-4 lg:p-8 max-w-7xl mx-auto w-full overflow-y-auto pb-24">
-            
-            <div class="glass rounded-[35px] p-6 lg:p-8 mb-6 border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-300 text-xs font-bold border border-cyan-400/20 tracking-wider uppercase mb-2">
-                        <i class="fa-solid fa-database text-[10px]"></i> Control Panel Guru
-                    </div>
-                    <h1 class="text-3xl font-black tracking-tight">Manajemen Bank Soal</h1>
-                    <p class="text-xs text-white/50 mt-1">Perbarui, tambah, atau hapus instrumen kuis penelitian dengan mudah.</p>
+    <!-- KONTEN UTAMA -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <div class="max-w-6xl mx-auto space-y-8">
+
+            <!-- HEADER PAGE BANNER -->
+            <div class="glass rounded-[30px] p-8 relative overflow-hidden border border-white/10">
+                <div class="relative z-10">
+                    <span class="px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-400 text-[11px] font-black border border-cyan-400/20 uppercase tracking-widest mb-3 inline-block">
+                        <i class="fa-solid fa-database mr-1"></i> CONTROL PANEL GURU
+                    </span>
+                    <h2 class="text-3xl font-extrabold text-white">Manajemen Bank Soal</h2>
+                    <p class="text-white/60 text-sm mt-1">Perbarui, tambah, atau hapus instrumen kuis penelitian dengan mudah.</p>
                 </div>
             </div>
 
-            <div class="flex gap-2 mb-6 bg-white/5 p-1.5 rounded-2xl border border-white/5 w-fit">
-                <button onclick="switchTab('pilihan-ganda')" id="btnTabPG" class="px-5 py-2.5 rounded-xl text-xs font-bold transition bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
-                    <i class="fa-solid fa-list-check mr-1"></i> Adventure Quiz (Pilihan Ganda)
-                </button>
-                <button onclick="switchTab('benar-salah')" id="btnTabBS" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition">
-                    <i class="fa-solid fa-bolt mr-1"></i> Game Kilat (Benar / Salah)
-                </button>
-            </div>
-
-            <div id="panelPG" class="space-y-3">
-                <div class="hidden md:grid grid-cols-12 px-6 text-[11px] text-white/40 font-bold uppercase tracking-wider mb-2">
-                    <div class="col-span-1">LVL</div>
-                    <div class="col-span-6">Pertanyaan Berpikir Kritis</div>
-                    <div class="col-span-3 text-center">Kunci PG</div>
-                    <div class="col-span-2 text-right">Aksi Kontrol</div>
+            <!-- AREA TOMBOL TAB KATEGORI DAN TOMBOL + TAMBAH SOAL BARU -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                
+                <!-- TAB PILIHAN KATEGORI SOAL -->
+                <div class="inline-flex p-1.5 bg-[#0b1324] rounded-2xl border border-white/10 w-fit">
+                    <a href="{{ route('soal.index') }}" class="px-5 py-2.5 rounded-xl bg-cyan-500 text-white font-bold text-xs flex items-center gap-2 shadow-md">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>Adventure Quiz (Pilihan Ganda)</span>
+                    </a>
+                    <a href="#" class="px-5 py-2.5 rounded-xl text-white/50 hover:text-white font-bold text-xs flex items-center gap-2 transition">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Game Kilat (Benar / Salah)</span>
+                    </a>
                 </div>
 
-                @if(isset($soals) && $soals->count() > 0)
-                    @foreach($soals as $item)
-                    <div class="glass rounded-2xl p-4 grid grid-cols-1 md:grid-cols-12 items-center border border-white/5 row-hover transition duration-200 gap-3">
-                        <div class="col-span-1"><span class="px-2.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-xs font-black">Lvl {{ $item->level }}</span></div>
-                        <div class="col-span-6"><p class="text-xs font-medium text-white/80 line-clamp-2 pr-4">{{ $item->pertanyaan }}</p></div>
-                        <div class="col-span-3 text-center"><span class="px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-cyan-300">Opsi {{ strtoupper($item->jawaban) }}</span></div>
-                        <div class="col-span-2 flex justify-end gap-2">
-                            <a href="{{ route('soal.edit', $item->id) }}" class="w-8 h-8 rounded-lg bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 hover:bg-yellow-500/20 flex items-center justify-center text-xs transition"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <form action="{{ route('soal.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus soal pilihan ganda ini?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 flex items-center justify-center text-xs transition"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                    @endforeach
-                @else
-                    <div class="glass rounded-2xl p-8 text-center text-xs text-white/40">Belum ada instrumen kuis pilihan ganda.</div>
-                @endif
+                <!-- TOMBOL UTAMA TAMBAH SOAL BARU -->
+                <a href="{{ route('soal.create') }}" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-extrabold text-sm shadow-lg shadow-cyan-500/25 hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-plus text-base"></i>
+                    <span>Tambah Soal Baru</span>
+                </a>
+
             </div>
 
-            <div id="panelBS" class="space-y-3 hidden">
-                <div class="hidden md:grid grid-cols-12 px-6 text-[11px] text-white/40 font-bold uppercase tracking-wider mb-2">
-                    <div class="col-span-1">LVL</div>
-                    <div class="col-span-6">Pernyataan Logika Kilat</div>
-                    <div class="col-span-3 text-center">Validitas Kunci</div>
-                    <div class="col-span-2 text-right">Aksi Kontrol</div>
+            <!-- TABEL DAFTAR SOAL -->
+            <div class="glass rounded-[25px] overflow-hidden border border-white/10 shadow-2xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/10 bg-white/5 text-white/40 text-[11px] font-black uppercase tracking-wider">
+                                <th class="p-5 text-center w-16">LVL</th>
+                                <th class="p-5">PERTANYAAN BERPIKIR KRITIS</th>
+                                <th class="p-5 text-center w-32">KUNCI PG</th>
+                                <th class="p-5 text-center w-36">AKSI KONTROL</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5 text-sm">
+                            @forelse($soals as $item)
+                            <tr class="hover:bg-white/5 transition">
+                                <!-- KOLOM LEVEL -->
+                                <td class="p-5 text-center font-extrabold">
+                                    <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 text-xs border border-cyan-500/30">
+                                        Lvl {{ $loop->iteration }}
+                                    </span>
+                                </td>
+
+                                <!-- KOLOM TEKS PERTANYAAN -->
+                                <td class="p-5 text-white/90 font-medium leading-relaxed">
+                                    {{ $item->pertanyaan }}
+                                </td>
+
+                                <!-- KOLOM KUNCI JAWABAN -->
+                                <td class="p-5 text-center">
+                                    <span class="px-3 py-1 rounded-xl bg-white/10 text-white font-bold text-xs border border-white/10">
+                                        Opsi {{ strtoupper($item->jawaban) }}
+                                    </span>
+                                </td>
+
+                                <!-- KOLOM TOMBOL EDIT & HAPUS -->
+                                <td class="p-5 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <!-- TOMBOL EDIT -->
+                                        <a href="{{ route('soal.edit', $item->id) }}" class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-white flex items-center justify-center transition shadow-sm" title="Edit Soal">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+
+                                        <!-- TOMBOL HAPUS -->
+                                        <form action="{{ route('soal.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white flex items-center justify-center transition shadow-sm" title="Hapus Soal">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="p-10 text-center text-white/40 font-medium">
+                                    <i class="fa-solid fa-folder-open text-3xl mb-3 block opacity-30"></i>
+                                    Belum ada butir soal yang ditambahkan. Silakan klik tombol <b>+ Tambah Soal Baru</b> di atas!
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-
-                @if(isset($soalKilats) && $soalKilats->count() > 0)
-                    @foreach($soalKilats as $item)
-                    <div class="glass rounded-2xl p-4 grid grid-cols-1 md:grid-cols-12 items-center border border-white/5 row-hover transition duration-200 gap-3">
-                        <div class="col-span-1"><span class="px-2.5 py-0.5 rounded bg-orange-500/10 border border-orange-400/20 text-orange-400 text-xs font-black">Lvl {{ $item->level }}</span></div>
-                        <div class="col-span-6"><p class="text-xs font-medium text-white/80 line-clamp-2 pr-4">"{{ $item->pernyataan }}"</p></div>
-                        <div class="col-span-3 text-center">
-                            <span class="px-3 py-1 rounded-xl text-xs font-bold {{ $item->jawaban_benar ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border border-red-500/20 text-red-400' }}">
-                                {{ $item->jawaban_benar ? 'BENAR (True)' : 'SALAH (False)' }}
-                            </span>
-                        </div>
-                        <div class="col-span-2 flex justify-end gap-2">
-                            <a href="{{ route('soal-kilat.edit', $item->id) }}" class="w-8 h-8 rounded-lg bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 hover:bg-yellow-500/20 flex items-center justify-center text-xs transition"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <form action="{{ route('soal-kilat.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus soal kilat ini?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 flex items-center justify-center text-xs transition"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                        </div>
-                    </div>
-                    @endforeach
-                @else
-                    <div class="glass rounded-2xl p-8 text-center text-xs text-white/40">Belum ada instrumen soal logika kilat (B/S).</div>
-                @endif
             </div>
 
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <script>
-        function switchTab(mode) {
-            const panelPG = document.getElementById('panelPG');
-            const panelBS = document.getElementById('panelBS');
-            const btnTabPG = document.getElementById('btnTabPG');
-            const btnTabBS = document.getElementById('btnTabBS');
-
-            if(mode === 'pilihan-ganda') {
-                panelPG.classList.remove('hidden');
-                panelBS.classList.add('hidden');
-                btnTabPG.className = "px-5 py-2.5 rounded-xl text-xs font-bold transition bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md";
-                btnTabBS.className = "px-5 py-2.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition";
-            } else {
-                panelPG.classList.add('hidden');
-                panelBS.classList.remove('hidden');
-                btnTabPG.className = "px-5 py-2.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition";
-                btnTabBS.className = "px-5 py-2.5 rounded-xl text-xs font-bold transition bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md";
-            }
-        }
-    </script>
 </body>
 </html>

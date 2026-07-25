@@ -25,11 +25,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::get('/register', [AuthController::class, 'showRegister']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +39,8 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth')->group(function () {
 
-    // --- DASHBOARD BERANDA ---
-    Route::get('/dashboard', [AuthController::class, 'dashboard']);
+    // --- DASHBOARD BERANDA (SUDAH DIBERI NAME DASHBOARD) ---
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
     // --- GAMEPLAY SYSTEM (ARENA PERMAINAN UTAMA - PILIHAN GANDA) ---
     Route::get('/game', function () {
@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // --- HISTORY & RANKINGS ---
-    Route::get('/leaderboard', [GameController::class, 'leaderboard']);
+    Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('leaderboard');
     Route::get('/riwayat', [GameController::class, 'riwayat'])->name('riwayat');
 
     // --- CRUD BANK SOAL MANAGEMENT (ADVENTURE QUIZ - PILIHAN GANDA) ---
