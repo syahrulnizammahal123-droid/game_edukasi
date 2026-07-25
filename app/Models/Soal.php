@@ -10,7 +10,7 @@ class Soal extends Model
     use HasFactory;
 
     protected $fillable = [
-
+        'level',
         'pertanyaan',
         'A',
         'B',
@@ -18,7 +18,5 @@ class Soal extends Model
         'D',
         'jawaban',
         'penjelasan',
-        'level'
-
     ];
 }

@@ -21,6 +21,17 @@
 
 <body class="bg-[#070d19] text-white min-h-screen flex">
 
+    @php
+        $user = auth()->user();
+        // Cek apakah user yang login adalah Admin atau Guru
+        $isGuruOrAdmin = $user && (
+            (isset($user->role) && in_array(strtolower($user->role), ['admin', 'guru'])) ||
+            (isset($user->is_admin) && $user->is_admin == 1) ||
+            (isset($user->is_guru) && $user->is_guru == 1) ||
+            (isset($user->email) && in_array($user->email, ['admin@gmail.com', 'guru@gmail.com']))
+        );
+    @endphp
+
     <!-- SIDEBAR NAVIGASI -->
     <aside class="w-64 bg-[#0b1324] border-r border-white/10 p-6 flex flex-col justify-between shrink-0">
         <div>
@@ -35,7 +46,7 @@
                 </div>
             </div>
 
-            <!-- MENU SIDEBAR (ROUTE LINK DI-UPDATE) -->
+            <!-- MENU SIDEBAR -->
             <nav class="space-y-2">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/60 hover:text-white hover:bg-white/5 transition font-medium text-sm">
                     <i class="fa-solid fa-border-all text-lg w-6"></i>
@@ -62,10 +73,13 @@
                     <span>Riwayat Kuis</span>
                 </a>
 
+                <!-- KHUSUS DITAMPILKAN JIKA ROLE = GURU ATAU ADMIN -->
+                @if($isGuruOrAdmin)
                 <a href="{{ route('soal.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-cyan-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25">
                     <i class="fa-solid fa-book-open text-lg w-6"></i>
                     <span>Kelola Bank Soal</span>
                 </a>
+                @endif
             </nav>
         </div>
     </aside>
@@ -78,7 +92,7 @@
             <div class="glass rounded-[30px] p-8 relative overflow-hidden border border-white/10">
                 <div class="relative z-10">
                     <span class="px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-400 text-[11px] font-black border border-cyan-400/20 uppercase tracking-widest mb-3 inline-block">
-                        <i class="fa-solid fa-database mr-1"></i> CONTROL PANEL GURU
+                        <i class="fa-solid fa-database mr-1"></i> CONTROL PANEL GURU & ADMIN
                     </span>
                     <h2 class="text-3xl font-extrabold text-white">Manajemen Bank Soal</h2>
                     <p class="text-white/60 text-sm mt-1">Perbarui, tambah, atau hapus instrumen kuis penelitian dengan mudah.</p>
@@ -138,7 +152,7 @@
                                 <!-- KOLOM KUNCI JAWABAN -->
                                 <td class="p-5 text-center">
                                     <span class="px-3 py-1 rounded-xl bg-white/10 text-white font-bold text-xs border border-white/10">
-                                        Opsi {{ strtoupper($item->jawaban) }}
+                                        Opsi {{ strtoupper($item->jawaban_benar ?? $item->jawaban ?? 'B') }}
                                     </span>
                                 </td>
 
@@ -146,12 +160,12 @@
                                 <td class="p-5 text-center">
                                     <div class="flex items-center justify-center gap-2">
                                         <!-- TOMBOL EDIT -->
-                                        <a href="{{ route('soal.edit', $item->id) }}" class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-white flex items-center justify-center transition shadow-sm" title="Edit Soal">
+                                        <a href="/soal/{{ $item->id ?? $loop->iteration }}/edit" class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-white flex items-center justify-center transition shadow-sm" title="Edit Soal">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
                                         <!-- TOMBOL HAPUS -->
-                                        <form action="{{ route('soal.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
+                                        <form action="/soal/{{ $item->id ?? $loop->iteration }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 hover:bg-rose-500 hover:text-white flex items-center justify-center transition shadow-sm" title="Hapus Soal">
