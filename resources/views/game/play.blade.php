@@ -161,7 +161,7 @@
 
         // LOGIKA TIMER 20 DETIK
         document.addEventListener('DOMContentLoaded', function() {
-            let totalTime = 20;
+            let totalTime = 12;
             let timeLeft = totalTime;
             
             const timeDisplay = document.getElementById('time-display');
