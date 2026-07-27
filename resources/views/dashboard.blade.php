@@ -79,10 +79,6 @@
                     <i class="fa-solid fa-play text-lg text-cyan-400 w-6 text-center group-hover:scale-110 transition-transform"></i>
                     <span>Mulai Game</span>
                 </a>
-                <a href="/game-kilat/level" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-semibold group">
-                    <i class="fa-solid fa-bolt text-lg text-orange-400 w-6 text-center group-hover:scale-110 transition-transform"></i>
-                    <span>Game Kilat (B/S)</span>
-                </a>
                 <a href="/leaderboard" class="flex items-center gap-4 text-white/70 hover:text-white p-4 rounded-2xl hover:bg-white/5 transition font-semibold group">
                     <i class="fa-solid fa-ranking-star text-lg text-yellow-400 w-6 text-center group-hover:scale-110 transition-transform"></i>
                     <span>Peringkat Global</span>
@@ -115,7 +111,6 @@
                     <p class="text-cyan-400 text-xs font-medium">Main Hub Console</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <!-- Avatar Kepala Orang diganti Kepala Maskot Gaming/Cyber Hewan Kreatif -->
                     <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-900 border border-white/10 p-0.5">
                         <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
@@ -152,7 +147,6 @@
                     <!-- Mini Profile Card -->
                     <div class="glass rounded-2xl p-5 min-w-[290px] w-full lg:w-auto border border-white/10 bg-slate-900/50 shadow-inner">
                         <div class="flex items-center gap-3.5 mb-4">
-                            <!-- Avatar Utama diganti dengan konsep kepala robot/hewan gaming futuristik DiceBear -->
                             <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 p-0.5 shrink-0 shadow-[0_0_15px_rgba(34,211,238,0.3)]">
                                 <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ Auth::user()->name }}" alt="Avatar" class="w-full h-full object-cover rounded-lg bg-slate-950">
                             </div>

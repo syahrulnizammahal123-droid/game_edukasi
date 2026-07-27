@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\GameKilatController;
+// use App\Http\Controllers\GameKilatController; // Nonaktif
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
 
-    // --- DASHBOARD BERANDA (SUDAH DIBERI NAME DASHBOARD) ---
+    // --- DASHBOARD BERANDA ---
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
     // --- GAMEPLAY SYSTEM (ARENA PERMAINAN UTAMA - PILIHAN GANDA) ---
@@ -54,14 +54,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/hasil', [GameController::class, 'hasil'])->name('hasil');
     });
 
-    // --- GAME KILAT SYSTEM (MODE BARU: BENAR / SALAH TIME ATTACK) ---
-    Route::prefix('game-kilat')->name('game-kilat.')->group(function () {
-        Route::get('/level', [GameKilatController::class, 'level'])->name('level');
-        Route::get('/start/{level}', [GameKilatController::class, 'start'])->name('start');
-        Route::get('/next', [GameKilatController::class, 'next'])->name('next');
-        Route::post('/jawab', [GameKilatController::class, 'jawab'])->name('jawab');
-        Route::get('/hasil', [GameKilatController::class, 'hasil'])->name('hasil');
-    });
+    /*
+    |--------------------------------------------------------------------------
+    | GAME KILAT SYSTEM (NONAKTIF)
+    |--------------------------------------------------------------------------
+    | Route::prefix('game-kilat')->name('game-kilat.')->group(function () {
+    |     Route::get('/level', [GameKilatController::class, 'level'])->name('level');
+    |     Route::get('/start/{level}', [GameKilatController::class, 'start'])->name('start');
+    |     Route::get('/next', [GameKilatController::class, 'next'])->name('next');
+    |     Route::post('/jawab', [GameKilatController::class, 'jawab'])->name('jawab');
+    |     Route::get('/hasil', [GameKilatController::class, 'hasil'])->name('hasil');
+    | });
+    */
 
     // --- HISTORY & RANKINGS ---
     Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('leaderboard');
@@ -77,11 +81,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [GameController::class, 'deleteSoal'])->name('destroy');
     });
 
-    // --- CRUD BANK SOAL MANAGEMENT (GAME KILAT BENAR / SALAH) ---
-    Route::prefix('soal-kilat')->name('soal-kilat.')->group(function () {
-        Route::get('/{id}/edit', [GameKilatController::class, 'editSoal'])->name('edit');   
-        Route::put('/{id}', [GameKilatController::class, 'updateSoal'])->name('update');    
-        Route::delete('/{id}', [GameKilatController::class, 'destroySoal'])->name('destroy');
-    });
+    /*
+    |--------------------------------------------------------------------------
+    | CRUD BANK SOAL GAME KILAT (NONAKTIF)
+    |--------------------------------------------------------------------------
+    | Route::prefix('soal-kilat')->name('soal-kilat.')->group(function () {
+    |     Route::get('/{id}/edit', [GameKilatController::class, 'editSoal'])->name('edit');   
+    |     Route::put('/{id}', [GameKilatController::class, 'updateSoal'])->name('update');    
+    |     Route::delete('/{id}', [GameKilatController::class, 'destroySoal'])->name('destroy');
+    | });
+    */
 
 });
