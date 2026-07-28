@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
@@ -6,26 +7,28 @@ use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. PUBLIC ROUTES & REDIRECTS
+| 1. ROUTE UMUM & MAINTENANCE
 |--------------------------------------------------------------------------
 */
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect()->route('dashboard');
 });
 
-// RUTE PEMBERSIH CACHE (Ditaruh di luar middleware auth agar bebas diakses)
-Route::get('/clear-all', function() {
-    Artisan::call('optimize:clear');
-    Artisan::call('cache:clear');
-    Artisan::call('config:clear');
-    Artisan::call('view:clear');
-    return '<h1>Success! Cache Berhasil Dibersihkan.</h1><a href="/dashboard">Kembali ke Dashboard</a>';
-});
+// Fitur pembersih cache hanya aktif di komputer lokal (development)
+if (app()->environment('local')) {
+    Route::get('/clear-all', function() {
+        Artisan::call('optimize:clear');
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        return '<h1>Success! Cache Berhasil Dibersihkan.</h1><a href="/dashboard">Kembali ke Dashboard</a>';
+    });
+}
 
 /*
 |--------------------------------------------------------------------------
-| 2. SESSIONS & AUTHENTICATION (GUEST ONLY)
+| 2. GUEST ONLY (HANYA UNTUK YANG BELUM LOGIN)
 |--------------------------------------------------------------------------
 */
 
@@ -37,21 +40,21 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
 /*
 |--------------------------------------------------------------------------
-| 3. ADVENTURE HUB FRAMEWORK (PROTECTED BY AUTH MIDDLEWARE)
+| 3. AUTHENTICATED ONLY (WAJIB LOGIN DULU)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
 
+    // Logout diubah ke POST untuk keamanan
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/game', function () {
-        return redirect('/game/level');
-    });
+    // Route Game
+    Route::get('/game', fn() => redirect()->route('game.level'));
     
     Route::prefix('game')->name('game.')->group(function () {
         Route::get('/level', [GameController::class, 'level'])->name('level');
@@ -64,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('leaderboard');
     Route::get('/riwayat', [GameController::class, 'riwayat'])->name('riwayat');
 
+    // Manajemen Soal
     Route::prefix('soal')->name('soal.')->group(function () {
         Route::get('/', [GameController::class, 'soal'])->name('index');             
         Route::get('/create', [GameController::class, 'createSoal'])->name('create'); 
