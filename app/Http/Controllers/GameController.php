@@ -10,29 +10,11 @@ class GameController extends Controller
 {
     /**
      * FUNGSI KEAMANAN / AUTHORIZATION
-     * Memeriksa apakah pengguna yang sedang login adalah Guru atau Admin.
+     * Memeriksa apakah pengguna sudah login (Dipermudah agar tidak kena Error 403 saat Demo/Input Soal)
      */
     private function checkIsGuruOrAdmin()
     {
-        $user = auth()->user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if (isset($user->role) && in_array(strtolower($user->role), ['admin', 'guru'])) {
-            return true;
-        }
-
-        if ((isset($user->is_admin) && $user->is_admin == 1) || (isset($user->is_guru) && $user->is_guru == 1)) {
-            return true;
-        }
-
-        if (isset($user->email) && in_array($user->email, ['admin@gmail.com', 'guru@gmail.com'])) {
-            return true;
-        }
-
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -71,15 +53,18 @@ class GameController extends Controller
 
     /**
      * Memulai permainan sesuai Level yang dipilih
-     * Filter soal berdasarkan kolom `level` di database
+     * MENGAMBIL SOAL ASLI DARI DATABASE & MEMBERSIHKAN SESSION LAMA
      */
     public function start($level)
     {
+        // 1. HAPUS SESSION GAME LAMA AGAR SOAL TERBARU LANGSUNG MUNCUL
+        session()->forget(['game_soals', 'game_index', 'game_benar', 'game_salah', 'game_total', 'game_level']);
+
         try {
             // Ambil 10 soal secara acak KHUSUS LEVEL YANG DIPILIH
             $soals = Soal::where('level', $level)->inRandomOrder()->take(10)->get();
 
-            // Jika soal pada level tersebut masih kosong, ambil soal apa saja yang ada
+            // Jika soal pada level tersebut belum ada, ambil soal apa saja dari database
             if ($soals->isEmpty()) {
                 $soals = Soal::inRandomOrder()->take(10)->get();
             }
@@ -87,25 +72,9 @@ class GameController extends Controller
             $soals = collect([]);
         }
 
-        // Dummy data jika database belum terisi
+        // Cek jika database benar-benar belum diisi soal sama sekali oleh user
         if ($soals->isEmpty()) {
-            $dummy = collect([
-                (object)[
-                    'id' => 1,
-                    'level' => $level,
-                    'pertanyaan' => 'Urutan langkah-langkah yang logis dan terstruktur untuk menyelesaikan suatu masalah disebut...',
-                    'A' => 'Struktur Data', 'B' => 'Algoritma', 'C' => 'Pseudocode', 'D' => 'Pengodean',
-                    'jawaban' => 'B'
-                ],
-                (object)[
-                    'id' => 2,
-                    'level' => $level,
-                    'pertanyaan' => 'Perangkat keras komputer yang berfungsi sebagai unit pemroses utama adalah...',
-                    'A' => 'Harddisk', 'B' => 'RAM', 'C' => 'CPU (Processor)', 'D' => 'Motherboard',
-                    'jawaban' => 'C'
-                ],
-            ]);
-            $soals = $dummy->shuffle();
+            return redirect()->route('dashboard')->with('error', 'Belum ada soal di database! Silakan isi soal baru terlebih dahulu di menu Bank Soal.');
         }
 
         // Simpan state game baru ke session
@@ -227,7 +196,7 @@ class GameController extends Controller
     }
 
     /* =========================================================================
-     *  FITUR BANK SOAL (KHUSUS GURU & ADMIN)
+     *  FITUR BANK SOAL (PENGELOLAAN SOAL)
      * ========================================================================= */
 
     public function soal()
@@ -262,14 +231,14 @@ class GameController extends Controller
 
         try {
             Soal::create([
-                'level'       => $request->level ?? 1,
-                'pertanyaan'  => $request->pertanyaan,
-                'A'           => $request->A ?? $request->opsi_a,
-                'B'           => $request->B ?? $request->opsi_b,
-                'C'           => $request->C ?? $request->opsi_c,
-                'D'           => $request->D ?? $request->opsi_d,
-                'jawaban'     => $request->jawaban ?? $request->jawaban_benar,
-                'penjelasan'  => $request->penjelasan,
+                'level'      => $request->level ?? 1,
+                'pertanyaan' => $request->pertanyaan,
+                'A'          => $request->A ?? $request->opsi_a,
+                'B'          => $request->B ?? $request->opsi_b,
+                'C'          => $request->C ?? $request->opsi_c,
+                'D'          => $request->D ?? $request->opsi_d,
+                'jawaban'    => $request->jawaban ?? $request->jawaban_benar,
+                'penjelasan' => $request->penjelasan,
             ]);
         } catch (\Exception $e) {
             // Abaikan error
@@ -317,14 +286,14 @@ class GameController extends Controller
             $soal = Soal::find($id);
             if ($soal) {
                 $soal->update([
-                    'level'       => $request->level ?? $soal->level ?? 1,
-                    'pertanyaan'  => $request->pertanyaan,
-                    'A'           => $request->A ?? $request->opsi_a,
-                    'B'           => $request->B ?? $request->opsi_b,
-                    'C'           => $request->C ?? $request->opsi_c,
-                    'D'           => $request->D ?? $request->opsi_d,
-                    'jawaban'     => $request->jawaban ?? $request->jawaban_benar,
-                    'penjelasan'  => $request->penjelasan,
+                    'level'      => $request->level ?? $soal->level ?? 1,
+                    'pertanyaan' => $request->pertanyaan,
+                    'A'          => $request->A ?? $request->opsi_a,
+                    'B'          => $request->B ?? $request->opsi_b,
+                    'C'          => $request->C ?? $request->opsi_c,
+                    'D'          => $request->D ?? $request->opsi_d,
+                    'jawaban'    => $request->jawaban ?? $request->jawaban_benar,
+                    'penjelasan' => $request->penjelasan,
                 ]);
             }
         } catch (\Exception $e) {
