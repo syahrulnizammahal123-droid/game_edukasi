@@ -24,6 +24,7 @@ class GameKilatController extends Controller
     {
         $soalIds = SoalKilat::where('level', $level)->pluck('id')->toArray();
 
+        // Jika soal untuk level tersebut masih kosong, buat dummy questions otomatis
         if (empty($soalIds)) {
             $dummyQuestions = [
                 [
@@ -53,6 +54,7 @@ class GameKilatController extends Controller
             $soalIds = SoalKilat::where('level', $level)->pluck('id')->toArray();
         }
 
+        // Set Sesi Kuis Kilat
         session([
             'kilat_level' => $level,
             'kilat_soal_ids' => $soalIds,
@@ -91,18 +93,17 @@ class GameKilatController extends Controller
 
         $soal = SoalKilat::find($soalIds[$index]);
         
-        // Cek Logika Waktu Habis (Input Value = 9 dari JavaScript Timer)
+        // Logika jika Waktu Habis (Input Value = 9 dari Timer JS)
         if ($request->jawaban == 9) {
             session(['kilat_wrong' => session('kilat_wrong', 0) + 1]);
             $isCorrect = false;
             $status = '❌ WAKTU HABIS! Analisis Masalah Terlalu Lama.';
         } else {
-            // Proses Validasi Jawaban User (1 untuk Benar, 0 untuk Salah)
+            // Validasi Jawaban User (1 untuk Benar/True, 0 untuk Salah/False)
             $userAns = ($request->jawaban == 1);
             $isCorrect = ($userAns === (bool)$soal->jawaban_benar);
 
             if ($isCorrect) {
-                // SKOR DIPERBANYAK: Sekali benar mendapat +50 XP
                 session(['kilat_score' => session('kilat_score', 0) + 50]);
                 session(['kilat_correct' => session('kilat_correct', 0) + 1]);
                 $status = '🎉 JAWABAN BENAR! +50 XP';
@@ -112,7 +113,7 @@ class GameKilatController extends Controller
             }
         }
 
-        // Pindah ke indeks soal berikutnya di sesi
+        // Pindah ke indeks soal berikutnya
         session(['kilat_index' => $index + 1]);
 
         return view('game_kilat.penjelasan', compact('soal', 'isCorrect', 'status'));
@@ -128,23 +129,20 @@ class GameKilatController extends Controller
         $total = $correct + $wrong;
         $akurasi = $total > 0 ? round(($correct / $total) * 100) : 0;
 
-        $grade = $akurasi >= 70 ? 'S' : 'A';
-
         if ($progress && $score > $progress->high_score) {
             $progress->high_score = $score;
             $progress->save();
         }
 
+        // Simpan riwayat permainan ke tabel game_histories
         GameHistory::create([
             'user_id' => Auth::id(),
-            'level' => (int)session('kilat_level', 1),
             'score' => $score,
-            'grade' => $grade,
-            'stars' => $akurasi >= 70 ? 5 : 3,
-            'created_at' => now()
+            'correct_answers' => $correct,
+            'wrong_answers' => $wrong,
         ]);
 
-        return view('game_kilat.hasil', compact('score', 'akurasi', 'grade'));
+        return view('game_kilat.hasil', compact('score', 'correct', 'wrong', 'akurasi'));
     }
 
     public function destroySoal($id)

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisis Jawaban - Guiz Adventure</title>
+    <title>Analisis Jawaban Kilat - Guiz Adventure</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,73 +41,66 @@
     <!-- MAIN EXPLANATION DISPLAY CONTAINER -->
     <div class="relative z-10 max-w-2xl w-full mx-auto space-y-5">
         
-        <!-- 1. FEEDBACK BANNER STATUS (BENAR / SALAH / GAME OVER) -->
+        <!-- 1. FEEDBACK BANNER STATUS (BENAR / SALAH / WAKTU HABIS) -->
         <div class="glass rounded-[30px] p-6 text-center border relative overflow-hidden shadow-lg 
-            {{ $status == 'benar' ? 'border-green-500/30 bg-green-500/5 shadow-green-500/5' : 'border-red-500/30 bg-red-500/5 shadow-red-500/5' }}
+            {{ $isCorrect ? 'border-emerald-500/30 bg-emerald-500/5 shadow-emerald-500/5' : 'border-rose-500/30 bg-rose-500/5 shadow-rose-500/5' }}
         ">
             <!-- Icon Status -->
             <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-4
-                {{ $status == 'benar' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400' }}
+                {{ $isCorrect ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400' }}
             ">
-                <i class="fa-solid {{ $status == 'benar' ? 'fa-circle-check animate-bounce' : 'fa-circle-xmark animate-pulse' }}"></i>
+                <i class="fa-solid {{ $isCorrect ? 'fa-circle-check animate-bounce' : 'fa-circle-xmark animate-pulse' }}"></i>
             </div>
 
-            <!-- Teks Pesan Dinamis dari Session Game -->
+            <!-- Teks Pesan Status dari Controller -->
             <h2 class="text-xl font-extrabold tracking-wide">
-                {{ $message }}
+                {{ $status }}
             </h2>
         </div>
 
-        <!-- 2. REKAP JAWABAN SISWA VS KUNCI JAWABAN -->
-        <div class="grid grid-cols-2 gap-4">
-            <div class="glass rounded-2xl p-4 border border-white/5 text-center">
-                <p class="text-[10px] text-white/40 uppercase font-bold tracking-widest mb-1">Jawaban Kamu</p>
-                <span class="text-xl font-black {{ strtoupper($jawabanUser) == strtoupper($benar) ? 'text-green-400' : 'text-red-400' }}">
-                    Pilihan {{ strtoupper($jawabanUser) }}
-                </span>
-            </div>
-            <div class="glass rounded-2xl p-4 border border-white/5 text-center">
-                <p class="text-[10px] text-white/40 uppercase font-bold tracking-widest mb-1">Kunci Jawaban</p>
-                <span class="text-xl font-black text-green-400">
-                    Pilihan {{ strtoupper($benar) }}
-                </span>
-            </div>
+        <!-- 2. PERNYATAAN SOAL KILAT -->
+        <div class="glass rounded-2xl p-5 border border-white/5">
+            <span class="text-[10px] text-amber-400 uppercase font-bold tracking-widest block mb-2">Pernyataan Soal:</span>
+            <p class="text-base font-semibold text-white/90 leading-relaxed">
+                "{{ $soal->pernyataan }}"
+            </p>
         </div>
 
-        <!-- 3. KOTAK REFLEKSI PEMBAHASAN KOGNITIF (SANGAT BAGUS UNTUK DATA SKRIPSI) -->
+        <!-- 3. REKAP STATUS PERNYATAAN SEBENARNYA -->
+        <div class="glass rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+            <span class="text-xs text-white/60 font-medium">Status Validitas Pernyataan:</span>
+            <span class="px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider
+                {{ $soal->jawaban_benar ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30' }}
+            ">
+                {{ $soal->jawaban_benar ? 'BENAR (TRUE)' : 'SALAH (FALSE)' }}
+            </span>
+        </div>
+
+        <!-- 4. KOTAK REFLEKSI PEMBAHASAN -->
         <div class="glass rounded-[35px] p-6 lg:p-8 border border-white/5 relative overflow-hidden shadow-inner">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-500"></div>
             
             <div class="flex items-center gap-2.5 mb-3">
-                <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-sm">
-                    <i class="fa-solid fa-book-open-reader"></i>
+                <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 text-sm">
+                    <i class="fa-solid fa-lightbulb"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs font-black uppercase tracking-wider text-purple-300">Konstruksi Pembahasan Masalah</h3>
-                    <p class="text-[9px] text-white/40">Suplemen literasi untuk mengasah ketajaman evaluasi berpikir kritis</p>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-amber-300">Penjelasan & Analisis Logic</h3>
+                    <p class="text-[9px] text-white/40">Suplemen pemahaman singkat untuk meningkatkan ketepatan berpikir kritis</p>
                 </div>
             </div>
 
             <p class="text-sm text-white/80 leading-relaxed font-medium tracking-wide border-t border-white/5 pt-3">
-                {{ $penjelasan ?? 'Tidak ada pembahasan tertulis untuk soal kuis ini.' }}
+                {{ $soal->penjelasan ?? 'Tidak ada pembahasan tertulis untuk soal kuis kilat ini.' }}
             </p>
         </div>
 
-        <!-- 4. NAVIGATION CTA ROUTING (LANJUTKAN / SELESAI) -->
+        <!-- 5. NAVIGATION CTA ROUTING (LANJUTKAN KE SOAL BERIKUTNYA) -->
         <div class="pt-2">
-            @if($gameOver)
-                <!-- Jika Nyawa Habis, Arahkan ke Hasil Akhir -->
-                <a href="{{ url('/game/hasil') }}" class="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-red-500 to-pink-600 text-white font-black text-md py-4.5 py-4 rounded-[22px] shadow-lg shadow-red-500/10 btn-hover uppercase tracking-wider">
-                    <span>Lihat Rapor Hasil</span>
-                    <i class="fa-solid fa-square-poll-vertical text-sm"></i>
-                </a>
-            @else
-                <!-- Jika Masih Ada Nyawa, Lanjut ke Soal Berikutnya -->
-                <a href="{{ url('/game/next') }}" class="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-black text-md py-4.5 py-4 rounded-[22px] shadow-lg shadow-blue-500/20 btn-hover uppercase tracking-wider">
-                    <span>Lanjutkan Petualangan</span>
-                    <i class="fa-solid fa-circle-chevron-right text-sm"></i>
-                </a>
-            @endif
+            <a href="{{ route('game-kilat.next') }}" class="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-600 text-white font-black text-md py-4 rounded-[22px] shadow-lg shadow-orange-500/20 btn-hover uppercase tracking-wider">
+                <span>Soal Kilat Berikutnya</span>
+                <i class="fa-solid fa-forward-step text-sm"></i>
+            </a>
         </div>
 
     </div>
