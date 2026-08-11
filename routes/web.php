@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameKilatController; // <-- 1. Import Controller Game Kilat Anda
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    // Route Game
+    // Route Game Biasa
     Route::get('/game', fn() => redirect()->route('game.level'));
     
     Route::prefix('game')->name('game.')->group(function () {
@@ -62,6 +63,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/jawab', [GameController::class, 'jawab'])->name('jawab');
         Route::get('/next', [GameController::class, 'next'])->name('next');
         Route::get('/hasil', [GameController::class, 'hasil'])->name('hasil');
+    });
+
+    // =========================================================================
+    // 2. TAMBAHAN ROUTE GAME KILAT (Mencegah Error 404 /game-kilat/level)
+    // =========================================================================
+    Route::get('/game-kilat', fn() => redirect()->route('game-kilat.level'));
+
+    Route::prefix('game-kilat')->name('game-kilat.')->group(function () {
+        Route::get('/level', [GameKilatController::class, 'level'])->name('level');
+        Route::get('/start/{level}', [GameKilatController::class, 'start'])->name('start');
+        Route::post('/jawab', [GameKilatController::class, 'jawab'])->name('jawab');
+        Route::get('/next', [GameKilatController::class, 'next'])->name('next');
+        Route::get('/hasil', [GameKilatController::class, 'hasil'])->name('hasil');
     });
 
     Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('leaderboard');
