@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\GameKilatController; // <-- 1. Import Controller Game Kilat Anda
+use App\Http\Controllers\GameKilatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +16,15 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-// Fitur pembersih cache hanya aktif di komputer lokal (development)
-if (app()->environment('local')) {
-    Route::get('/clear-all', function() {
-        Artisan::call('optimize:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('view:clear');
-        return '<h1>Success! Cache Berhasil Dibersihkan.</h1><a href="/dashboard">Kembali ke Dashboard</a>';
-    });
-}
+// Pembersih Cache (Dapat diakses di Server Demo untuk memperbarui route/view)
+Route::get('/clear-all', function() {
+    Artisan::call('optimize:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    return '<h1>Success! Cache Berhasil Dibersihkan.</h1><a href="/dashboard">Kembali ke Dashboard</a>';
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -49,8 +48,8 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Logout diubah ke POST untuk keamanan
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    // Mendukung GET & POST untuk Logout agar mencegah error MethodNotAllowed
+    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
@@ -65,9 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/hasil', [GameController::class, 'hasil'])->name('hasil');
     });
 
-    // =========================================================================
-    // 2. TAMBAHAN ROUTE GAME KILAT (Mencegah Error 404 /game-kilat/level)
-    // =========================================================================
+    // Route Game Kilat
     Route::get('/game-kilat', fn() => redirect()->route('game-kilat.level'));
 
     Route::prefix('game-kilat')->name('game-kilat.')->group(function () {
