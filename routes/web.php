@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    // Route Game Biasa
+    // Route Game Biasa (Petualangan)
     Route::get('/game', fn() => redirect()->route('game.level'));
     
     Route::prefix('game')->name('game.')->group(function () {

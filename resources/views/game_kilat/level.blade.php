@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="w-full md:w-auto">
-                    <a href="/dashboard"
+                    <a href="{{ route('dashboard') }}"
                         class="w-full md:w-auto inline-flex items-center justify-center gap-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-4 rounded-2xl font-bold text-sm transition-all transform hover:-translate-y-0.5 group">
                         <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>
                         <span>Kembali ke Hub</span>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="pt-6">
-                    <a href="{{ url('/game-kilat/start/1') }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-blue-500/10">
+                    <a href="{{ route('game-kilat.start', 1) }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-blue-500/10">
                         <span>MASUK ARENA</span> <i class="fa-solid fa-circle-play text-[10px]"></i>
                     </a>
                 </div>
@@ -107,9 +107,15 @@
                     </div>
                 </div>
                 <div class="pt-6">
-                    <a href="{{ url('/game-kilat/start/2') }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-purple-500/10">
-                        <span>MASUK ARENA</span> <i class="fa-solid fa-lock-open text-[10px]"></i>
-                    </a>
+                    @if((isset($progress) && $progress->level >= 2) || (isset($hasLevel2) && $hasLevel2))
+                        <a href="{{ route('game-kilat.start', 2) }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-purple-500/10">
+                            <span>MASUK ARENA</span> <i class="fa-solid fa-circle-play text-[10px]"></i>
+                        </a>
+                    @else
+                        <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-white/5 text-white/40 font-bold text-xs py-3.5 rounded-xl border border-white/5 cursor-not-allowed">
+                            <i class="fa-solid fa-lock text-[10px]"></i> <span>TERKUNCI (BELUM ADA SOAL)</span>
+                        </button>
+                    @endif
                 </div>
             </div>
 
@@ -131,9 +137,15 @@
                     </div>
                 </div>
                 <div class="pt-6">
-                    <a href="{{ url('/game-kilat/start/3') }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-400 to-pink-600 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-orange-500/10">
-                        <span>MASUK ARENA</span> <i class="fa-solid fa-bolt text-[10px]"></i>
-                    </a>
+                    @if((isset($progress) && $progress->level >= 3) || (isset($hasLevel3) && $hasLevel3))
+                        <a href="{{ route('game-kilat.start', 3) }}" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-400 to-pink-600 hover:opacity-95 text-white font-bold text-xs py-3.5 rounded-xl transition shadow-lg shadow-orange-500/10">
+                            <span>MASUK ARENA</span> <i class="fa-solid fa-bolt text-[10px]"></i>
+                        </a>
+                    @else
+                        <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-white/5 text-white/40 font-bold text-xs py-3.5 rounded-xl border border-white/5 cursor-not-allowed">
+                            <i class="fa-solid fa-lock text-[10px]"></i> <span>TERKUNCI (BELUM ADA SOAL)</span>
+                        </button>
+                    @endif
                 </div>
             </div>
 
@@ -145,7 +157,6 @@
     @include('components.sound')
 
     <script>
-        // Opsional: Clear cache lokal saat berpindah stage kuis demi performa transisi game
         console.log("Guiz Adventure Kilat Level Router Activated.");
     </script>
 </body>
