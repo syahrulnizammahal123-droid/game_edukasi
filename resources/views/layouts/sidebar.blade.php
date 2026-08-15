@@ -28,14 +28,6 @@
                 <span>Mode Petualangan</span>
             </a>
 
-            <!-- Mode Kuis Kilat -->
-            @if(Route::has('game-kilat.level'))
-            <a href="{{ route('game-kilat.level') }}" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl font-bold text-sm transition {{ request()->routeIs('game-kilat.*') ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/20' : 'text-white/60 hover:text-white hover:bg-white/5' }}">
-                <i class="fa-solid fa-bolt text-base text-amber-400"></i>
-                <span>Kuis Kilat</span>
-            </a>
-            @endif
-
             <!-- Leaderboard -->
             <a href="{{ route('leaderboard') }}" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl font-bold text-sm transition {{ request()->routeIs('leaderboard') ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20' : 'text-white/60 hover:text-white hover:bg-white/5' }}">
                 <i class="fa-solid fa-ranking-star text-base"></i>

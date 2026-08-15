@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\GameKilatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +15,7 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-// Pembersih Cache (Dapat diakses di Server Demo untuk memperbarui route/view)
+// Pembersih Cache Server
 Route::get('/clear-all', function() {
     Artisan::call('optimize:clear');
     Artisan::call('cache:clear');
@@ -28,7 +27,7 @@ Route::get('/clear-all', function() {
 
 /*
 |--------------------------------------------------------------------------
-| 2. GUEST ONLY (HANYA UNTUK YANG BELUM LOGIN)
+| 2. GUEST ONLY (BELUM LOGIN)
 |--------------------------------------------------------------------------
 */
 
@@ -42,13 +41,12 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 3. AUTHENTICATED ONLY (WAJIB LOGIN DULU)
+| 3. AUTHENTICATED ONLY (WAJIB LOGIN)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
 
-    // Mendukung GET & POST untuk Logout agar mencegah error MethodNotAllowed
     Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
@@ -62,17 +60,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/jawab', [GameController::class, 'jawab'])->name('jawab');
         Route::get('/next', [GameController::class, 'next'])->name('next');
         Route::get('/hasil', [GameController::class, 'hasil'])->name('hasil');
-    });
-
-    // Route Game Kilat
-    Route::get('/game-kilat', fn() => redirect()->route('game-kilat.level'));
-
-    Route::prefix('game-kilat')->name('game-kilat.')->group(function () {
-        Route::get('/level', [GameKilatController::class, 'level'])->name('level');
-        Route::get('/start/{level}', [GameKilatController::class, 'start'])->name('start');
-        Route::post('/jawab', [GameKilatController::class, 'jawab'])->name('jawab');
-        Route::get('/next', [GameKilatController::class, 'next'])->name('next');
-        Route::get('/hasil', [GameKilatController::class, 'hasil'])->name('hasil');
     });
 
     Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('leaderboard');

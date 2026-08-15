@@ -8,18 +8,11 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    /**
-     * FUNGSI KEAMANAN / AUTHORIZATION
-     * Memeriksa apakah pengguna sudah login (Dipermudah agar tidak kena Error 403 saat Demo/Input Soal)
-     */
     private function checkIsGuruOrAdmin()
     {
         return auth()->check();
     }
 
-    /**
-     * Menampilkan halaman Peringkat Global / Leaderboard
-     */
     public function leaderboard()
     {
         try {
@@ -43,55 +36,30 @@ class GameController extends Controller
     }
 
     /**
-     * Menampilkan daftar level permainan (Siswa / Peserta)
-     * TERMASUK PENGECEKAN KETERSEDIAAN SOAL AGAR LEVEL TIDAK TERKUNCI SAAT DIPINDAHKAN
+     * Menampilkan Halaman Level Game
      */
     public function level()
     {
         $user = auth()->user();
+
+        // CEK KETERSEDIAAN SOAL DI DATABASE (Dinamis sesuai isi tabel Soal)
+        $hasLevel1 = Soal::where('level', 1)->exists();
+        $hasLevel2 = Soal::where('level', 2)->exists(); // true jika ada soal level 2, false jika tidak ada
+        $hasLevel3 = Soal::where('level', 3)->exists(); // true jika ada soal level 3, false jika tidak ada
+
+        // Murni level pemain tanpa merubah database user
         $playerLevel = $user->level ?? 1;
-
-        // 1. Cek apakah ada soal untuk masing-masing level di database
-        try {
-            $hasLevel1 = Soal::where('level', 1)->exists();
-            $hasLevel2 = Soal::where('level', 2)->exists();
-            $hasLevel3 = Soal::where('level', 3)->exists();
-        } catch (\Exception $e) {
-            $hasLevel1 = true;
-            $hasLevel2 = false;
-            $hasLevel3 = false;
-        }
-
-        // 2. Jika di database ada soal Level 2/3, otomatis buka level untuk user
-        if ($hasLevel3 && $playerLevel < 3) {
-            $playerLevel = 3;
-            if ($user) {
-                try { $user->update(['level' => 3]); } catch (\Exception $e) {}
-            }
-        } elseif ($hasLevel2 && $playerLevel < 2) {
-            $playerLevel = 2;
-            if ($user) {
-                try { $user->update(['level' => 2]); } catch (\Exception $e) {}
-            }
-        }
 
         return view('game.level', compact('playerLevel', 'hasLevel1', 'hasLevel2', 'hasLevel3'));
     }
 
-    /**
-     * Memulai permainan sesuai Level yang dipilih
-     * MENGAMBIL SOAL ASLI DARI DATABASE & MEMBERSIHKAN SESSION LAMA
-     */
     public function start($level)
     {
-        // 1. HAPUS SESSION GAME LAMA AGAR SOAL TERBARU LANGSUNG MUNCUL
         session()->forget(['game_soals', 'game_index', 'game_benar', 'game_salah', 'game_total', 'game_level']);
 
         try {
-            // Ambil 10 soal secara acak KHUSUS LEVEL YANG DIPILIH
             $soals = Soal::where('level', $level)->inRandomOrder()->take(10)->get();
 
-            // Jika soal pada level tersebut belum ada, ambil soal apa saja dari database
             if ($soals->isEmpty()) {
                 $soals = Soal::inRandomOrder()->take(10)->get();
             }
@@ -99,12 +67,10 @@ class GameController extends Controller
             $soals = collect([]);
         }
 
-        // Cek jika database benar-benar belum diisi soal sama sekali oleh user
         if ($soals->isEmpty()) {
-            return redirect()->route('dashboard')->with('error', 'Belum ada soal di database! Silakan isi soal baru terlebih dahulu di menu Bank Soal.');
+            return redirect()->route('dashboard')->with('error', 'Belum ada soal di database! Silakan isi/pindahkan soal terlebih dahulu di menu Kelola Soal.');
         }
 
-        // Simpan state game baru ke session
         session([
             'game_soals' => $soals->pluck('id')->toArray(),
             'game_index' => 0,
@@ -119,9 +85,6 @@ class GameController extends Controller
         return view('game.play', compact('level', 'soal', 'soals'));
     }
 
-    /**
-     * Memproses jawaban peserta
-     */
     public function jawab(Request $request)
     {
         $soalId = $request->input('soal_id');
@@ -145,9 +108,6 @@ class GameController extends Controller
         return redirect()->route('game.next');
     }
 
-    /**
-     * Lanjut ke soal berikutnya
-     */
     public function next()
     {
         $soalIds = session('game_soals', []);
@@ -173,9 +133,6 @@ class GameController extends Controller
         return view('game.play', compact('level', 'soal'));
     }
 
-    /**
-     * Menampilkan hasil & update Skor/XP ke profil user
-     */
     public function hasil()
     {
         $benar = session('game_benar', 0);
@@ -210,7 +167,7 @@ class GameController extends Controller
 
                 $user->save();
             } catch (\Exception $e) {
-                // Abaikan jika error
+                //
             }
         }
 
@@ -223,7 +180,7 @@ class GameController extends Controller
     }
 
     /* =========================================================================
-     *  FITUR BANK SOAL (PENGELOLAAN SOAL)
+     *  MANAJEMEN SOAL (BANK SOAL)
      * ========================================================================= */
 
     public function soal()
@@ -257,7 +214,7 @@ class GameController extends Controller
         }
 
         try {
-            $targetLevel = $request->level ?? 1;
+            $targetLevel = (int) ($request->level ?? 1);
 
             Soal::create([
                 'level'      => $targetLevel,
@@ -270,15 +227,10 @@ class GameController extends Controller
                 'penjelasan' => $request->penjelasan,
             ]);
 
-            // OTOMATIS BUKA LEVEL USER JIKA TAMBAH SOAL LEVEL TINGGI
-            $user = auth()->user();
-            if ($user && $targetLevel > ($user->level ?? 1)) {
-                $user->level = $targetLevel;
-                $user->save();
-            }
+            // DIBERSIHKAN: Tidak perlu lagi merubah level user secara otomatis di sini
 
         } catch (\Exception $e) {
-            // Abaikan error
+            //
         }
 
         return redirect()->route('soal.index')->with('success', 'Soal berhasil ditambahkan!');
@@ -322,7 +274,7 @@ class GameController extends Controller
         try {
             $soal = Soal::find($id);
             if ($soal) {
-                $targetLevel = $request->level ?? $soal->level ?? 1;
+                $targetLevel = (int) ($request->level ?? $soal->level ?? 1);
 
                 $soal->update([
                     'level'      => $targetLevel,
@@ -335,15 +287,11 @@ class GameController extends Controller
                     'penjelasan' => $request->penjelasan,
                 ]);
 
-                // OTOMATIS BUKA LEVEL USER SAAT PINDAH LEVEL SOAL
-                $user = auth()->user();
-                if ($user && $targetLevel > ($user->level ?? 1)) {
-                    $user->level = $targetLevel;
-                    $user->save();
-                }
+                // DIBERSIHKAN: Tidak perlu merubah level user saat soal dipindahkan
+
             }
         } catch (\Exception $e) {
-            // Abaikan error
+            //
         }
 
         return redirect()->route('soal.index')->with('success', 'Soal berhasil diperbarui!');
@@ -361,7 +309,7 @@ class GameController extends Controller
                 $soal->delete();
             }
         } catch (\Exception $e) {
-            // Abaikan error
+            //
         }
 
         return redirect()->route('soal.index')->with('success', 'Soal berhasil dihapus!');
