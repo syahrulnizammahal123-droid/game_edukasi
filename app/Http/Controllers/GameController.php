@@ -18,6 +18,7 @@ class GameController extends Controller
         return auth()->check();
     }
 
+
     /**
      * ============================================================
      * LEADERBOARD
@@ -61,21 +62,11 @@ class GameController extends Controller
         return view('leaderboard', compact('users'));
     }
 
+
     /**
      * ============================================================
      * HALAMAN PILIH LEVEL
      * ============================================================
-     *
-     * Level terbuka berdasarkan keberadaan soal di database.
-     *
-     * Ada soal Level 1 -> Level 1 terbuka
-     * Tidak ada soal Level 1 -> Level 1 terkunci
-     *
-     * Ada soal Level 2 -> Level 2 terbuka
-     * Tidak ada soal Level 2 -> Level 2 terkunci
-     *
-     * Ada soal Level 3 -> Level 3 terbuka
-     * Tidak ada soal Level 3 -> Level 3 terkunci
      */
     public function level()
     {
@@ -104,27 +95,36 @@ class GameController extends Controller
         );
     }
 
+
     /**
      * ============================================================
      * MEMULAI GAME
      * ============================================================
      *
-     * JUMLAH SOAL MENGIKUTI JUMLAH SOAL YANG DIBUAT ADMIN.
-     *
-     * Tidak ada batas maksimal 10 soal.
+     * Jumlah soal mengikuti jumlah soal yang tersedia
+     * pada database.
      */
     public function start($level)
     {
         $level = (int) $level;
 
-        // Hanya Level 1, 2, dan 3
+        /*
+        |--------------------------------------------------------------------------
+        | Hanya Level 1, 2, dan 3
+        |--------------------------------------------------------------------------
+        */
         if (!in_array($level, [1, 2, 3], true)) {
             return redirect()
                 ->route('game.level')
                 ->with('error', 'Level tidak valid.');
         }
 
-        // Bersihkan session game sebelumnya
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bersihkan session game sebelumnya
+        |--------------------------------------------------------------------------
+        */
         session()->forget([
             'game_soals',
             'game_index',
@@ -134,7 +134,12 @@ class GameController extends Controller
             'game_level',
         ]);
 
-        // Cek apakah level memiliki soal
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cek soal
+        |--------------------------------------------------------------------------
+        */
         $hasSoal = Soal::where('level', $level)->exists();
 
         if (!$hasSoal) {
@@ -146,18 +151,20 @@ class GameController extends Controller
                 );
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil semua soal pada level
+        |--------------------------------------------------------------------------
+        */
         try {
-            /*
-             * Ambil SEMUA soal pada level tersebut.
-             *
-             * Tidak menggunakan take(10).
-             */
             $soals = Soal::where('level', $level)
                 ->inRandomOrder()
                 ->get();
         } catch (\Exception $e) {
             $soals = collect([]);
         }
+
 
         if ($soals->isEmpty()) {
             return redirect()
@@ -168,22 +175,29 @@ class GameController extends Controller
                 );
         }
 
+
         /*
-         * Simpan data permainan.
-         */
+        |--------------------------------------------------------------------------
+        | Simpan data game ke session
+        |--------------------------------------------------------------------------
+        */
         session([
             'game_soals' => $soals->pluck('id')->toArray(),
             'game_index' => 0,
             'game_benar' => 0,
             'game_salah' => 0,
-
-            // Total soal sesuai jumlah soal admin
             'game_total' => $soals->count(),
-
             'game_level' => $level,
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Soal pertama
+        |--------------------------------------------------------------------------
+        */
         $soal = $soals->first();
+
 
         return view(
             'game.play',
@@ -195,75 +209,171 @@ class GameController extends Controller
         );
     }
 
+
     /**
      * ============================================================
      * JAWAB SOAL
      * ============================================================
+     *
+     * Diproses menggunakan AJAX supaya:
+     *
+     * - warna jawaban langsung berubah
+     * - suara benar/salah bisa dimainkan
+     * - halaman tidak langsung reload
+     * - setelah beberapa detik otomatis ke soal berikutnya
      */
     public function jawab(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | Validasi input
+        |--------------------------------------------------------------------------
+        */
+        $request->validate([
+            'soal_id' => 'required|integer',
+            'jawaban' => 'nullable|string|in:A,B,C,D',
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil ID soal
+        |--------------------------------------------------------------------------
+        */
         $soalId = $request->input('soal_id');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil jawaban user
+        |--------------------------------------------------------------------------
+        */
         $jawabanUser = strtoupper(
             trim(
                 $request->input('jawaban', '')
             )
         );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil soal
+        |--------------------------------------------------------------------------
+        */
         try {
             $soal = Soal::find($soalId);
-
-            if ($soal) {
-                $kunci = strtoupper(
-                    trim(
-                        $soal->jawaban ??
-                        $soal->jawaban_benar ??
-                        ''
-                    )
-                );
-            } else {
-                $kunci = strtoupper(
-                    trim(
-                        $request->input(
-                            'kunci_jawaban',
-                            ''
-                        )
-                    )
-                );
-            }
         } catch (\Exception $e) {
-            $kunci = strtoupper(
-                trim(
-                    $request->input(
-                        'kunci_jawaban',
-                        ''
-                    )
-                )
-            );
+            $soal = null;
         }
 
-        // Jawaban benar
-        if ($jawabanUser === $kunci) {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Soal tidak ditemukan
+        |--------------------------------------------------------------------------
+        */
+        if (!$soal) {
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Soal tidak ditemukan.',
+                ], 404);
+            }
+
+            return redirect()
+                ->route('game.level')
+                ->with(
+                    'error',
+                    'Soal tidak ditemukan.'
+                );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil kunci jawaban
+        |--------------------------------------------------------------------------
+        */
+        $kunci = strtoupper(
+            trim(
+                $soal->jawaban ??
+                $soal->jawaban_benar ??
+                ''
+            )
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cek benar / salah
+        |--------------------------------------------------------------------------
+        */
+        $isCorrect =
+            $jawabanUser !== '' &&
+            $jawabanUser === $kunci;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Simpan statistik
+        |--------------------------------------------------------------------------
+        */
+        if ($isCorrect) {
+
             session([
                 'game_benar' =>
                     session('game_benar', 0) + 1,
             ]);
+
         } else {
-            // Jawaban salah
+
             session([
                 'game_salah' =>
                     session('game_salah', 0) + 1,
             ]);
         }
 
-        // Pindah ke soal berikutnya
+
+        /*
+        |--------------------------------------------------------------------------
+        | Naik ke index berikutnya
+        |--------------------------------------------------------------------------
+        */
         session([
             'game_index' =>
                 session('game_index', 0) + 1,
         ]);
 
-        return redirect()->route('game.next');
+
+        /*
+        |--------------------------------------------------------------------------
+        | RESPONSE AJAX
+        |--------------------------------------------------------------------------
+        */
+        if ($request->expectsJson()) {
+
+            return response()->json([
+                'success' => true,
+                'isCorrect' => $isCorrect,
+                'jawabanUser' => $jawabanUser,
+                'kunci' => $kunci,
+                'message' => $isCorrect
+                    ? 'Jawaban benar!'
+                    : 'Jawaban salah!',
+            ]);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fallback jika bukan AJAX
+        |--------------------------------------------------------------------------
+        */
+        return redirect()
+            ->route('game.next');
     }
+
 
     /**
      * ============================================================
@@ -282,31 +392,63 @@ class GameController extends Controller
             0
         );
 
-        // Semua soal sudah selesai
+
+        /*
+        |--------------------------------------------------------------------------
+        | Semua soal selesai
+        |--------------------------------------------------------------------------
+        */
         if (
             empty($soalIds) ||
             $currentIndex >= count($soalIds)
         ) {
-            return redirect()->route('game.hasil');
+            return redirect()
+                ->route('game.hasil');
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil ID soal berikutnya
+        |--------------------------------------------------------------------------
+        */
         $nextSoalId = $soalIds[$currentIndex];
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Level
+        |--------------------------------------------------------------------------
+        */
         $level = session(
             'game_level',
             1
         );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil soal
+        |--------------------------------------------------------------------------
+        */
         try {
             $soal = Soal::find($nextSoalId);
         } catch (\Exception $e) {
             $soal = null;
         }
 
+
         if (!$soal) {
-            return redirect()->route('game.hasil');
+            return redirect()
+                ->route('game.hasil');
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tampilkan soal berikutnya
+        |--------------------------------------------------------------------------
+        */
         return view(
             'game.play',
             compact(
@@ -316,108 +458,158 @@ class GameController extends Controller
         );
     }
 
+
     /**
      * ============================================================
      * HASIL GAME
      * ============================================================
-     *
-     * Variabel yang dikirim ke hasil.blade.php:
-     *
-     * $akurasi
-     * $skor
-     * $grade
-     * $benar
-     * $salah
-     * $totalSoal
-     * $isKalah
      */
     public function hasil()
     {
-        // Jumlah jawaban benar
+        /*
+        |--------------------------------------------------------------------------
+        | Benar
+        |--------------------------------------------------------------------------
+        */
         $benar = session(
             'game_benar',
             0
         );
 
-        // Jumlah jawaban salah
+
+        /*
+        |--------------------------------------------------------------------------
+        | Salah
+        |--------------------------------------------------------------------------
+        */
         $salah = session(
             'game_salah',
             0
         );
 
-        // Total soal dari jumlah soal admin
+
+        /*
+        |--------------------------------------------------------------------------
+        | Total soal
+        |--------------------------------------------------------------------------
+        */
         $totalSoal = session(
             'game_total',
             0
         );
 
+
         /*
-         * Hitung akurasi.
-         *
-         * Contoh:
-         * 5 soal, benar 4 = 80%
-         * 20 soal, benar 15 = 75%
-         */
+        |--------------------------------------------------------------------------
+        | Akurasi
+        |--------------------------------------------------------------------------
+        */
         if ($totalSoal > 0) {
+
             $akurasi = round(
                 ($benar / $totalSoal) * 100
             );
+
         } else {
+
             $akurasi = 0;
         }
 
-        // Skor menggunakan nilai akurasi
-        $skor = $akurasi;
-
-        // XP
-        $tambahanXp = $benar * 10;
-
-        // Status kalah
-        $isKalah = $akurasi < 60;
 
         /*
-         * Grade.
-         */
+        |--------------------------------------------------------------------------
+        | Skor
+        |--------------------------------------------------------------------------
+        */
+        $skor = $akurasi;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | XP
+        |--------------------------------------------------------------------------
+        */
+        $tambahanXp = $benar * 10;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Status kalah
+        |--------------------------------------------------------------------------
+        */
+        $isKalah = $akurasi < 60;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Grade
+        |--------------------------------------------------------------------------
+        */
         if ($akurasi >= 90) {
+
             $grade = 'A';
+
         } elseif ($akurasi >= 75) {
+
             $grade = 'B';
+
         } elseif ($akurasi >= 60) {
+
             $grade = 'C';
+
         } else {
+
             $grade = 'D';
         }
 
+
         /*
-         * Simpan hasil ke user.
-         */
+        |--------------------------------------------------------------------------
+        | Simpan hasil user
+        |--------------------------------------------------------------------------
+        */
         if (auth()->check()) {
+
             try {
+
                 $user = auth()->user();
 
-                // Simpan skor tertinggi
-                if ($skor > ($user->score ?? 0)) {
+
+                /*
+                | Simpan skor tertinggi
+                */
+                if (
+                    $skor >
+                    ($user->score ?? 0)
+                ) {
                     $user->score = $skor;
                 }
 
-                // Tambahkan XP
+
+                /*
+                | Tambahkan XP
+                */
                 $user->total_xp =
                     ($user->total_xp ?? 0) +
                     $tambahanXp;
 
+
                 $user->save();
 
             } catch (\Exception $e) {
-                // Jangan hentikan halaman hasil jika penyimpanan gagal
+
+                /*
+                | Jangan hentikan halaman hasil
+                */
             }
         }
 
+
         /*
-         * Kirim semua variabel ke hasil.blade.php.
-         *
-         * $akurasi ditambahkan karena hasil.blade.php
-         * menggunakan variabel tersebut.
-         */
+        |--------------------------------------------------------------------------
+        | Hasil
+        |--------------------------------------------------------------------------
+        */
         return view(
             'game.hasil',
             compact(
@@ -432,6 +624,7 @@ class GameController extends Controller
         );
     }
 
+
     /**
      * ============================================================
      * RIWAYAT
@@ -439,8 +632,11 @@ class GameController extends Controller
      */
     public function riwayat()
     {
-        return view('game.riwayat');
+        return view(
+            'game.riwayat'
+        );
     }
+
 
     /**
      * ============================================================
@@ -454,18 +650,29 @@ class GameController extends Controller
         }
 
         try {
-            $soals = Soal::orderBy('level', 'asc')
-                ->orderBy('id', 'asc')
+
+            $soals = Soal::orderBy(
+                    'level',
+                    'asc'
+                )
+                ->orderBy(
+                    'id',
+                    'asc'
+                )
                 ->get();
+
         } catch (\Exception $e) {
+
             $soals = collect([]);
         }
+
 
         return view(
             'soal.index',
             compact('soals')
         );
     }
+
 
     /**
      * ============================================================
@@ -478,8 +685,11 @@ class GameController extends Controller
             abort(403, 'Akses Ditolak!');
         }
 
-        return view('soal.create');
+        return view(
+            'soal.create'
+        );
     }
+
 
     /**
      * ============================================================
@@ -492,6 +702,7 @@ class GameController extends Controller
             abort(403, 'Akses Ditolak!');
         }
 
+
         $request->validate([
             'level' => 'required|integer|in:1,2,3',
             'pertanyaan' => 'required|string',
@@ -503,8 +714,12 @@ class GameController extends Controller
             'penjelasan' => 'nullable|string',
         ]);
 
+
         try {
-            $targetLevel = (int) $request->level;
+
+            $targetLevel =
+                (int) $request->level;
+
 
             Soal::create([
                 'level' => $targetLevel,
@@ -517,6 +732,7 @@ class GameController extends Controller
                 'penjelasan' => $request->penjelasan,
             ]);
 
+
             return redirect()
                 ->route('soal.index')
                 ->with(
@@ -527,6 +743,7 @@ class GameController extends Controller
                 );
 
         } catch (\Exception $e) {
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -537,6 +754,7 @@ class GameController extends Controller
                 );
         }
     }
+
 
     /**
      * ============================================================
@@ -549,13 +767,19 @@ class GameController extends Controller
             abort(403, 'Akses Ditolak!');
         }
 
+
         try {
+
             $soal = Soal::find($id);
+
         } catch (\Exception $e) {
+
             $soal = null;
         }
 
+
         if (!$soal) {
+
             return redirect()
                 ->route('soal.index')
                 ->with(
@@ -564,11 +788,13 @@ class GameController extends Controller
                 );
         }
 
+
         return view(
             'soal.edit',
             compact('soal')
         );
     }
+
 
     /**
      * ============================================================
@@ -583,6 +809,7 @@ class GameController extends Controller
             abort(403, 'Akses Ditolak!');
         }
 
+
         $request->validate([
             'level' => 'required|integer|in:1,2,3',
             'pertanyaan' => 'required|string',
@@ -594,10 +821,14 @@ class GameController extends Controller
             'penjelasan' => 'nullable|string',
         ]);
 
+
         try {
+
             $soal = Soal::find($id);
 
+
             if (!$soal) {
+
                 return redirect()
                     ->route('soal.index')
                     ->with(
@@ -606,7 +837,10 @@ class GameController extends Controller
                     );
             }
 
-            $targetLevel = (int) $request->level;
+
+            $targetLevel =
+                (int) $request->level;
+
 
             $soal->update([
                 'level' => $targetLevel,
@@ -619,6 +853,7 @@ class GameController extends Controller
                 'penjelasan' => $request->penjelasan,
             ]);
 
+
             return redirect()
                 ->route('soal.index')
                 ->with(
@@ -629,6 +864,7 @@ class GameController extends Controller
                 );
 
         } catch (\Exception $e) {
+
             return redirect()
                 ->back()
                 ->withInput()
@@ -639,6 +875,7 @@ class GameController extends Controller
                 );
         }
     }
+
 
     /**
      * ============================================================
@@ -651,10 +888,14 @@ class GameController extends Controller
             abort(403, 'Akses Ditolak!');
         }
 
+
         try {
+
             $soal = Soal::find($id);
 
+
             if (!$soal) {
+
                 return redirect()
                     ->route('soal.index')
                     ->with(
@@ -663,9 +904,13 @@ class GameController extends Controller
                     );
             }
 
-            $levelSoal = $soal->level;
+
+            $levelSoal =
+                $soal->level;
+
 
             $soal->delete();
+
 
             return redirect()
                 ->route('soal.index')
@@ -677,6 +922,7 @@ class GameController extends Controller
                 );
 
         } catch (\Exception $e) {
+
             return redirect()
                 ->back()
                 ->with(
