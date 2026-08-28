@@ -1,16 +1,38 @@
-<!-- AUDIO -->
-<audio id="sound-click" src="{{ asset('sounds/click.mp3') }}"></audio>
+<!-- =========================================================
+     QUIZGO SOUND SYSTEM
+========================================================= -->
 
-<audio id="sound-correct" src="{{ asset('sounds/correct.mp3') }}"></audio>
+<!-- AUDIO KLIK -->
+<audio
+    id="sound-click"
+    src="{{ asset('sounds/click.mp3') }}"
+></audio>
 
-<audio id="sound-wrong" src="{{ asset('sounds/wrong.mp3') }}"></audio>
 
-<!-- SCRIPT -->
+<!-- AUDIO JAWABAN BENAR -->
+<audio
+    id="sound-correct"
+    src="{{ asset('sounds/correct.mp3') }}"
+></audio>
+
+
+<!-- AUDIO JAWABAN SALAH -->
+<audio
+    id="sound-wrong"
+    src="{{ asset('sounds/wrong.mp3') }}"
+></audio>
+
+
+
+<!-- =========================================================
+     SCRIPT
+========================================================= -->
+
 <script>
 
     /*
     |--------------------------------------------------------------------------
-    | CLICK SOUND
+    | SUARA KLIK
     |--------------------------------------------------------------------------
     */
 
@@ -18,41 +40,62 @@
 
         item.addEventListener('click', () => {
 
-            let click = document.getElementById('sound-click');
+            const click =
+                document.getElementById('sound-click');
 
-            click.currentTime = 0;
+            if (click) {
 
-            click.play();
+                click.currentTime = 0;
+
+                click.play().catch(() => {});
+
+            }
 
         });
 
     });
 
+
     /*
     |--------------------------------------------------------------------------
-    | SUCCESS SOUND
+    | SUARA JAWABAN BENAR
     |--------------------------------------------------------------------------
     */
 
     @if(session('success'))
 
-        let correct = document.getElementById('sound-correct');
+        const correct =
+            document.getElementById('sound-correct');
 
-        correct.play();
+        if (correct) {
+
+            correct.currentTime = 0;
+
+            correct.play().catch(() => {});
+
+        }
 
     @endif
 
+
     /*
     |--------------------------------------------------------------------------
-    | ERROR SOUND
+    | SUARA JAWABAN SALAH
     |--------------------------------------------------------------------------
     */
 
     @if(session('error'))
 
-        let wrong = document.getElementById('sound-wrong');
+        const wrong =
+            document.getElementById('sound-wrong');
 
-        wrong.play();
+        if (wrong) {
+
+            wrong.currentTime = 0;
+
+            wrong.play().catch(() => {});
+
+        }
 
     @endif
 

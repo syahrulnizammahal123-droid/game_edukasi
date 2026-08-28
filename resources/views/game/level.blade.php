@@ -1,20 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pilih Level - Quiz Adventure</title>
+    <title>Pilih Ulangan - QuizGo</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
 
     <style>
+
         body {
             font-family: 'Poppins', sans-serif;
         }
@@ -33,66 +42,162 @@
         .card-hover:hover {
             transform: translateY(-6px);
         }
+
     </style>
+
 </head>
 
+
 <body
-    class="relative min-h-screen bg-cover bg-center bg-fixed bg-no-repeat overflow-x-hidden text-white"
+    class="relative min-h-screen
+    bg-cover bg-center bg-fixed
+    bg-no-repeat overflow-x-hidden
+    text-white"
     style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
 >
 
+
     <!-- OVERLAY -->
-    <div class="fixed inset-0 bg-[#07111f]/80 -z-10"></div>
+
+    <div
+        class="fixed inset-0
+        bg-[#07111f]/80
+        -z-10"
+    ></div>
+
 
     <!-- DECORATION -->
-    <div class="absolute top-0 left-0 w-72 h-72 bg-cyan-400/20 blur-3xl rounded-full pointer-events-none"></div>
 
-    <div class="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/20 blur-3xl rounded-full pointer-events-none"></div>
+    <div
+        class="absolute top-0 left-0
+        w-72 h-72
+        bg-cyan-400/20
+        blur-3xl
+        rounded-full
+        pointer-events-none"
+    ></div>
 
 
-    <div class="relative z-10 min-h-screen p-5 lg:p-8 pb-32">
+    <div
+        class="absolute bottom-0 right-0
+        w-72 h-72
+        bg-purple-500/20
+        blur-3xl
+        rounded-full
+        pointer-events-none"
+    ></div>
+
+
+
+    <div
+        class="relative z-10
+        min-h-screen
+        p-5 lg:p-8
+        pb-32"
+    >
 
         <div class="max-w-7xl mx-auto">
 
-            <!-- =======================================================
-                 HEADER
-            ======================================================== -->
-            <div class="glass rounded-[35px] p-6 lg:p-8 mb-8">
 
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <!-- =====================================================
+                 HEADER
+            ====================================================== -->
+
+            <div
+                class="glass
+                rounded-[35px]
+                p-6 lg:p-8
+                mb-8"
+            >
+
+                <div
+                    class="flex flex-col
+                    lg:flex-row
+                    lg:items-center
+                    lg:justify-between
+                    gap-6"
+                >
 
                     <div>
 
-                        <p class="text-cyan-300 font-semibold mb-3">
-                            <i class="fa-solid fa-compass mr-1.5"></i>
-                            Mode Petualangan
+
+                        <p
+                            class="text-cyan-300
+                            font-semibold
+                            mb-3"
+                        >
+
+                            <i class="fa-solid fa-flask mr-1.5"></i>
+
+                            QuizGo • Ulangan IPA
+
                         </p>
 
-                        <h1 class="text-4xl lg:text-6xl font-extrabold text-white">
-                            Pilih Level
+
+                        <h1
+                            class="text-4xl
+                            lg:text-6xl
+                            font-extrabold
+                            text-white"
+                        >
+                            Pilih Ulangan
                         </h1>
 
-                        <p class="text-white/60 mt-4 max-w-2xl text-sm leading-relaxed">
-                            Pilih level yang sedang dibuka oleh Admin/Guru.
-                            Hanya satu level yang dapat dimainkan pada satu waktu.
+
+                        <p
+                            class="text-white/60
+                            mt-4
+                            max-w-2xl
+                            text-sm
+                            leading-relaxed"
+                        >
+
+                            Pilih ulangan IPA yang tersedia.
+                            Setiap ulangan dirancang secara interaktif
+                            agar kegiatan evaluasi pembelajaran menjadi
+                            lebih menarik dan menyenangkan.
+
                         </p>
 
                     </div>
 
 
                     <!-- NAVIGATION -->
+
                     <div class="flex gap-4">
 
-                        <a href="{{ route('dashboard') }}"
-                           class="w-14 h-14 rounded-2xl glass flex items-center justify-center text-white hover:bg-white/10 transition shadow-lg">
+                        <a
+                            href="{{ route('dashboard') }}"
+                            class="w-14 h-14
+                            rounded-2xl
+                            glass
+                            flex items-center
+                            justify-center
+                            text-white
+                            hover:bg-white/10
+                            transition
+                            shadow-lg"
+                        >
 
                             <i class="fa-solid fa-house"></i>
 
                         </a>
 
 
-                        <a href="{{ route('leaderboard') }}"
-                           class="w-14 h-14 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-600 flex items-center justify-center text-white shadow-xl transition-transform hover:scale-105">
+                        <a
+                            href="{{ route('leaderboard') }}"
+                            class="w-14 h-14
+                            rounded-2xl
+                            bg-gradient-to-r
+                            from-cyan-400
+                            to-blue-600
+                            flex items-center
+                            justify-center
+                            text-white
+                            shadow-xl
+                            transition-transform
+                            hover:scale-105"
+                        >
 
                             <i class="fa-solid fa-ranking-star"></i>
 
@@ -105,15 +210,31 @@
             </div>
 
 
-            <!-- =======================================================
+
+            <!-- =====================================================
                  ERROR / SUCCESS
-            ======================================================== -->
+            ====================================================== -->
 
             @if(session('error'))
 
-                <div class="p-4 mb-8 bg-red-500/20 border border-red-500/40 text-red-300 rounded-2xl text-center font-bold text-sm shadow-lg">
+                <div
+                    class="p-4
+                    mb-8
+                    bg-red-500/20
+                    border border-red-500/40
+                    text-red-300
+                    rounded-2xl
+                    text-center
+                    font-bold
+                    text-sm
+                    shadow-lg"
+                >
 
-                    <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+                    <i
+                        class="fa-solid
+                        fa-triangle-exclamation
+                        mr-2"
+                    ></i>
 
                     {{ session('error') }}
 
@@ -124,9 +245,24 @@
 
             @if(session('success'))
 
-                <div class="p-4 mb-8 bg-green-500/20 border border-green-500/40 text-green-300 rounded-2xl text-center font-bold text-sm shadow-lg">
+                <div
+                    class="p-4
+                    mb-8
+                    bg-green-500/20
+                    border border-green-500/40
+                    text-green-300
+                    rounded-2xl
+                    text-center
+                    font-bold
+                    text-sm
+                    shadow-lg"
+                >
 
-                    <i class="fa-solid fa-circle-check mr-2"></i>
+                    <i
+                        class="fa-solid
+                        fa-circle-check
+                        mr-2"
+                    ></i>
 
                     {{ session('success') }}
 
@@ -135,90 +271,248 @@
             @endif
 
 
-            <!-- =======================================================
-                 STATISTIK PLAYER
-            ======================================================== -->
 
-            <div class="glass rounded-[35px] p-6 lg:p-8 mb-8">
+            <!-- =====================================================
+                 STATISTIK
+            ====================================================== -->
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <div
+                class="glass
+                rounded-[35px]
+                p-6 lg:p-8
+                mb-8"
+            >
+
+                <div
+                    class="grid
+                    grid-cols-2
+                    lg:grid-cols-4
+                    gap-5"
+                >
 
 
-                    <!-- LEVEL PLAYER -->
-                    <div class="bg-white/5 border border-white/10 rounded-[30px] p-5">
+                    <!-- ULANGAN AKTIF -->
 
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center mb-5 shadow-md shadow-cyan-500/20">
+                    <div
+                        class="bg-white/5
+                        border border-white/10
+                        rounded-[30px]
+                        p-5"
+                    >
 
-                            <i class="fa-solid fa-bolt text-white text-xl"></i>
+                        <div
+                            class="w-14 h-14
+                            rounded-2xl
+                            bg-gradient-to-br
+                            from-cyan-400
+                            to-blue-600
+                            flex items-center
+                            justify-center
+                            mb-5
+                            shadow-md
+                            shadow-cyan-500/20"
+                        >
+
+                            <i
+                                class="fa-solid
+                                fa-file-pen
+                                text-white
+                                text-xl"
+                            ></i>
 
                         </div>
 
-                        <p class="text-white/60 text-xs font-medium uppercase tracking-wider">
-                            Level Player
+
+                        <p
+                            class="text-white/60
+                            text-xs
+                            font-medium
+                            uppercase
+                            tracking-wider"
+                        >
+                            Ulangan Aktif
                         </p>
 
-                        <h2 class="text-white text-3xl font-black mt-2">
+
+                        <h2
+                            class="text-white
+                            text-3xl
+                            font-black
+                            mt-2"
+                        >
                             {{ $playerLevel }}
                         </h2>
 
                     </div>
 
 
+
                     <!-- TOTAL XP -->
-                    <div class="bg-white/5 border border-white/10 rounded-[30px] p-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center mb-5 shadow-md shadow-pink-500/20">
+                    <div
+                        class="bg-white/5
+                        border border-white/10
+                        rounded-[30px]
+                        p-5"
+                    >
 
-                            <i class="fa-solid fa-fire text-white text-xl"></i>
+                        <div
+                            class="w-14 h-14
+                            rounded-2xl
+                            bg-gradient-to-br
+                            from-pink-500
+                            to-purple-600
+                            flex items-center
+                            justify-center
+                            mb-5
+                            shadow-md
+                            shadow-pink-500/20"
+                        >
+
+                            <i
+                                class="fa-solid
+                                fa-fire
+                                text-white
+                                text-xl"
+                            ></i>
 
                         </div>
 
-                        <p class="text-white/60 text-xs font-medium uppercase tracking-wider">
+
+                        <p
+                            class="text-white/60
+                            text-xs
+                            font-medium
+                            uppercase
+                            tracking-wider"
+                        >
                             Total XP
                         </p>
 
-                        <h2 class="text-white text-3xl font-black mt-2">
+
+                        <h2
+                            class="text-white
+                            text-3xl
+                            font-black
+                            mt-2"
+                        >
                             {{ Auth::user()->total_xp ?? 0 }}
                         </h2>
 
                     </div>
 
 
-                    <!-- SKOR -->
-                    <div class="bg-white/5 border border-white/10 rounded-[30px] p-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-5 shadow-md shadow-yellow-500/20">
+                    <!-- SKOR TERTINGGI -->
 
-                            <i class="fa-solid fa-trophy text-white text-xl"></i>
+                    <div
+                        class="bg-white/5
+                        border border-white/10
+                        rounded-[30px]
+                        p-5"
+                    >
+
+                        <div
+                            class="w-14 h-14
+                            rounded-2xl
+                            bg-gradient-to-br
+                            from-yellow-400
+                            to-orange-500
+                            flex items-center
+                            justify-center
+                            mb-5
+                            shadow-md
+                            shadow-yellow-500/20"
+                        >
+
+                            <i
+                                class="fa-solid
+                                fa-trophy
+                                text-white
+                                text-xl"
+                            ></i>
 
                         </div>
 
-                        <p class="text-white/60 text-xs font-medium uppercase tracking-wider">
+
+                        <p
+                            class="text-white/60
+                            text-xs
+                            font-medium
+                            uppercase
+                            tracking-wider"
+                        >
                             Skor Tertinggi
                         </p>
 
-                        <h2 class="text-white text-3xl font-black mt-2">
+
+                        <h2
+                            class="text-white
+                            text-3xl
+                            font-black
+                            mt-2"
+                        >
                             {{ Auth::user()->score ?? 0 }}
                         </h2>
 
                     </div>
 
 
-                    <!-- STAGE TERBUKA -->
-                    <div class="bg-white/5 border border-white/10 rounded-[30px] p-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mb-5 shadow-md shadow-green-500/20">
+                    <!-- ULANGAN TERSEDIA -->
 
-                            <i class="fa-solid fa-layer-group text-white text-xl"></i>
+                    <div
+                        class="bg-white/5
+                        border border-white/10
+                        rounded-[30px]
+                        p-5"
+                    >
+
+                        <div
+                            class="w-14 h-14
+                            rounded-2xl
+                            bg-gradient-to-br
+                            from-green-400
+                            to-emerald-600
+                            flex items-center
+                            justify-center
+                            mb-5
+                            shadow-md
+                            shadow-green-500/20"
+                        >
+
+                            <i
+                                class="fa-solid
+                                fa-clipboard-check
+                                text-white
+                                text-xl"
+                            ></i>
 
                         </div>
 
-                        <p class="text-white/60 text-xs font-medium uppercase tracking-wider">
-                            Stage Terbuka
+
+                        <p
+                            class="text-white/60
+                            text-xs
+                            font-medium
+                            uppercase
+                            tracking-wider"
+                        >
+                            Ulangan Tersedia
                         </p>
 
-                        <h2 class="text-white text-3xl font-black mt-2">
-                            {{ ($hasLevel1 ? 1 : 0) + ($hasLevel2 ? 1 : 0) + ($hasLevel3 ? 1 : 0) }}/3
+
+                        <h2
+                            class="text-white
+                            text-3xl
+                            font-black
+                            mt-2"
+                        >
+
+                            {{ ($hasLevel1 ? 1 : 0) +
+                               ($hasLevel2 ? 1 : 0) +
+                               ($hasLevel3 ? 1 : 0) }}/3
+
                         </h2>
 
                     </div>
@@ -228,60 +522,123 @@
             </div>
 
 
-            <!-- =======================================================
-                 LEVEL CARDS
-            ======================================================== -->
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- =====================================================
+                 KARTU ULANGAN
+            ====================================================== -->
 
-
-                <!-- ===================================================
-                     LEVEL 1
-                ==================================================== -->
-
-                <div class="rounded-[40px]
-                            bg-gradient-to-br from-cyan-500 to-blue-700
-                            p-8 text-white
-                            shadow-[0_0_45px_rgba(59,130,246,0.25)]
-                            relative overflow-hidden card-hover
-                            border border-white/10
-                            {{ !$hasLevel1 ? 'opacity-60 filter saturate-[0.8]' : '' }}">
-
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
+            <div
+                class="grid
+                grid-cols-1
+                lg:grid-cols-3
+                gap-8"
+            >
 
 
-                    <div class="w-24 h-24 rounded-[30px] bg-white/20 flex items-center justify-center mb-8 shadow-inner">
+                <!-- =================================================
+                     ULANGAN 1
+                ================================================== -->
 
-                        <i class="fa-solid {{ $hasLevel1 ? 'fa-seedling' : 'fa-lock' }} text-5xl"></i>
+                <div
+                    class="rounded-[40px]
+                    bg-gradient-to-br
+                    from-cyan-500
+                    to-blue-700
+                    p-8
+                    text-white
+                    shadow-[0_0_45px_rgba(59,130,246,0.25)]
+                    relative
+                    overflow-hidden
+                    card-hover
+                    border border-white/10
+                    {{ !$hasLevel1
+                        ? 'opacity-60 filter saturate-[0.8]'
+                        : '' }}"
+                >
+
+                    <div
+                        class="absolute
+                        -top-16 -right-16
+                        w-56 h-56
+                        bg-white/10
+                        blur-3xl
+                        rounded-full"
+                    ></div>
+
+
+                    <div
+                        class="w-24 h-24
+                        rounded-[30px]
+                        bg-white/20
+                        flex items-center
+                        justify-center
+                        mb-8
+                        shadow-inner"
+                    >
+
+                        <i
+                            class="fa-solid
+                            {{ $hasLevel1
+                                ? 'fa-flask'
+                                : 'fa-lock' }}
+                            text-5xl"
+                        ></i>
 
                     </div>
 
 
-                    <p class="text-cyan-100 text-xs font-semibold uppercase tracking-wider mb-2">
-                        Tahap Pemula
+                    <p
+                        class="text-cyan-100
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        mb-2"
+                    >
+                        Ulangan Pertama
                     </p>
 
 
-                    <h2 class="text-4xl font-black mb-4">
-                        Level 1
+                    <h2
+                        class="text-4xl
+                        font-black
+                        mb-4"
+                    >
+                        Ulangan 1
                     </h2>
 
 
-                    <p class="text-cyan-100 text-xs leading-relaxed mb-8 h-12 overflow-hidden">
-                        Mulai perjalanan pertama dan selesaikan kuis dasar untuk meningkatkan kompetensi awalmu.
+                    <p
+                        class="text-cyan-100
+                        text-xs
+                        leading-relaxed
+                        mb-8
+                        h-12
+                        overflow-hidden"
+                    >
+                        Kerjakan ulangan IPA pertama
+                        untuk menguji pemahaman materi
+                        yang telah dipelajari.
                     </p>
 
 
-                    <div class="bg-white/10 rounded-[24px] p-4 mb-8 text-xs space-y-2">
+                    <div
+                        class="bg-white/10
+                        rounded-[24px]
+                        p-4
+                        mb-8
+                        text-xs
+                        space-y-2"
+                    >
 
                         <div class="flex justify-between">
 
                             <span class="text-cyan-200">
-                                Kesulitan
+                                Mata Pelajaran
                             </span>
 
                             <span class="font-bold">
-                                Mudah
+                                IPA
                             </span>
 
                         </div>
@@ -293,9 +650,16 @@
                                 Status
                             </span>
 
-                            <span class="font-bold {{ $hasLevel1 ? 'text-green-300' : 'text-amber-400' }}">
+                            <span
+                                class="font-bold
+                                {{ $hasLevel1
+                                    ? 'text-green-300'
+                                    : 'text-amber-400' }}"
+                            >
 
-                                {{ $hasLevel1 ? 'Terbuka' : 'Terkunci' }}
+                                {{ $hasLevel1
+                                    ? 'Tersedia'
+                                    : 'Belum Tersedia' }}
 
                             </span>
 
@@ -306,26 +670,52 @@
 
                     @if($hasLevel1)
 
-                        <a href="{{ route('game.start', 1) }}"
-                           class="flex items-center justify-center gap-3 bg-white text-cyan-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                        <a
+                            href="{{ route('game.start', 1) }}"
+                            class="flex items-center
+                            justify-center
+                            gap-3
+                            bg-white
+                            text-cyan-700
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            hover:bg-slate-50
+                            transition
+                            shadow-md"
+                        >
 
-                            <i class="fa-solid fa-circle-play"></i>
+                            <i class="fa-solid fa-file-pen"></i>
 
                             <span>
-                                Mainkan
+                                Mulai Ulangan
                             </span>
 
                         </a>
 
                     @else
 
-                        <button disabled
-                                class="w-full flex items-center justify-center gap-3 bg-black/30 text-white/40 py-4 rounded-[22px] font-black text-md cursor-not-allowed border border-white/5">
+                        <button
+                            disabled
+                            class="w-full
+                            flex items-center
+                            justify-center
+                            gap-3
+                            bg-black/30
+                            text-white/40
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            cursor-not-allowed
+                            border border-white/5"
+                        >
 
                             <i class="fa-solid fa-lock"></i>
 
                             <span>
-                                Level Terkunci
+                                Ulangan Belum Tersedia
                             </span>
 
                         </button>
@@ -335,52 +725,111 @@
                 </div>
 
 
-                <!-- ===================================================
-                     LEVEL 2
-                ==================================================== -->
 
-                <div class="rounded-[40px]
-                            bg-gradient-to-br from-purple-500 to-pink-700
-                            shadow-[0_0_45px_rgba(168,85,247,0.2)]
-                            p-8 text-white relative overflow-hidden card-hover
-                            border border-white/10
-                            {{ !$hasLevel2 ? 'opacity-60 filter saturate-[0.8]' : '' }}">
+                <!-- =================================================
+                     ULANGAN 2
+                ================================================== -->
 
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
+                <div
+                    class="rounded-[40px]
+                    bg-gradient-to-br
+                    from-purple-500
+                    to-pink-700
+                    shadow-[0_0_45px_rgba(168,85,247,0.2)]
+                    p-8
+                    text-white
+                    relative
+                    overflow-hidden
+                    card-hover
+                    border border-white/10
+                    {{ !$hasLevel2
+                        ? 'opacity-60 filter saturate-[0.8]'
+                        : '' }}"
+                >
+
+                    <div
+                        class="absolute
+                        -top-16 -right-16
+                        w-56 h-56
+                        bg-white/10
+                        blur-3xl
+                        rounded-full"
+                    ></div>
 
 
-                    <div class="w-24 h-24 rounded-[30px] bg-white/20 flex items-center justify-center mb-8 shadow-inner">
+                    <div
+                        class="w-24 h-24
+                        rounded-[30px]
+                        bg-white/20
+                        flex items-center
+                        justify-center
+                        mb-8
+                        shadow-inner"
+                    >
 
-                        <i class="fa-solid {{ $hasLevel2 ? 'fa-dragon' : 'fa-lock' }} text-5xl"></i>
+                        <i
+                            class="fa-solid
+                            {{ $hasLevel2
+                                ? 'fa-atom'
+                                : 'fa-lock' }}
+                            text-5xl"
+                        ></i>
 
                     </div>
 
 
-                    <p class="text-pink-100 text-xs font-semibold uppercase tracking-wider mb-2">
-                        Tahap Menengah
+                    <p
+                        class="text-pink-100
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        mb-2"
+                    >
+                        Ulangan Kedua
                     </p>
 
 
-                    <h2 class="text-4xl font-black mb-4">
-                        Level 2
+                    <h2
+                        class="text-4xl
+                        font-black
+                        mb-4"
+                    >
+                        Ulangan 2
                     </h2>
 
 
-                    <p class="text-pink-100 text-xs leading-relaxed mb-8 h-12 overflow-hidden">
-                        Tantangan taktis tingkat menengah dengan struktur soal analisis penalaran logis.
+                    <p
+                        class="text-pink-100
+                        text-xs
+                        leading-relaxed
+                        mb-8
+                        h-12
+                        overflow-hidden"
+                    >
+                        Kerjakan ulangan IPA kedua
+                        untuk mengevaluasi pemahaman
+                        terhadap materi berikutnya.
                     </p>
 
 
-                    <div class="bg-white/10 rounded-[24px] p-4 mb-8 text-xs space-y-2">
+                    <div
+                        class="bg-white/10
+                        rounded-[24px]
+                        p-4
+                        mb-8
+                        text-xs
+                        space-y-2"
+                    >
 
                         <div class="flex justify-between">
 
                             <span class="text-pink-200">
-                                Kesulitan
+                                Mata Pelajaran
                             </span>
 
                             <span class="font-bold">
-                                Menengah
+                                IPA
                             </span>
 
                         </div>
@@ -392,9 +841,16 @@
                                 Status
                             </span>
 
-                            <span class="font-bold {{ $hasLevel2 ? 'text-green-300' : 'text-amber-400' }}">
+                            <span
+                                class="font-bold
+                                {{ $hasLevel2
+                                    ? 'text-green-300'
+                                    : 'text-amber-400' }}"
+                            >
 
-                                {{ $hasLevel2 ? 'Terbuka' : 'Terkunci' }}
+                                {{ $hasLevel2
+                                    ? 'Tersedia'
+                                    : 'Belum Tersedia' }}
 
                             </span>
 
@@ -405,26 +861,52 @@
 
                     @if($hasLevel2)
 
-                        <a href="{{ route('game.start', 2) }}"
-                           class="flex items-center justify-center gap-3 bg-white text-purple-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                        <a
+                            href="{{ route('game.start', 2) }}"
+                            class="flex items-center
+                            justify-center
+                            gap-3
+                            bg-white
+                            text-purple-700
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            hover:bg-slate-50
+                            transition
+                            shadow-md"
+                        >
 
-                            <i class="fa-solid fa-circle-play"></i>
+                            <i class="fa-solid fa-file-pen"></i>
 
                             <span>
-                                Mainkan
+                                Mulai Ulangan
                             </span>
 
                         </a>
 
                     @else
 
-                        <button disabled
-                                class="w-full flex items-center justify-center gap-3 bg-black/30 text-white/40 py-4 rounded-[22px] font-black text-md cursor-not-allowed border border-white/5">
+                        <button
+                            disabled
+                            class="w-full
+                            flex items-center
+                            justify-center
+                            gap-3
+                            bg-black/30
+                            text-white/40
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            cursor-not-allowed
+                            border border-white/5"
+                        >
 
                             <i class="fa-solid fa-lock"></i>
 
                             <span>
-                                Level Terkunci
+                                Ulangan Belum Tersedia
                             </span>
 
                         </button>
@@ -434,52 +916,111 @@
                 </div>
 
 
-                <!-- ===================================================
-                     LEVEL 3
-                ==================================================== -->
 
-                <div class="rounded-[40px]
-                            bg-gradient-to-br from-orange-500 to-red-700
-                            shadow-[0_0_45px_rgba(249,115,22,0.2)]
-                            p-8 text-white relative overflow-hidden card-hover
-                            border border-white/10
-                            {{ !$hasLevel3 ? 'opacity-65 filter saturate-[0.8]' : '' }}">
+                <!-- =================================================
+                     ULANGAN 3
+                ================================================== -->
 
-                    <div class="absolute -top-16 -right-16 w-56 h-56 bg-white/10 blur-3xl rounded-full"></div>
+                <div
+                    class="rounded-[40px]
+                    bg-gradient-to-br
+                    from-orange-500
+                    to-red-700
+                    shadow-[0_0_45px_rgba(249,115,22,0.2)]
+                    p-8
+                    text-white
+                    relative
+                    overflow-hidden
+                    card-hover
+                    border border-white/10
+                    {{ !$hasLevel3
+                        ? 'opacity-65 filter saturate-[0.8]'
+                        : '' }}"
+                >
+
+                    <div
+                        class="absolute
+                        -top-16 -right-16
+                        w-56 h-56
+                        bg-white/10
+                        blur-3xl
+                        rounded-full"
+                    ></div>
 
 
-                    <div class="w-24 h-24 rounded-[30px] bg-white/20 flex items-center justify-center mb-8 shadow-inner">
+                    <div
+                        class="w-24 h-24
+                        rounded-[30px]
+                        bg-white/20
+                        flex items-center
+                        justify-center
+                        mb-8
+                        shadow-inner"
+                    >
 
-                        <i class="fa-solid {{ $hasLevel3 ? 'fa-crown' : 'fa-lock' }} text-5xl"></i>
+                        <i
+                            class="fa-solid
+                            {{ $hasLevel3
+                                ? 'fa-microscope'
+                                : 'fa-lock' }}
+                            text-5xl"
+                        ></i>
 
                     </div>
 
 
-                    <p class="text-orange-100 text-xs font-semibold uppercase tracking-wider mb-2">
-                        Tahap Lanjutan
+                    <p
+                        class="text-orange-100
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        mb-2"
+                    >
+                        Ulangan Ketiga
                     </p>
 
 
-                    <h2 class="text-4xl font-black mb-4">
-                        Level 3
+                    <h2
+                        class="text-4xl
+                        font-black
+                        mb-4"
+                    >
+                        Ulangan 3
                     </h2>
 
 
-                    <p class="text-orange-100 text-xs leading-relaxed mb-8 h-12 overflow-hidden">
-                        Evaluasi puncak dengan tingkat analisis komparatif tertinggi.
+                    <p
+                        class="text-orange-100
+                        text-xs
+                        leading-relaxed
+                        mb-8
+                        h-12
+                        overflow-hidden"
+                    >
+                        Kerjakan ulangan IPA ketiga
+                        sebagai evaluasi pembelajaran
+                        secara menyeluruh.
                     </p>
 
 
-                    <div class="bg-white/10 rounded-[24px] p-4 mb-8 text-xs space-y-2">
+                    <div
+                        class="bg-white/10
+                        rounded-[24px]
+                        p-4
+                        mb-8
+                        text-xs
+                        space-y-2"
+                    >
 
                         <div class="flex justify-between">
 
                             <span class="text-orange-200">
-                                Kesulitan
+                                Mata Pelajaran
                             </span>
 
                             <span class="font-bold">
-                                Sulit
+                                IPA
                             </span>
 
                         </div>
@@ -491,9 +1032,16 @@
                                 Status
                             </span>
 
-                            <span class="font-bold {{ $hasLevel3 ? 'text-green-300' : 'text-amber-400' }}">
+                            <span
+                                class="font-bold
+                                {{ $hasLevel3
+                                    ? 'text-green-300'
+                                    : 'text-amber-400' }}"
+                            >
 
-                                {{ $hasLevel3 ? 'Terbuka' : 'Terkunci' }}
+                                {{ $hasLevel3
+                                    ? 'Tersedia'
+                                    : 'Belum Tersedia' }}
 
                             </span>
 
@@ -504,26 +1052,52 @@
 
                     @if($hasLevel3)
 
-                        <a href="{{ route('game.start', 3) }}"
-                           class="flex items-center justify-center gap-3 bg-white text-orange-700 py-4 rounded-[22px] font-black text-md hover:bg-slate-50 transition shadow-md">
+                        <a
+                            href="{{ route('game.start', 3) }}"
+                            class="flex items-center
+                            justify-center
+                            gap-3
+                            bg-white
+                            text-orange-700
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            hover:bg-slate-50
+                            transition
+                            shadow-md"
+                        >
 
-                            <i class="fa-solid fa-circle-play"></i>
+                            <i class="fa-solid fa-file-pen"></i>
 
                             <span>
-                                Mainkan
+                                Mulai Ulangan
                             </span>
 
                         </a>
 
                     @else
 
-                        <button disabled
-                                class="w-full flex items-center justify-center gap-3 bg-black/30 text-white/40 py-4 rounded-[22px] font-black text-md cursor-not-allowed border border-white/5">
+                        <button
+                            disabled
+                            class="w-full
+                            flex items-center
+                            justify-center
+                            gap-3
+                            bg-black/30
+                            text-white/40
+                            py-4
+                            rounded-[22px]
+                            font-black
+                            text-md
+                            cursor-not-allowed
+                            border border-white/5"
+                        >
 
                             <i class="fa-solid fa-lock"></i>
 
                             <span>
-                                Level Terkunci
+                                Ulangan Belum Tersedia
                             </span>
 
                         </button>
@@ -532,6 +1106,7 @@
 
                 </div>
 
+
             </div>
 
         </div>
@@ -539,10 +1114,17 @@
     </div>
 
 
+
+    <!-- LOADING -->
+
     @include('components.loading')
+
+
+    <!-- SOUND -->
 
     @include('components.sound')
 
 
 </body>
+
 </html>

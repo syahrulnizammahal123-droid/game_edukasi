@@ -10,14 +10,10 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Quiz Adventure Education
-    </title>
-
+    <title>QuizGo - Ulangan IPA</title>
 
     <!-- TAILWIND -->
     <script src="https://cdn.tailwindcss.com"></script>
-
 
     <!-- POPPINS -->
     <link
@@ -25,13 +21,11 @@
         rel="stylesheet"
     >
 
-
     <!-- FONT AWESOME -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     >
-
 
     <style>
 
@@ -39,202 +33,81 @@
             box-sizing: border-box;
         }
 
-
         body {
             font-family: 'Poppins', sans-serif;
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PILIHAN
-        |--------------------------------------------------------------------------
-        */
-
         .option-btn {
-
-            transition:
-                all 0.2s ease;
-
+            transition: all 0.2s ease;
         }
-
 
         .option-btn:hover {
-
-            transform:
-                translateY(-2px);
-
+            transform: translateY(-2px);
         }
-
 
         .option-btn.disabled {
-
-            pointer-events:
-                none;
-
+            pointer-events: none;
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | BENAR
-        |--------------------------------------------------------------------------
-        */
 
         .option-correct {
-
-            background:
-                rgba(16, 185, 129, 0.18) !important;
-
-            border-color:
-                rgb(16, 185, 129) !important;
-
-            box-shadow:
-                0 0 25px
-                rgba(16, 185, 129, 0.15);
-
+            background: rgba(16, 185, 129, 0.18) !important;
+            border-color: rgb(16, 185, 129) !important;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SALAH
-        |--------------------------------------------------------------------------
-        */
 
         .option-wrong {
-
-            background:
-                rgba(244, 63, 94, 0.18) !important;
-
-            border-color:
-                rgb(244, 63, 94) !important;
-
-            box-shadow:
-                0 0 25px
-                rgba(244, 63, 94, 0.15);
-
+            background: rgba(244, 63, 94, 0.18) !important;
+            border-color: rgb(244, 63, 94) !important;
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.15);
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | HURUF BENAR
-        |--------------------------------------------------------------------------
-        */
 
         .letter-correct {
-
-            background:
-                rgb(16, 185, 129) !important;
-
-            color:
-                white !important;
-
+            background: rgb(16, 185, 129) !important;
+            color: white !important;
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | HURUF SALAH
-        |--------------------------------------------------------------------------
-        */
 
         .letter-wrong {
-
-            background:
-                rgb(244, 63, 94) !important;
-
-            color:
-                white !important;
-
+            background: rgb(244, 63, 94) !important;
+            color: white !important;
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | TIMER
-        |--------------------------------------------------------------------------
-        */
 
         .timer-danger {
-
-            animation:
-                pulseDanger 0.7s infinite;
-
+            animation: pulseDanger 0.7s infinite;
         }
-
 
         @keyframes pulseDanger {
 
             0%,
             100% {
-
-                transform:
-                    scale(1);
-
+                transform: scale(1);
             }
 
             50% {
-
-                transform:
-                    scale(1.05);
-
+                transform: scale(1.05);
             }
 
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | FEEDBACK
-        |--------------------------------------------------------------------------
-        */
-
         .feedback-animation {
-
-            animation:
-                feedbackIn 0.35s ease;
-
+            animation: feedbackIn 0.35s ease;
         }
-
 
         @keyframes feedbackIn {
 
             from {
-
-                opacity:
-                    0;
-
-                transform:
-                    translateY(10px);
-
+                opacity: 0;
+                transform: translateY(10px);
             }
 
             to {
-
-                opacity:
-                    1;
-
-                transform:
-                    translateY(0);
-
+                opacity: 1;
+                transform: translateY(0);
             }
 
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PROGRESS
-        |--------------------------------------------------------------------------
-        */
-
         #nextProgress {
-
-            transition:
-                width 1.5s linear;
-
+            transition: width 1.5s linear;
         }
 
     </style>
@@ -244,98 +117,75 @@
 
 <body
     class="min-h-screen
-           bg-[#070d19]
-           text-white"
+    bg-[#070d19]
+    text-white"
 >
 
 
-    <!--
-    |--------------------------------------------------------------------------
-    | BACKGROUND
-    |--------------------------------------------------------------------------
-    -->
+    <!-- =========================================================
+         BACKGROUND
+    ========================================================== -->
 
     <div
         class="fixed
-               inset-0
-               -z-10
-               overflow-hidden"
+        inset-0
+        -z-10
+        overflow-hidden"
     >
 
         <div
             class="absolute
-                   inset-0
-                   bg-[#070d19]"
-        >
-        </div>
+            inset-0
+            bg-[#070d19]"
+        ></div>
 
 
         <div
             class="absolute
-                   top-0
-                   left-0
-                   w-96
-                   h-96
-                   bg-cyan-500/5
-                   rounded-full
-                   blur-3xl"
-        >
-        </div>
+            top-0
+            left-0
+            w-96
+            h-96
+            bg-cyan-500/5
+            rounded-full
+            blur-3xl"
+        ></div>
 
 
         <div
             class="absolute
-                   bottom-0
-                   right-0
-                   w-96
-                   h-96
-                   bg-purple-500/5
-                   rounded-full
-                   blur-3xl"
-        >
-        </div>
+            bottom-0
+            right-0
+            w-96
+            h-96
+            bg-purple-500/5
+            rounded-full
+            blur-3xl"
+        ></div>
 
     </div>
 
 
 
-    <!--
-    |--------------------------------------------------------------------------
-    | DATA PHP
-    |--------------------------------------------------------------------------
-    -->
+    <!-- =========================================================
+         DATA PHP
+    ========================================================== -->
 
     @php
 
         $levelSaatIni =
             (int) (
                 $level ??
-                session(
-                    'game_level',
-                    1
-                )
+                session('game_level', 1)
             );
 
 
         $currentIndex =
-            (int) session(
-                'game_index',
-                0
-            );
+            (int) session('game_index', 0);
 
-
-        /*
-        | Karena game_index menunjukkan posisi
-        | soal yang akan datang, untuk tampilan
-        | soal yang sedang dibuka kita kurangi 1
-        | jika diperlukan.
-        */
 
         $totalSoal =
-            (int) session(
-                'game_total',
-                0
-            );
+            (int) session('game_total', 0);
 
 
         if (
@@ -343,28 +193,17 @@
             isset($soals)
         ) {
 
-            $totalSoal =
-                count($soals);
+            $totalSoal = count($soals);
 
         }
 
 
         if ($totalSoal <= 0) {
 
-            $totalSoal =
-                1;
+            $totalSoal = 1;
 
         }
 
-
-        /*
-        | Saat pertama masuk:
-        | index = 0 -> soal 1
-        |
-        | Setelah jawab:
-        | index sudah menjadi 1 tetapi soal
-        | yang sama masih ditampilkan sebagai feedback.
-        */
 
         $feedbackMode =
             isset($feedbackMode)
@@ -376,34 +215,15 @@
             $currentIndex + 1;
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | PILIHAN
-        |--------------------------------------------------------------------------
-        */
-
         $pilihan = [
 
-            'A' =>
-                $soal->A ?? '',
-
-            'B' =>
-                $soal->B ?? '',
-
-            'C' =>
-                $soal->C ?? '',
-
-            'D' =>
-                $soal->D ?? '',
+            'A' => $soal->A ?? '',
+            'B' => $soal->B ?? '',
+            'C' => $soal->C ?? '',
+            'D' => $soal->D ?? '',
 
         ];
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PROGRESS
-        |--------------------------------------------------------------------------
-        */
 
         $progress =
             $totalSoal > 0
@@ -411,8 +231,7 @@
                 ? min(
                     100,
                     round(
-                        ($nomorSoal / $totalSoal)
-                        * 100
+                        ($nomorSoal / $totalSoal) * 100
                     )
                 )
 
@@ -422,73 +241,68 @@
 
 
 
-    <!--
-    |--------------------------------------------------------------------------
-    | MAIN
-    |--------------------------------------------------------------------------
-    -->
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
 
     <main
         class="min-h-screen
-               flex
-               items-center
-               justify-center
-               p-4"
+        flex
+        items-center
+        justify-center
+        p-4"
     >
 
         <div
             class="w-full
-                   max-w-4xl"
+            max-w-4xl"
         >
 
 
-            <!--
-            |--------------------------------------------------------------------------
-            | CARD GAME
-            |--------------------------------------------------------------------------
-            -->
+            <!-- =================================================
+                 CARD ULANGAN
+            ================================================== -->
 
             <div
                 class="bg-[#0d1527]
-                       border
-                       border-white/10
-                       rounded-[30px]
-                       shadow-2xl
-                       overflow-hidden"
+                border
+                border-white/10
+                rounded-[30px]
+                shadow-2xl
+                overflow-hidden"
             >
 
 
-                <!--
-                |--------------------------------------------------------------------------
-                | HEADER
-                |--------------------------------------------------------------------------
-                -->
+                <!-- =================================================
+                     HEADER
+                ================================================== -->
 
                 <div
                     class="p-6
-                           sm:p-8"
+                    sm:p-8"
                 >
 
                     <div
                         class="flex
-                               items-center
-                               justify-between
-                               gap-4"
+                        items-center
+                        justify-between
+                        gap-4"
                     >
 
 
-                        <!-- LEVEL -->
+                        <!-- ULANGAN -->
+
                         <div>
 
                             <p
                                 class="text-cyan-400
-                                       font-black
-                                       text-sm
-                                       uppercase
-                                       tracking-wider"
+                                font-black
+                                text-sm
+                                uppercase
+                                tracking-wider"
                             >
 
-                                LEVEL
+                                ULANGAN
                                 {{ $levelSaatIni }}
 
                             </p>
@@ -496,9 +310,9 @@
 
                             <h1
                                 class="text-2xl
-                                       sm:text-3xl
-                                       font-black
-                                       mt-1"
+                                sm:text-3xl
+                                font-black
+                                mt-1"
                             >
 
                                 Soal
@@ -513,41 +327,32 @@
 
 
                         <!-- TIMER -->
+
                         <div
                             id="timerBox"
                             class="shrink-0
-                                   flex
-                                   items-center
-                                   gap-2
-                                   px-5
-                                   py-3
-                                   rounded-2xl
-                                   bg-amber-500/15
-                                   border
-                                   border-amber-500/40
-                                   text-amber-300
-                                   font-black
-                                   shadow-lg"
+                            flex
+                            items-center
+                            gap-2
+                            px-5
+                            py-3
+                            rounded-2xl
+                            bg-amber-500/15
+                            border
+                            border-amber-500/40
+                            text-amber-300
+                            font-black
+                            shadow-lg"
                         >
 
-                            <i
-                                class="fa-solid
-                                       fa-stopwatch"
-                            >
-                            </i>
+                            <i class="fa-solid fa-stopwatch"></i>
 
-
-                            <span
-                                id="timer"
-                            >
+                            <span id="timer">
                                 15
                             </span>
 
-
-                            <span
-                                class="text-xs"
-                            >
-                                s
+                            <span class="text-xs">
+                                detik
                             </span>
 
                         </div>
@@ -556,37 +361,51 @@
 
 
 
-                    <!-- GARIS -->
+                    <!-- PROGRESS -->
+
                     <div
                         class="border-t
-                               border-white/10
-                               mt-6
-                               pt-6"
+                        border-white/10
+                        mt-6
+                        pt-6"
                     >
 
+                        <div
+                            class="flex
+                            justify-between
+                            text-xs
+                            mb-2"
+                        >
 
-                        <!-- PROGRESS -->
+                            <span class="text-white/40">
+                                Progres Ulangan
+                            </span>
+
+
+                            <span class="text-cyan-400 font-bold">
+                                {{ $progress }}%
+                            </span>
+
+                        </div>
+
+
                         <div
                             class="w-full
-                                   h-3
-                                   bg-white/10
-                                   rounded-full
-                                   overflow-hidden"
+                            h-3
+                            bg-white/10
+                            rounded-full
+                            overflow-hidden"
                         >
 
                             <div
                                 class="h-full
-                                       bg-gradient-to-r
-                                       from-cyan-400
-                                       via-emerald-400
-                                       to-amber-400
-                                       rounded-full"
-                                style="
-                                    width:
-                                    {{ $progress }}%;
-                                "
-                            >
-                            </div>
+                                bg-gradient-to-r
+                                from-cyan-400
+                                via-emerald-400
+                                to-amber-400
+                                rounded-full"
+                                style="width: {{ $progress }}%;"
+                            ></div>
 
                         </div>
 
@@ -596,31 +415,53 @@
 
 
 
-                <!--
-                |--------------------------------------------------------------------------
-                | CONTENT
-                |--------------------------------------------------------------------------
-                -->
+                <!-- =================================================
+                     CONTENT
+                ================================================== -->
 
                 <div
                     class="px-6
-                           sm:px-8
-                           pb-8"
+                    sm:px-8
+                    pb-8"
                 >
+
+
+                    <!-- INFORMASI -->
+
+                    <div
+                        class="inline-flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-2
+                        rounded-xl
+                        bg-cyan-500/10
+                        border
+                        border-cyan-400/20
+                        text-cyan-300
+                        text-xs
+                        font-bold
+                        mb-5"
+                    >
+
+                        <i class="fa-solid fa-flask"></i>
+
+                        QuizGo • Ulangan IPA
+
+                    </div>
+
 
 
                     <!-- PERTANYAAN -->
 
-                    <div
-                        class="mb-8"
-                    >
+                    <div class="mb-8">
 
                         <p
                             class="text-xl
-                                   sm:text-2xl
-                                   font-bold
-                                   leading-relaxed
-                                   text-white/90"
+                            sm:text-2xl
+                            font-bold
+                            leading-relaxed
+                            text-white/90"
                         >
 
                             {{ $soal->pertanyaan }}
@@ -631,38 +472,35 @@
 
 
 
-                    <!--
-                    |--------------------------------------------------------------------------
-                    | FEEDBACK
-                    |--------------------------------------------------------------------------
-                    -->
+                    <!-- =================================================
+                         FEEDBACK
+                    ================================================== -->
 
                     <div
                         id="feedbackBox"
                         class="hidden
-                               feedback-animation
-                               mb-6
-                               p-4
-                               rounded-2xl"
+                        feedback-animation
+                        mb-6
+                        p-4
+                        rounded-2xl"
                     >
 
                         <div
                             class="flex
-                                   items-center
-                                   gap-3"
+                            items-center
+                            gap-3"
                         >
 
                             <div
                                 id="feedbackIcon"
                                 class="w-11
-                                       h-11
-                                       rounded-xl
-                                       flex
-                                       items-center
-                                       justify-center
-                                       text-lg"
-                            >
-                            </div>
+                                h-11
+                                rounded-xl
+                                flex
+                                items-center
+                                justify-center
+                                text-lg"
+                            ></div>
 
 
                             <div>
@@ -670,18 +508,16 @@
                                 <p
                                     id="feedbackTitle"
                                     class="font-black
-                                           text-lg"
-                                >
-                                </p>
+                                    text-lg"
+                                ></p>
 
 
                                 <p
                                     id="feedbackText"
                                     class="text-sm
-                                           text-white/60
-                                           mt-1"
-                                >
-                                </p>
+                                    text-white/60
+                                    mt-1"
+                                ></p>
 
                             </div>
 
@@ -691,11 +527,9 @@
 
 
 
-                    <!--
-                    |--------------------------------------------------------------------------
-                    | FORM
-                    |--------------------------------------------------------------------------
-                    -->
+                    <!-- =================================================
+                         FORM
+                    ================================================== -->
 
                     <form
                         id="jawabanForm"
@@ -722,34 +556,32 @@
 
 
 
-                        <!-- PILIHAN -->
+                        <!-- =================================================
+                             PILIHAN
+                        ================================================== -->
 
                         <div
                             id="optionsContainer"
                             class="space-y-4"
                         >
 
-
-                            @foreach(
-                                $pilihan
-                                as $huruf => $teks
-                            )
+                            @foreach($pilihan as $huruf => $teks)
 
                                 <button
                                     type="button"
                                     class="option-btn
-                                           w-full
-                                           text-left
-                                           bg-[#182133]
-                                           border
-                                           border-white/10
-                                           rounded-2xl
-                                           p-4
-                                           sm:p-5
-                                           flex
-                                           items-center
-                                           gap-4
-                                           cursor-pointer"
+                                    w-full
+                                    text-left
+                                    bg-[#182133]
+                                    border
+                                    border-white/10
+                                    rounded-2xl
+                                    p-4
+                                    sm:p-5
+                                    flex
+                                    items-center
+                                    gap-4
+                                    cursor-pointer"
                                     data-answer="{{ $huruf }}"
                                 >
 
@@ -758,16 +590,16 @@
 
                                     <span
                                         class="letter
-                                               shrink-0
-                                               w-10
-                                               h-10
-                                               rounded-xl
-                                               bg-[#2a3448]
-                                               flex
-                                               items-center
-                                               justify-center
-                                               font-black
-                                               text-white/90"
+                                        shrink-0
+                                        w-10
+                                        h-10
+                                        rounded-xl
+                                        bg-[#2a3448]
+                                        flex
+                                        items-center
+                                        justify-center
+                                        font-black
+                                        text-white/90"
                                     >
 
                                         {{ $huruf }}
@@ -780,10 +612,10 @@
 
                                     <span
                                         class="flex-1
-                                               font-semibold
-                                               text-base
-                                               sm:text-lg
-                                               text-white/90"
+                                        font-semibold
+                                        text-base
+                                        sm:text-lg
+                                        text-white/90"
                                     >
 
                                         {{ $teks }}
@@ -796,16 +628,15 @@
 
                                     <span
                                         class="answer-icon
-                                               hidden
-                                               w-8
-                                               h-8
-                                               rounded-full
-                                               items-center
-                                               justify-center
-                                               text-lg"
-                                    >
+                                        hidden
+                                        w-8
+                                        h-8
+                                        rounded-full
+                                        items-center
+                                        justify-center
+                                        text-lg"
+                                    ></span>
 
-                                    </span>
 
                                 </button>
 
@@ -818,48 +649,40 @@
 
 
 
-                    <!--
-                    |--------------------------------------------------------------------------
-                    | AUTO NEXT
-                    |--------------------------------------------------------------------------
-                    -->
+                    <!-- =================================================
+                         AUTO NEXT
+                    ================================================== -->
 
                     <div
                         id="nextArea"
                         class="hidden
-                               mt-6
-                               text-center"
+                        mt-6
+                        text-center"
                     >
 
                         <p
                             class="text-white/40
-                                   text-xs"
+                            text-xs"
                         >
-
-                            Soal berikutnya akan
-                            tampil otomatis...
-
+                            Soal berikutnya akan tampil otomatis...
                         </p>
 
 
                         <div
                             class="mt-3
-                                   w-full
-                                   h-1.5
-                                   bg-white/10
-                                   rounded-full
-                                   overflow-hidden"
+                            w-full
+                            h-1.5
+                            bg-white/10
+                            rounded-full
+                            overflow-hidden"
                         >
 
                             <div
                                 id="nextProgress"
                                 class="h-full
-                                       bg-cyan-400"
-                                style="
-                                    width: 0%;
-                                "
-                            >
-                            </div>
+                                bg-cyan-400"
+                                style="width: 0%;"
+                            ></div>
 
                         </div>
 
@@ -876,112 +699,55 @@
 
 
 
-    <!--
-    |--------------------------------------------------------------------------
-    | JAVASCRIPT
-    |--------------------------------------------------------------------------
-    -->
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
 
     <script>
 
-        /*
-        |--------------------------------------------------------------------------
-        | CSRF
-        |--------------------------------------------------------------------------
-        */
-
-        const csrfToken =
-            document
-                .querySelector(
-                    'meta[name="csrf-token"]'
-                )?.getAttribute('content')
-            ||
-            document
-                .querySelector(
-                    'input[name="_token"]'
-                )?.value
-            || '';
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ELEMENT
-        |--------------------------------------------------------------------------
-        */
-
         const form =
-            document.getElementById(
-                'jawabanForm'
-            );
+            document.getElementById('jawabanForm');
 
 
         const jawabanInput =
-            document.getElementById(
-                'jawabanInput'
-            );
+            document.getElementById('jawabanInput');
 
 
         const buttons =
-            document.querySelectorAll(
-                '.option-btn'
-            );
+            document.querySelectorAll('.option-btn');
 
 
         const timer =
-            document.getElementById(
-                'timer'
-            );
+            document.getElementById('timer');
 
 
         const timerBox =
-            document.getElementById(
-                'timerBox'
-            );
+            document.getElementById('timerBox');
 
 
         const feedbackBox =
-            document.getElementById(
-                'feedbackBox'
-            );
+            document.getElementById('feedbackBox');
 
 
         const feedbackIcon =
-            document.getElementById(
-                'feedbackIcon'
-            );
+            document.getElementById('feedbackIcon');
 
 
         const feedbackTitle =
-            document.getElementById(
-                'feedbackTitle'
-            );
+            document.getElementById('feedbackTitle');
 
 
         const feedbackText =
-            document.getElementById(
-                'feedbackText'
-            );
+            document.getElementById('feedbackText');
 
 
         const nextArea =
-            document.getElementById(
-                'nextArea'
-            );
+            document.getElementById('nextArea');
 
 
         const nextProgress =
-            document.getElementById(
-                'nextProgress'
-            );
+            document.getElementById('nextProgress');
 
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | STATUS
-        |--------------------------------------------------------------------------
-        */
 
         let sudahMenjawab =
             false;
@@ -996,11 +762,6 @@
         |--------------------------------------------------------------------------
         | SUARA BENAR
         |--------------------------------------------------------------------------
-        |
-        | Suara dimainkan setelah klik pilihan.
-        | Ini penting supaya browser menganggapnya
-        | sebagai interaksi pengguna.
-        |
         */
 
         function playCorrectSound() {
@@ -1029,8 +790,7 @@
                     audio.createGain();
 
 
-                oscillator.type =
-                    'sine';
+                oscillator.type = 'sine';
 
 
                 oscillator.frequency.setValueAtTime(
@@ -1065,18 +825,13 @@
 
                 oscillator.connect(gain);
 
-                gain.connect(
-                    audio.destination
-                );
-
+                gain.connect(audio.destination);
 
                 oscillator.start();
-
 
                 oscillator.stop(
                     audio.currentTime + 0.30
                 );
-
 
             } catch (error) {
 
@@ -1123,8 +878,7 @@
                     audio.createGain();
 
 
-                oscillator.type =
-                    'sawtooth';
+                oscillator.type = 'sawtooth';
 
 
                 oscillator.frequency.setValueAtTime(
@@ -1159,18 +913,13 @@
 
                 oscillator.connect(gain);
 
-                gain.connect(
-                    audio.destination
-                );
-
+                gain.connect(audio.destination);
 
                 oscillator.start();
-
 
                 oscillator.stop(
                     audio.currentTime + 0.35
                 );
-
 
             } catch (error) {
 
@@ -1187,7 +936,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | TAMPILKAN FEEDBACK
+        | FEEDBACK
         |--------------------------------------------------------------------------
         */
 
@@ -1197,26 +946,13 @@
             kunci
         ) {
 
-            /*
-            | Aktifkan feedback
-            */
+            feedbackBox.classList.remove('hidden');
 
-            feedbackBox.classList.remove(
-                'hidden'
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | BENAR
-            |--------------------------------------------------------------------------
-            */
 
             if (isCorrect) {
 
                 feedbackBox.className =
-                    'mb-6 p-4 rounded-2xl ' +
-                    'feedback-animation ' +
+                    'mb-6 p-4 rounded-2xl feedback-animation ' +
                     'bg-emerald-500/10 ' +
                     'border border-emerald-500/30';
 
@@ -1247,20 +983,10 @@
                 feedbackText.textContent =
                     'Bagus! Jawaban kamu benar.';
 
-
-            }
-
-            /*
-            |--------------------------------------------------------------------------
-            | SALAH
-            |--------------------------------------------------------------------------
-            */
-
-            else {
+            } else {
 
                 feedbackBox.className =
-                    'mb-6 p-4 rounded-2xl ' +
-                    'feedback-animation ' +
+                    'mb-6 p-4 rounded-2xl feedback-animation ' +
                     'bg-rose-500/10 ' +
                     'border border-rose-500/30';
 
@@ -1281,7 +1007,7 @@
 
 
                 feedbackTitle.textContent =
-                    'Jawaban Salah!';
+                    'Jawaban Belum Tepat';
 
 
                 feedbackText.className =
@@ -1298,183 +1024,127 @@
 
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | WARNA PILIHAN
-            |--------------------------------------------------------------------------
-            */
+            buttons.forEach(function(button) {
 
-            buttons.forEach(
-                function(button) {
-
-                    const huruf =
-                        button.dataset.answer;
+                const huruf =
+                    button.dataset.answer;
 
 
-                    const letter =
-                        button.querySelector(
-                            '.letter'
-                        );
+                const letter =
+                    button.querySelector('.letter');
 
 
-                    const icon =
-                        button.querySelector(
-                            '.answer-icon'
-                        );
+                const icon =
+                    button.querySelector('.answer-icon');
 
 
-                    /*
-                    | Semua tombol tidak bisa
-                    | diklik lagi.
-                    */
+                button.classList.add('disabled');
 
-                    button.classList.add(
-                        'disabled'
+
+                if (huruf === kunci) {
+
+                    button.classList.remove(
+                        'bg-[#182133]',
+                        'border-white/10'
                     );
 
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | JAWABAN BENAR
-                    |--------------------------------------------------------------------------
-                    */
+                    button.classList.add(
+                        'option-correct'
+                    );
 
-                    if (
-                        huruf === kunci
-                    ) {
 
-                        button.classList.remove(
-                            'bg-[#182133]',
-                            'border-white/10'
+                    if (letter) {
+
+                        letter.classList.remove(
+                            'bg-[#2a3448'
                         );
 
-
-                        button.classList.add(
-                            'option-correct'
+                        letter.classList.add(
+                            'letter-correct'
                         );
-
-
-                        if (letter) {
-
-                            letter.classList.remove(
-                                'bg-[#2a3448]'
-                            );
-
-
-                            letter.classList.add(
-                                'letter-correct'
-                            );
-
-                        }
-
-
-                        if (icon) {
-
-                            icon.classList.remove(
-                                'hidden'
-                            );
-
-
-                            icon.classList.add(
-                                'flex',
-                                'text-emerald-400'
-                            );
-
-
-                            icon.innerHTML =
-                                '<i class="fa-solid fa-check"></i>';
-
-                        }
 
                     }
 
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | JAWABAN USER YANG SALAH
-                    |--------------------------------------------------------------------------
-                    */
+                    if (icon) {
 
-                    if (
-                        huruf === jawabanUser &&
-                        !isCorrect
-                    ) {
-
-                        button.classList.remove(
-                            'bg-[#182133]',
-                            'border-white/10'
+                        icon.classList.remove(
+                            'hidden'
                         );
 
-
-                        button.classList.add(
-                            'option-wrong'
+                        icon.classList.add(
+                            'flex',
+                            'text-emerald-400'
                         );
 
-
-                        if (letter) {
-
-                            letter.classList.remove(
-                                'bg-[#2a3448]'
-                            );
-
-
-                            letter.classList.add(
-                                'letter-wrong'
-                            );
-
-                        }
-
-
-                        if (icon) {
-
-                            icon.classList.remove(
-                                'hidden'
-                            );
-
-
-                            icon.classList.add(
-                                'flex',
-                                'text-rose-400'
-                            );
-
-
-                            icon.innerHTML =
-                                '<i class="fa-solid fa-xmark"></i>';
-
-                        }
+                        icon.innerHTML =
+                            '<i class="fa-solid fa-check"></i>';
 
                     }
 
                 }
-            );
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | AREA NEXT
-            |--------------------------------------------------------------------------
-            */
+                if (
+                    huruf === jawabanUser &&
+                    !isCorrect
+                ) {
 
-            nextArea.classList.remove(
-                'hidden'
-            );
+                    button.classList.remove(
+                        'bg-[#182133]',
+                        'border-white/10'
+                    );
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | ANIMASI PROGRESS
-            |--------------------------------------------------------------------------
-            */
+                    button.classList.add(
+                        'option-wrong'
+                    );
 
-            setTimeout(
-                function() {
 
-                    nextProgress.style.width =
-                        '100%';
+                    if (letter) {
 
-                },
-                50
-            );
+                        letter.classList.remove(
+                            'bg-[#2a3448'
+                        );
+
+                        letter.classList.add(
+                            'letter-wrong'
+                        );
+
+                    }
+
+
+                    if (icon) {
+
+                        icon.classList.remove(
+                            'hidden'
+                        );
+
+                        icon.classList.add(
+                            'flex',
+                            'text-rose-400'
+                        );
+
+                        icon.innerHTML =
+                            '<i class="fa-solid fa-xmark"></i>';
+
+                    }
+
+                }
+
+            });
+
+
+            nextArea.classList.remove('hidden');
+
+
+            setTimeout(function() {
+
+                nextProgress.style.width =
+                    '100%';
+
+            }, 50);
 
         }
 
@@ -1495,15 +1165,8 @@
             }
 
 
-            sudahMenjawab =
-                true;
+            sudahMenjawab = true;
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | Stop timer
-            |--------------------------------------------------------------------------
-            */
 
             if (timerInterval) {
 
@@ -1514,65 +1177,18 @@
             }
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Simpan input
-            |--------------------------------------------------------------------------
-            */
-
             jawabanInput.value =
                 selectedAnswer;
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | Cari tombol pilihan
-            |--------------------------------------------------------------------------
-            */
+            buttons.forEach(function(button) {
 
-            let selectedButton =
-                null;
+                button.classList.add(
+                    'disabled'
+                );
 
+            });
 
-            buttons.forEach(
-                function(button) {
-
-                    if (
-                        button.dataset.answer ===
-                        selectedAnswer
-                    ) {
-
-                        selectedButton =
-                            button;
-
-                    }
-
-                }
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Tanda loading
-            |--------------------------------------------------------------------------
-            */
-
-            buttons.forEach(
-                function(button) {
-
-                    button.classList.add(
-                        'disabled'
-                    );
-
-                }
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Request ke Laravel
-            |--------------------------------------------------------------------------
-            */
 
             try {
 
@@ -1584,32 +1200,20 @@
                     await fetch(
                         form.action,
                         {
+                            method: 'POST',
 
-                            method:
-                                'POST',
-
-                            body:
-                                formData,
+                            body: formData,
 
                             headers: {
-
                                 'Accept':
                                     'application/json',
 
                                 'X-Requested-With':
-                                    'XMLHttpRequest',
-
-                            },
-
+                                    'XMLHttpRequest'
+                            }
                         }
                     );
 
-
-                /*
-                |--------------------------------------------------------------------------
-                | Cek response
-                |--------------------------------------------------------------------------
-                */
 
                 if (!response.ok) {
 
@@ -1625,12 +1229,6 @@
                     await response.json();
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | Jika gagal
-                |--------------------------------------------------------------------------
-                */
-
                 if (!data.success) {
 
                     throw new Error(
@@ -1640,16 +1238,6 @@
 
                 }
 
-
-                /*
-                |--------------------------------------------------------------------------
-                | SUARA
-                |--------------------------------------------------------------------------
-                |
-                | Ini dipanggil dari rangkaian klik user,
-                | sehingga jauh lebih aman dari autoplay block.
-                |
-                */
 
                 if (data.isCorrect) {
 
@@ -1662,12 +1250,6 @@
                 }
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | TAMPILKAN WARNA
-                |--------------------------------------------------------------------------
-                */
-
                 showFeedback(
                     data.isCorrect,
                     data.jawabanUser,
@@ -1675,49 +1257,29 @@
                 );
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | AUTO NEXT 1.5 DETIK
-                |--------------------------------------------------------------------------
-                */
+                setTimeout(function() {
 
-                setTimeout(
-                    function() {
+                    window.location.href =
+                        "{{ route('game.next') }}";
 
-                        window.location.href =
-                            "{{ route('game.next') }}";
-
-                    },
-                    1500
-                );
+                }, 1500);
 
 
             } catch (error) {
 
-                console.error(
-                    error
-                );
+                console.error(error);
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | Jika AJAX gagal
-                |--------------------------------------------------------------------------
-                */
-
-                sudahMenjawab =
-                    false;
+                sudahMenjawab = false;
 
 
-                buttons.forEach(
-                    function(button) {
+                buttons.forEach(function(button) {
 
-                        button.classList.remove(
-                            'disabled'
-                        );
+                    button.classList.remove(
+                        'disabled'
+                    );
 
-                    }
-                );
+                });
 
 
                 alert(
@@ -1737,26 +1299,22 @@
         |--------------------------------------------------------------------------
         */
 
-        buttons.forEach(
-            function(button) {
+        buttons.forEach(function(button) {
 
-                button.addEventListener(
-                    'click',
-                    function() {
+            button.addEventListener(
+                'click',
+                function() {
 
-                        const answer =
-                            this.dataset.answer;
+                    const answer =
+                        this.dataset.answer;
 
 
-                        submitAnswer(
-                            answer
-                        );
+                    submitAnswer(answer);
 
-                    }
-                );
+                }
+            );
 
-            }
-        );
+        });
 
 
 
@@ -1766,83 +1324,61 @@
         |--------------------------------------------------------------------------
         */
 
-        let waktu =
-            15;
+        let waktu = 15;
 
 
         timerInterval =
-            setInterval(
-                function() {
+            setInterval(function() {
 
-                    if (sudahMenjawab) {
+                if (sudahMenjawab) {
 
-                        clearInterval(
-                            timerInterval
-                        );
+                    clearInterval(
+                        timerInterval
+                    );
 
-                        return;
+                    return;
 
-                    }
-
-
-                    waktu--;
+                }
 
 
-                    timer.textContent =
-                        waktu;
+                waktu--;
 
 
-                    /*
-                    | Lima detik terakhir
-                    */
-
-                    if (
-                        waktu <= 5
-                    ) {
-
-                        timerBox.classList.add(
-                            'timer-danger'
-                        );
+                timer.textContent =
+                    waktu;
 
 
-                        timerBox.classList.remove(
-                            'text-amber-300'
-                        );
+                if (waktu <= 5) {
+
+                    timerBox.classList.add(
+                        'timer-danger'
+                    );
 
 
-                        timerBox.classList.add(
-                            'text-rose-400'
-                        );
-
-                    }
+                    timerBox.classList.remove(
+                        'text-amber-300'
+                    );
 
 
-                    /*
-                    | Waktu habis
-                    */
+                    timerBox.classList.add(
+                        'text-rose-400'
+                    );
 
-                    if (
-                        waktu <= 0
-                    ) {
-
-                        clearInterval(
-                            timerInterval
-                        );
+                }
 
 
-                        /*
-                        | Kosong = dianggap salah
-                        */
+                if (waktu <= 0) {
 
-                        submitAnswer(
-                            ''
-                        );
+                    clearInterval(
+                        timerInterval
+                    );
 
-                    }
 
-                },
-                1000
-            );
+                    submitAnswer('');
+
+                }
+
+            }, 1000);
 
     </script>
 
