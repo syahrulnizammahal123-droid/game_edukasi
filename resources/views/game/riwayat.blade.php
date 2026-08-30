@@ -1,30 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.app')
 
-<head>
+@section('title', 'Riwayat Ulangan - QuizGo')
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Riwayat Ulangan - QuizGo</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -50,384 +30,11 @@
         .table-row:hover {
             background: rgba(255, 255, 255, 0.05);
         }
-
-    </style>
-
-</head>
-
-
-<body
-    class="bg-[#070d19]
-    text-white
-    min-h-screen
-    flex
-    selection:bg-cyan-500
-    selection:text-white"
->
-
-
-    <!-- =========================================================
-         SIDEBAR NAVIGASI
-    ========================================================== -->
-
-    <aside
-        class="w-64
-        bg-[#0b1324]
-        border-r border-white/10
-        p-6
-        flex flex-col
-        justify-between
-        shrink-0
-        min-h-screen"
-    >
-
-        <div>
-
-
-            <!-- =================================================
-                 LOGO
-            ================================================== -->
-
-            <div
-                class="flex items-center
-                gap-3
-                mb-10"
-            >
-
-                <div
-                    class="w-10 h-10
-                    rounded-xl
-                    bg-cyan-500
-                    flex items-center
-                    justify-center
-                    text-white
-                    text-xl
-                    font-black
-                    shadow-lg
-                    shadow-cyan-500/30"
-                >
-
-                    <i class="fa-solid fa-flask"></i>
-
-                </div>
-
-
-                <div>
-
-                    <h1
-                        class="font-extrabold
-                        text-lg
-                        leading-none
-                        tracking-wide
-                        text-white"
-                    >
-                        QuizGo
-                    </h1>
-
-
-                    <span
-                        class="text-[10px]
-                        font-black
-                        text-cyan-400
-                        tracking-widest
-                        uppercase"
-                    >
-                        MEDIA PEMBELAJARAN IPA
-                    </span>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================================
-                 MENU SIDEBAR
-            ================================================== -->
-
-            <nav class="space-y-2">
-
-
-                <!-- DASHBOARD -->
-
-                <a
-                    href="{{ Route::has('dashboard') ? route('dashboard') : '#' }}"
-                    class="menu-hover
-                    flex items-center
-                    gap-3
-                    px-4 py-3
-                    rounded-2xl
-                    text-white/60
-                    hover:text-white
-                    hover:bg-white/5
-                    transition
-                    font-medium
-                    text-sm"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-border-all
-                        text-lg
-                        w-6"
-                    ></i>
-
-                    <span>
-                        Dashboard
-                    </span>
-
-                </a>
-
-
-
-                <!-- ULANGAN -->
-
-                <a
-                    href="{{ Route::has('game.level') ? route('game.level') : '#' }}"
-                    class="menu-hover
-                    flex items-center
-                    gap-3
-                    px-4 py-3
-                    rounded-2xl
-                    text-white/60
-                    hover:text-white
-                    hover:bg-white/5
-                    transition
-                    font-medium
-                    text-sm"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-file-pen
-                        text-lg
-                        w-6
-                        text-cyan-400"
-                    ></i>
-
-                    <span>
-                        Ulangan
-                    </span>
-
-                </a>
-
-
-
-                <!-- RIWAYAT -->
-
-                <a
-                    href="{{ Route::has('riwayat') ? route('riwayat') : '#' }}"
-                    class="flex items-center
-                    gap-3
-                    px-4 py-3
-                    rounded-2xl
-                    bg-cyan-500
-                    text-white
-                    font-bold
-                    text-sm
-                    shadow-lg
-                    shadow-cyan-500/25"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-clock-rotate-left
-                        text-lg
-                        w-6"
-                    ></i>
-
-                    <span>
-                        Riwayat Ulangan
-                    </span>
-
-                </a>
-
-
-
-                <!-- PERINGKAT -->
-
-                <a
-                    href="{{ Route::has('leaderboard') ? route('leaderboard') : '#' }}"
-                    class="menu-hover
-                    flex items-center
-                    gap-3
-                    px-4 py-3
-                    rounded-2xl
-                    text-white/60
-                    hover:text-white
-                    hover:bg-white/5
-                    transition
-                    font-medium
-                    text-sm"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-ranking-star
-                        text-lg
-                        w-6"
-                    ></i>
-
-                    <span>
-                        Peringkat
-                    </span>
-
-                </a>
-
-
-
-                <!-- KELOLA BANK SOAL -->
-
-                <a
-                    href="{{ Route::has('soal.index') ? route('soal.index') : '#' }}"
-                    class="menu-hover
-                    flex items-center
-                    gap-3
-                    px-4 py-3
-                    rounded-2xl
-                    text-white/60
-                    hover:text-white
-                    hover:bg-white/5
-                    transition
-                    font-medium
-                    text-sm"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-book-open
-                        text-lg
-                        w-6"
-                    ></i>
-
-                    <span>
-                        Kelola Soal IPA
-                    </span>
-
-                </a>
-
-
-            </nav>
-
-        </div>
-
-
-
-        <!-- =========================================================
-             USER / LOGOUT
-        ========================================================== -->
-
-        <div
-            class="pt-4
-            border-t
-            border-white/10"
-        >
-
-            <div
-                class="flex items-center
-                gap-3
-                px-2
-                mb-4"
-            >
-
-                <div
-                    class="w-9 h-9
-                    rounded-xl
-                    bg-white/10
-                    flex items-center
-                    justify-center
-                    text-cyan-400
-                    border border-white/10"
-                >
-
-                    <i class="fa-solid fa-user"></i>
-
-                </div>
-
-
-                <div class="overflow-hidden">
-
-                    <p
-                        class="text-xs
-                        font-bold
-                        text-white
-                        truncate"
-                    >
-                        {{ Auth::user()->name ?? 'Peserta' }}
-                    </p>
-
-
-                    <p
-                        class="text-[10px]
-                        text-white/40
-                        truncate"
-                    >
-                        {{ Auth::user()->email ?? 'user@app.com' }}
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- LOGOUT -->
-
-            <form
-                action="{{ route('logout') }}"
-                method="POST"
-                class="w-full"
-            >
-
-                @csrf
-
-                <button
-                    type="submit"
-                    class="w-full
-                    flex items-center
-                    gap-3
-                    px-4 py-3
-                    text-red-400
-                    hover:bg-red-500/10
-                    hover:text-red-300
-                    rounded-2xl
-                    font-bold
-                    text-sm
-                    transition
-                    cursor-pointer
-                    text-left"
-                >
-
-                    <i
-                        class="fa-solid
-                        fa-right-from-bracket"
-                    ></i>
-
-                    <span>
-                        Logout
-                    </span>
-
-                </button>
-
-            </form>
-
-        </div>
-
-
-    </aside>
-
-
-
-    <!-- =========================================================
-         KONTEN UTAMA
-    ========================================================== -->
-
-    <main
-        class="flex-1
-        p-8
-        overflow-y-auto"
-    >
-
-        <div
+</style>
+@endpush
+
+@section('content')
+<div
             class="max-w-6xl
             mx-auto
             space-y-8"
@@ -586,6 +193,14 @@
                                     Ulangan
                                 </th>
 
+                                @if(Auth::user()?->isAdminOrGuru())
+
+                                    <th class="p-5">
+                                        Siswa
+                                    </th>
+
+                                @endif
+
 
                                 <th
                                     class="p-5
@@ -625,124 +240,133 @@
                         >
 
 
-                            <!-- RIWAYAT ULANGAN -->
+                            @forelse($histories ?? [] as $history)
 
-                            <tr class="table-row">
+                                <tr class="table-row">
 
-
-                                <!-- NO -->
-
-                                <td
-                                    class="p-5
-                                    text-center
-                                    font-bold
-                                    text-white/40"
-                                >
-                                    1
-                                </td>
+                                    <td
+                                        class="p-5
+                                        text-center
+                                        font-bold
+                                        text-white/40"
+                                    >
+                                        {{ method_exists($histories, 'firstItem') ? $histories->firstItem() + $loop->index : $loop->iteration }}
+                                    </td>
 
 
-
-                                <!-- ULANGAN -->
-
-                                <td
-                                    class="p-5
-                                    font-bold
-                                    text-white
-                                    flex items-center
-                                    gap-3"
-                                >
-
-                                    <div
-                                        class="w-8 h-8
-                                        rounded-lg
-                                        bg-cyan-500/20
-                                        text-cyan-400
-                                        flex items-center
-                                        justify-center
-                                        text-xs
-                                        font-black"
+                                    <td
+                                        class="p-5
+                                        font-bold
+                                        text-white"
                                     >
 
-                                        <i
-                                            class="fa-solid
-                                            fa-flask"
-                                        ></i>
+                                        <div class="flex items-center gap-3">
 
-                                    </div>
+                                            <div
+                                                class="w-8 h-8
+                                                rounded-lg
+                                                bg-cyan-500/20
+                                                text-cyan-400
+                                                flex items-center
+                                                justify-center
+                                                text-xs
+                                                font-black"
+                                            >
+
+                                                <i class="fa-solid fa-flask"></i>
+
+                                            </div>
 
 
-                                    <div>
+                                            <div>
 
-                                        <span>
-                                            Ulangan 1
+                                                <span>
+                                                    Ulangan Level {{ $history->level }}
+                                                </span>
+
+                                                <p
+                                                    class="text-[10px]
+                                                    text-white/40
+                                                    font-normal
+                                                    mt-0.5"
+                                                >
+                                                    Benar {{ $history->correct_answer }} dari {{ $history->total_question }} soal
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    @if(Auth::user()?->isAdminOrGuru())
+
+                                        <td class="p-5 text-white/70 font-semibold">
+                                            {{ $history->user->name ?? 'Peserta' }}
+                                        </td>
+
+                                    @endif
+
+
+                                    <td
+                                        class="p-5
+                                        text-center
+                                        font-black
+                                        text-amber-400"
+                                    >
+                                        {{ $history->score }}
+                                    </td>
+
+
+                                    <td
+                                        class="p-5
+                                        text-center"
+                                    >
+
+                                        <span
+                                            class="px-3 py-1
+                                            rounded-full
+                                            {{ $history->score >= 60
+                                                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                                                : 'bg-red-500/20 text-red-300 border-red-500/30' }}
+                                            border
+                                            text-xs
+                                            font-bold"
+                                        >
+                                            {{ $history->score >= 60 ? 'Lulus' : 'Remedial' }}
                                         </span>
 
-                                        <p
-                                            class="text-[10px]
-                                            text-white/40
-                                            font-normal
-                                            mt-0.5"
-                                        >
-                                            Mata Pelajaran IPA
+                                        <p class="mt-1 text-[10px] text-white/35">
+                                            Grade {{ $history->grade }} | XP +{{ $history->xp_earned }}
                                         </p>
 
-                                    </div>
-
-                                </td>
+                                    </td>
 
 
-
-                                <!-- NILAI -->
-
-                                <td
-                                    class="p-5
-                                    text-center
-                                    font-black
-                                    text-amber-400"
-                                >
-                                    125
-                                </td>
-
-
-
-                                <!-- STATUS -->
-
-                                <td
-                                    class="p-5
-                                    text-center"
-                                >
-
-                                    <span
-                                        class="px-3 py-1
-                                        rounded-full
-                                        bg-emerald-500/20
-                                        text-emerald-400
-                                        border
-                                        border-emerald-500/30
-                                        text-xs
-                                        font-bold"
+                                    <td
+                                        class="p-5
+                                        text-center
+                                        text-white/50
+                                        text-xs"
                                     >
-                                        Selesai
-                                    </span>
+                                        {{ optional($history->played_at)->format('d M Y H:i') }}
+                                    </td>
 
-                                </td>
+                                </tr>
 
+                            @empty
 
+                                <tr>
+                                    <td
+                                        colspan="{{ Auth::user()?->isAdminOrGuru() ? 6 : 5 }}"
+                                        class="p-8 text-center text-white/45 text-sm"
+                                    >
+                                        Belum ada riwayat ulangan.
+                                    </td>
+                                </tr>
 
-                                <!-- TANGGAL -->
-
-                                <td
-                                    class="p-5
-                                    text-center
-                                    text-white/50
-                                    text-xs"
-                                >
-                                    25 Juli 2026
-                                </td>
-
-
-                            </tr>
+                            @endforelse
 
 
                         </tbody>
@@ -751,6 +375,14 @@
                     </table>
 
                 </div>
+
+                @if(isset($histories) && method_exists($histories, 'links') && $histories->hasPages())
+
+                    <div class="p-5 border-t border-white/10">
+                        {{ $histories->links() }}
+                    </div>
+
+                @endif
 
             </div>
 
@@ -820,10 +452,5 @@
 
 
         </div>
+@endsection
 
-    </main>
-
-
-</body>
-
-</html>

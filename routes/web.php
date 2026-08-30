@@ -30,7 +30,7 @@ Route::get('/', function () {
 |
 */
 
-Route::get('/clear-all', function () {
+Route::middleware(['auth', 'role:admin,guru'])->get('/clear-all', function () {
 
     Artisan::call('optimize:clear');
 
@@ -227,6 +227,16 @@ Route::middleware('auth')->group(function () {
         [GameController::class, 'leaderboard']
     )->name('leaderboard');
 
+    Route::get(
+        '/leaderboard/data',
+        [GameController::class, 'leaderboardData']
+    )->name('leaderboard.data');
+
+    Route::get(
+        '/leaderboard/stream',
+        [GameController::class, 'leaderboardStream']
+    )->name('leaderboard.stream');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -251,6 +261,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('soal')
         ->name('soal.')
+        ->middleware('role:admin,guru')
         ->group(function () {
 
 

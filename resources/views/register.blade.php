@@ -1,64 +1,76 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.auth')
 
-<head>
+@section('title', 'Daftar - QuizGo')
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Daftar - QuizGo</title>
-
-
-    <!-- TAILWIND -->
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-
-    <!-- FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- FONT AWESOME -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
-
-
-    <style>
+@push('styles')
+<style>
+html {
+            min-height: 100%;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh;
         }
 
-    </style>
+        .register-page {
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
 
-</head>
+        .register-shell {
+            padding-top: clamp(8px, 2vh, 16px);
+            padding-bottom: clamp(8px, 2vh, 16px);
+        }
 
+        @media (max-width: 480px), (max-height: 760px) {
+            .register-page {
+                align-items: flex-start;
+            }
 
-<body
-    class="min-h-screen
-    flex items-center justify-center
-    bg-cover bg-center
-    p-5
-    relative overflow-hidden"
-    style="
-        background-image:
-        url('{{ asset('images/bg-login.jpg') }}');
-    "
->
+            .register-shell {
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
 
+            .register-card {
+                border-radius: 22px;
+            }
 
-    <!-- =========================================================
+            .register-header {
+                padding: 16px 18px 10px;
+            }
+
+            .register-icon {
+                width: 52px;
+                height: 52px;
+                border-radius: 16px;
+            }
+
+            .register-icon i {
+                font-size: 22px;
+            }
+
+            .register-title {
+                margin-top: 10px;
+                font-size: 24px;
+                line-height: 1.1;
+            }
+
+            .register-form-area {
+                padding-left: 18px;
+                padding-right: 18px;
+                padding-bottom: 16px;
+            }
+        }
+</style>
+@endpush
+
+@section('content')
+<!-- =========================================================
          BACKGROUND
     ========================================================== -->
 
@@ -101,21 +113,22 @@
     ========================================================== -->
 
     <div
-        class="relative
+        class="register-shell
+        relative
         z-10
         w-full
-        max-w-md
+        max-w-sm
         transition-all
-        duration-300
-        my-auto"
+        duration-300"
     >
 
         <div
-            class="bg-white/10
+            class="register-card
+            bg-white/10
             border border-white/10
             backdrop-blur-2xl
-            rounded-[40px]
-            shadow-[0_0_50px_rgba(59,130,246,0.35)]
+            rounded-[26px]
+            shadow-[0_0_35px_rgba(59,130,246,0.3)]
             overflow-hidden"
         >
 
@@ -125,9 +138,9 @@
             ================================================== -->
 
             <div
-                class="relative
-                p-6
-                pt-8
+                class="register-header
+                relative
+                px-6 pt-5 pb-3
                 text-center"
             >
 
@@ -149,11 +162,12 @@
                 <!-- ICON -->
 
                 <div
-                    class="relative
+                    class="register-icon
+                    relative
                     z-10
                     mx-auto
-                    w-24 h-24
-                    rounded-[26px]
+                    w-16 h-16
+                    rounded-2xl
                     bg-gradient-to-br
                     from-cyan-400
                     via-blue-500
@@ -171,7 +185,7 @@
                         class="fa-solid
                         fa-user-plus
                         text-white
-                        text-4xl"
+                        text-2xl"
                     ></i>
 
                 </div>
@@ -180,8 +194,9 @@
                 <!-- BRAND -->
 
                 <h1
-                    class="mt-5
-                    text-3xl
+                    class="register-title
+                    mt-3
+                    text-2xl
                     font-extrabold
                     text-white
                     tracking-tight"
@@ -192,21 +207,12 @@
 
                 <p
                     class="mt-1
+                    max-w-xs
+                    mx-auto
                     text-cyan-200
-                    text-sm
-                    font-semibold"
-                >
-                    Ulangan IPA Interaktif
-                </p>
-
-
-                <p
-                    class="mt-2
-                    text-white/50
                     text-xs
                     leading-relaxed
-                    max-w-xs
-                    mx-auto"
+                    font-semibold"
                 >
                     Belajar, bermain, dan uji pemahamanmu
                     dengan cara yang menyenangkan.
@@ -221,8 +227,9 @@
             ================================================== -->
 
             <div
-                class="px-8
-                pb-8"
+                class="register-form-area
+                px-6
+                pb-5"
             >
 
 
@@ -281,7 +288,7 @@
                 <form
                     method="POST"
                     action="{{ url('/register') }}"
-                    class="space-y-4"
+                    class="space-y-3"
                 >
 
                     @csrf
@@ -323,7 +330,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-3.5
+                                px-5 py-2.5
                                 pl-12
                                 text-white
                                 placeholder:text-white/30
@@ -390,7 +397,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-3.5
+                                px-5 py-2.5
                                 pl-12
                                 text-white
                                 placeholder:text-white/30
@@ -457,7 +464,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-3.5
+                                px-5 py-2.5
                                 pl-12
                                 pr-12
                                 text-white
@@ -547,7 +554,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-3.5
+                                px-5 py-2.5
                                 pl-12
                                 pr-12
                                 text-white
@@ -611,7 +618,7 @@
                         <button
                             type="submit"
                             class="w-full
-                            py-4
+                            py-3
                             rounded-2xl
                             bg-gradient-to-r
                             from-cyan-400
@@ -657,7 +664,7 @@
                     text-white/50
                     text-xs
                     font-medium
-                    mt-5"
+                    mt-4"
                 >
 
                     Sudah memiliki akun?
@@ -684,8 +691,9 @@
                 ================================================== -->
 
                 <div
-                    class="mt-5
-                    pt-4
+                    class="hidden
+                    mt-4
+                    pt-3
                     border-t
                     border-white/5
                     text-center"
@@ -777,8 +785,5 @@
         }
 
     </script>
+@endsection
 
-
-</body>
-
-</html>

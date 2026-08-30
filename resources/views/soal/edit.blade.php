@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.app')
 
-<head>
+@section('title', 'Edit Soal Ulangan IPA - QuizGo')
+@section('main_class', 'flex-1 overflow-x-hidden pb-28 lg:pb-8')
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Edit Soal Ulangan IPA - QuizGo</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -43,21 +24,11 @@
             transform: translateY(-1px);
             box-shadow: 0 8px 20px rgba(245, 158, 11, 0.08);
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body
-    class="relative min-h-screen
-    bg-cover bg-center bg-fixed
-    bg-no-repeat overflow-x-hidden"
-    style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
->
-
-
-    <!-- OVERLAY -->
+@section('content')
+<!-- OVERLAY -->
 
     <div
         class="fixed inset-0
@@ -129,7 +100,7 @@
 
                             <i class="fa-solid fa-flask mr-1.5"></i>
 
-                            QuizGo • Manajemen Soal IPA
+                            QuizGo â€¢ Manajemen Soal IPA
 
                         </p>
 
@@ -1059,8 +1030,5 @@
         </div>
 
     </div>
+@endsection
 
-
-</body>
-
-</html>

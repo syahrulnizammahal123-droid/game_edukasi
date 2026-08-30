@@ -1,27 +1,41 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace Database\Factories;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ */
+class UserFactory extends Factory
 {
-    public function up(): void
+    protected static ?string $password;
+
+    public function definition(): array
     {
-        Schema::table('progress', function (Blueprint $table) {
-
-            $table->integer('high_score')
-                  ->default(0);
-
-        });
+        return [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'role' => 'siswa',
+        ];
     }
 
-    public function down(): void
+    public function admin(): static
     {
-        Schema::table('progress', function (Blueprint $table) {
-
-            $table->dropColumn('high_score');
-
-        });
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+        ]);
     }
-};
+
+    public function guru(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'guru',
+        ]);
+    }
+}

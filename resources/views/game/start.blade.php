@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.game')
 
-<head>
+@section('title', 'Ulangan IPA - QuizGo')
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Ulangan IPA - QuizGo</title>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- Icons -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -45,21 +22,11 @@
         .answer-btn:hover {
             transform: translateY(-4px);
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body
-    class="relative min-h-screen
-    bg-cover bg-center bg-fixed
-    bg-no-repeat overflow-x-hidden"
-    style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
->
-
-
-    <!-- OVERLAY -->
+@section('content')
+<!-- OVERLAY -->
 
     <div
         class="fixed inset-0
@@ -789,8 +756,5 @@
     <!-- SOUND -->
 
     @include('components.sound')
+@endsection
 
-
-</body>
-
-</html>

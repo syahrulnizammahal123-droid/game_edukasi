@@ -1,32 +1,14 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.app')
 
-<head>
+@section('title', 'Dashboard - QuizGo')
 
-    <meta charset="UTF-8">
+@push('head')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard - QuizGo</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -63,283 +45,11 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(34, 211, 238, 0.5);
         }
-
-    </style>
-
-</head>
-
-
-<body
-    class="relative min-h-screen
-    bg-cover bg-center bg-fixed bg-no-repeat
-    overflow-x-hidden text-white antialiased"
-    style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
->
-
-
-    <!-- BACKGROUND -->
-
-    <div class="fixed inset-0 bg-[#030712]/85 -z-20"></div>
-
-    <div class="fixed inset-0 bg-gradient-to-tr from-purple-950/10 via-slate-950/40 to-cyan-950/10 -z-10"></div>
-
-    <div
-        class="absolute top-20 left-10
-        w-64 h-64 rounded-full
-        bg-cyan-500/10 blur-3xl
-        pointer-events-none animate-pulse"
-    ></div>
-
-    <div
-        class="absolute bottom-20 right-10
-        w-72 h-72 rounded-full
-        bg-purple-500/10 blur-3xl
-        pointer-events-none"
-    ></div>
-
-
-
-    <div class="relative z-10 flex min-h-screen">
-
-
-        <!-- =====================================================
-             SIDEBAR
-        ====================================================== -->
-
-        <aside
-            class="hidden lg:flex
-            flex-col w-72 p-6
-            glass
-            border-r border-white/10
-            shrink-0"
-        >
-
-            <div class="flex items-center gap-4 mb-10">
-
-                <div
-                    class="w-14 h-14 rounded-2xl
-                    bg-gradient-to-br
-                    from-cyan-400 to-blue-600
-                    flex items-center justify-center
-                    shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                >
-
-                    <i class="fa-solid fa-flask text-white text-xl"></i>
-
-                </div>
-
-
-                <div>
-
-                    <h1 class="text-xl font-black tracking-wide text-white">
-                        QuizGo
-                    </h1>
-
-                    <p class="text-cyan-400 text-xs font-bold uppercase tracking-widest">
-                        Media Pembelajaran IPA
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- NAVIGATION -->
-
-            <nav class="space-y-3 flex-1">
-
-
-                <!-- DASHBOARD -->
-
-                <a
-                    href="/dashboard"
-                    class="flex items-center gap-4
-                    bg-gradient-to-r
-                    from-cyan-500 to-blue-600
-                    text-white p-4
-                    rounded-2xl
-                    font-bold
-                    shadow-[0_0_20px_rgba(59,130,246,0.3)]
-                    transition"
-                >
-
-                    <i class="fa-solid fa-columns text-lg w-6 text-center"></i>
-
-                    <span>
-                        Dashboard
-                    </span>
-
-                </a>
-
-
-                <!-- ULANGAN -->
-
-                <a
-                    href="/game/level"
-                    class="flex items-center gap-4
-                    text-white/70
-                    hover:text-white
-                    p-4
-                    rounded-2xl
-                    hover:bg-white/5
-                    transition
-                    font-semibold
-                    group"
-                >
-
-                    <i
-                        class="fa-solid fa-file-pen
-                        text-lg text-cyan-400
-                        w-6 text-center
-                        group-hover:scale-110
-                        transition-transform"
-                    ></i>
-
-                    <span>
-                        Ulangan
-                    </span>
-
-                </a>
-
-
-                <!-- PERINGKAT -->
-
-                <a
-                    href="/leaderboard"
-                    class="flex items-center gap-4
-                    text-white/70
-                    hover:text-white
-                    p-4
-                    rounded-2xl
-                    hover:bg-white/5
-                    transition
-                    font-semibold
-                    group"
-                >
-
-                    <i
-                        class="fa-solid fa-ranking-star
-                        text-lg text-yellow-400
-                        w-6 text-center
-                        group-hover:scale-110
-                        transition-transform"
-                    ></i>
-
-                    <span>
-                        Peringkat Global
-                    </span>
-
-                </a>
-
-
-                <!-- RIWAYAT ULANGAN -->
-
-                <a
-                    href="/riwayat"
-                    class="flex items-center gap-4
-                    text-white/70
-                    hover:text-white
-                    p-4
-                    rounded-2xl
-                    hover:bg-white/5
-                    transition
-                    font-semibold
-                    group"
-                >
-
-                    <i
-                        class="fa-solid fa-clock-rotate-left
-                        text-lg text-purple-400
-                        w-6 text-center
-                        group-hover:scale-110
-                        transition-transform"
-                    ></i>
-
-                    <span>
-                        Riwayat Ulangan
-                    </span>
-
-                </a>
-
-
-                <!-- KELOLA SOAL -->
-
-                <a
-                    href="/soal"
-                    class="flex items-center gap-4
-                    text-white/70
-                    hover:text-white
-                    p-4
-                    rounded-2xl
-                    hover:bg-white/5
-                    transition
-                    font-semibold
-                    group"
-                >
-
-                    <i
-                        class="fa-solid fa-book-open
-                        text-lg text-emerald-400
-                        w-6 text-center
-                        group-hover:scale-110
-                        transition-transform"
-                    ></i>
-
-                    <span>
-                        Kelola Bank Soal
-                    </span>
-
-                </a>
-
-            </nav>
-
-
-            <!-- LOGOUT -->
-
-            <div class="pt-4 border-t border-white/5">
-
-                <a
-                    href="/logout"
-                    class="flex items-center
-                    justify-center gap-3
-                    bg-red-500/10
-                    hover:bg-red-500/20
-                    text-red-400
-                    p-4 rounded-2xl
-                    font-bold transition
-                    border border-red-500/20"
-                >
-
-                    <i class="fa-solid fa-right-from-bracket"></i>
-
-                    <span>
-                        Keluar Sistem
-                    </span>
-
-                </a>
-
-            </div>
-
-        </aside>
-
-
-
-        <!-- =====================================================
-             MAIN CONTENT
-        ====================================================== -->
-
-        <main
-            class="flex-1
-            p-4 lg:p-8
-            max-w-7xl
-            mx-auto
-            w-full
-            overflow-y-auto
-            pb-24"
-        >
-
-
-            <!-- =================================================
+</style>
+@endpush
+
+@section('content')
+<!-- =================================================
                  MOBILE HEADER
             ================================================== -->
 
@@ -969,7 +679,7 @@
                         font-bold
                         tracking-widest"
                     >
-                        Login Streak
+                        Akurasi Rata-rata
                     </p>
 
 
@@ -982,15 +692,10 @@
                         flex items-center gap-2"
                     >
 
-                        <i
-                            class="fa-solid
-                            fa-fire-lines
-                            text-orange-400
-                            animate-pulse"
-                        ></i>
+                        <i class="fa-solid fa-chart-line text-orange-400"></i>
 
                         <span>
-                            {{ $progress->login_streak ?? 1 }} H
+                            {{ $averageAccuracy ?? 0 }}%
                         </span>
 
                     </h2>
@@ -1110,7 +815,7 @@
                                         to-blue-500
                                         transition-all
                                         duration-300"
-                                        style="width: {{ min(($progress->high_score / 5) * 100, 100) }}%"
+                                        style="width: {{ min((($progress->total_play ?? 0) / 5) * 100, 100) }}%"
                                     ></div>
 
                                 </div>
@@ -1123,7 +828,7 @@
                                     font-bold
                                     tracking-wide"
                                 >
-                                    {{ min($progress->high_score, 5) }}/5 Soal Selesai
+                                    {{ $progress->total_play ?? 0 }} Kali Ulangan Selesai
                                 </div>
 
                             </div>
@@ -1745,14 +1450,14 @@
                                     shrink-0"
                                 >
 
-                                    {{ $player->high_score }}
+                                    {{ $player->total_xp ?? 0 }}
 
                                     <span
                                         class="text-[10px]
                                         text-white/40
                                         font-normal"
                                     >
-                                        Pts
+                                        XP
                                     </span>
 
                                 </span>
@@ -1779,24 +1484,10 @@
 
             </div>
 
+@include('components.loading')
 
-        </main>
+@include('components.sound')
 
-    </div>
+@include('components.level-up')
+@endsection
 
-
-
-    <!-- =====================================================
-         BLADE COMPONENTS
-    ====================================================== -->
-
-    @include('components.loading')
-
-    @include('components.sound')
-
-    @include('components.level-up')
-
-
-</body>
-
-</html>

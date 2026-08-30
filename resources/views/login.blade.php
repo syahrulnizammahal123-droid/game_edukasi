@@ -1,64 +1,104 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.auth')
 
-<head>
+@section('title', 'Login - QuizGo')
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Login - QuizGo</title>
-
-
-    <!-- TAILWIND -->
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-
-    <!-- FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- FONT AWESOME -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
-
-
-    <style>
+@push('styles')
+<style>
+html {
+            min-height: 100%;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh;
         }
 
-    </style>
+        .login-page {
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
 
-</head>
+        .login-shell {
+            padding-top: clamp(10px, 2.5vh, 20px);
+            padding-bottom: clamp(10px, 2.5vh, 20px);
+        }
 
+        @media (max-width: 480px) {
+            .login-page {
+                align-items: flex-start;
+            }
 
-<body
-    class="min-h-screen
-    flex items-center justify-center
-    bg-cover bg-center
-    p-5
-    relative overflow-hidden"
-    style="
-        background-image:
-        url('{{ asset('images/bg-login.jpg') }}');
-    "
->
+            .login-shell {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
 
+            .login-card {
+                border-radius: 24px;
+            }
 
-    <!-- =========================================================
+            .login-header {
+                padding: 20px 20px 12px;
+            }
+
+            .login-form-area {
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 18px;
+            }
+        }
+
+        @media (max-height: 760px) and (min-width: 481px) {
+            .login-page {
+                align-items: flex-start;
+            }
+
+            .login-shell {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .login-header {
+                padding-top: 18px;
+                padding-bottom: 10px;
+            }
+
+            .login-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 18px;
+            }
+
+            .login-icon i {
+                font-size: 28px;
+            }
+
+            .login-title {
+                margin-top: 12px;
+                font-size: 28px;
+                line-height: 1.1;
+            }
+
+            .login-copy {
+                display: none;
+            }
+
+            .login-form-area {
+                padding-bottom: 18px;
+            }
+
+            .login-footer {
+                display: none;
+            }
+        }
+</style>
+@endpush
+
+@section('content')
+<!-- =========================================================
          BACKGROUND OVERLAY
     ========================================================== -->
 
@@ -103,20 +143,22 @@
     ========================================================== -->
 
     <div
-        class="relative
+        class="login-shell
+        relative
         z-10
         w-full
-        max-w-md
+        max-w-sm
         transition-all
         duration-300"
     >
 
         <div
-            class="bg-white/10
+            class="login-card
+            bg-white/10
             border border-white/10
             backdrop-blur-2xl
-            rounded-[40px]
-            shadow-[0_0_50px_rgba(59,130,246,0.35)]
+            rounded-[28px]
+            shadow-[0_0_35px_rgba(59,130,246,0.3)]
             overflow-hidden"
         >
 
@@ -126,8 +168,9 @@
             ================================================== -->
 
             <div
-                class="relative
-                p-8
+                class="login-header
+                relative
+                px-6 pt-6 pb-4
                 text-center"
             >
 
@@ -153,11 +196,12 @@
                 ================================================== -->
 
                 <div
-                    class="relative
+                    class="login-icon
+                    relative
                     z-10
                     mx-auto
-                    w-28 h-28
-                    rounded-[30px]
+                    w-20 h-20
+                    rounded-2xl
                     bg-gradient-to-br
                     from-cyan-400
                     via-blue-500
@@ -175,7 +219,7 @@
                         class="fa-solid
                         fa-flask
                         text-white
-                        text-5xl"
+                        text-3xl"
                     ></i>
 
                 </div>
@@ -187,8 +231,9 @@
                 ================================================== -->
 
                 <h1
-                    class="mt-6
-                    text-4xl
+                    class="login-title
+                    mt-4
+                    text-3xl
                     font-extrabold
                     text-white
                     tracking-tight"
@@ -199,25 +244,17 @@
 
                 <p
                     class="mt-2
-                    text-cyan-200
-                    text-base
-                    font-semibold"
-                >
-                    Ulangan IPA Interaktif
-                </p>
-
-
-                <p
-                    class="mt-2
-                    text-white/50
-                    text-xs
-                    leading-relaxed
                     max-w-xs
-                    mx-auto"
+                    mx-auto
+                    text-cyan-200
+                    text-sm
+                    leading-relaxed
+                    font-semibold"
                 >
                     Belajar, bermain, dan uji pemahamanmu
                     dengan cara yang menyenangkan.
                 </p>
+
 
             </div>
 
@@ -228,8 +265,9 @@
             ================================================== -->
 
             <div
-                class="px-8
-                pb-8"
+                class="login-form-area
+                px-6
+                pb-5"
             >
 
 
@@ -324,7 +362,7 @@
                 <form
                     method="POST"
                     action="{{ url('/login') }}"
-                    class="space-y-5"
+                    class="space-y-4"
                 >
 
                     @csrf
@@ -366,7 +404,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-4
+                                px-5 py-3
                                 pl-14
                                 text-white
                                 placeholder:text-white/30
@@ -436,7 +474,7 @@
                                 bg-white/5
                                 border border-white/10
                                 rounded-2xl
-                                px-5 py-4
+                                px-5 py-3
                                 pl-14
                                 pr-14
                                 text-white
@@ -506,7 +544,7 @@
                         <button
                             type="submit"
                             class="w-full
-                            py-4
+                            py-3
                             rounded-2xl
                             bg-gradient-to-r
                             from-cyan-400
@@ -552,7 +590,7 @@
                     text-white/50
                     text-xs
                     font-medium
-                    mt-6"
+                    mt-4"
                 >
 
                     Belum memiliki akun?
@@ -579,8 +617,10 @@
                 ================================================== -->
 
                 <div
-                    class="mt-5
-                    pt-4
+                    class="login-footer
+                    hidden
+                    mt-4
+                    pt-3
                     border-t
                     border-white/5
                     text-center"
@@ -664,8 +704,5 @@
         }
 
     </script>
+@endsection
 
-
-</body>
-
-</html>

@@ -1,35 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.game')
 
-<head>
+@section('title', 'QuizGo - Ulangan IPA')
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>QuizGo - Ulangan IPA</title>
-
-    <!-- TAILWIND -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- POPPINS -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- FONT AWESOME -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
-
-    <style>
-
-        * {
+@push('styles')
+<style>
+* {
             box-sizing: border-box;
         }
 
@@ -109,20 +84,11 @@
         #nextProgress {
             transition: width 1.5s linear;
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body
-    class="min-h-screen
-    bg-[#070d19]
-    text-white"
->
-
-
-    <!-- =========================================================
+@section('content')
+<!-- =========================================================
          BACKGROUND
     ========================================================== -->
 
@@ -446,7 +412,7 @@
 
                         <i class="fa-solid fa-flask"></i>
 
-                        QuizGo • Ulangan IPA
+                        QuizGo â€¢ Ulangan IPA
 
                     </div>
 
@@ -1387,8 +1353,5 @@
     @include('components.loading')
 
     @include('components.sound')
+@endsection
 
-
-</body>
-
-</html>

@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.app')
 
-<head>
+@section('title', 'Pilih Ulangan - QuizGo')
+@section('main_class', 'flex-1 overflow-x-hidden pb-28 lg:pb-8')
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Pilih Ulangan - QuizGo</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -42,22 +23,11 @@
         .card-hover:hover {
             transform: translateY(-6px);
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body
-    class="relative min-h-screen
-    bg-cover bg-center bg-fixed
-    bg-no-repeat overflow-x-hidden
-    text-white"
-    style="background-image:url('{{ asset('images/bg-login.jpg') }}')"
->
-
-
-    <!-- OVERLAY -->
+@section('content')
+<!-- OVERLAY -->
 
     <div
         class="fixed inset-0
@@ -129,7 +99,7 @@
 
                             <i class="fa-solid fa-flask mr-1.5"></i>
 
-                            QuizGo • Ulangan IPA
+                            QuizGo â€¢ Ulangan IPA
 
                         </p>
 
@@ -396,7 +366,7 @@
                             font-black
                             mt-2"
                         >
-                            {{ Auth::user()->total_xp ?? 0 }}
+                            {{ $progress->total_xp ?? 0 }}
                         </h2>
 
                     </div>
@@ -452,7 +422,7 @@
                             font-black
                             mt-2"
                         >
-                            {{ Auth::user()->score ?? 0 }}
+                            {{ $progress->high_score ?? 0 }}
                         </h2>
 
                     </div>
@@ -1123,8 +1093,5 @@
     <!-- SOUND -->
 
     @include('components.sound')
+@endsection
 
-
-</body>
-
-</html>

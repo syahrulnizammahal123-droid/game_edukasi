@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Soal;
+use App\Models\Progress;
+use App\Models\GameHistory;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -15,7 +17,7 @@ class GameController extends Controller
      */
     private function checkIsGuruOrAdmin()
     {
-        return auth()->check();
+        return auth()->check() && auth()->user()->isAdminOrGuru();
     }
 
 
@@ -26,40 +28,162 @@ class GameController extends Controller
      */
     public function leaderboard()
     {
-        try {
-            $users = User::orderBy('score', 'desc')
-                ->orderBy('total_xp', 'desc')
-                ->get();
-        } catch (\Exception $e) {
-            $users = collect([]);
-        }
+        $leaderboard = $this->leaderboardRows();
 
-        if ($users->isEmpty()) {
-            $users = collect([
-                (object) [
-                    'name' => 'Peringkat 1 (Juara)',
-                    'score' => 100,
-                    'total_xp' => 1250,
-                ],
-                (object) [
-                    'name' => 'Peringkat 2',
-                    'score' => 90,
-                    'total_xp' => 980,
-                ],
-                (object) [
-                    'name' => 'Peringkat 3',
-                    'score' => 80,
-                    'total_xp' => 850,
-                ],
-                (object) [
-                    'name' => 'Peringkat 4',
-                    'score' => 70,
-                    'total_xp' => 720,
-                ],
-            ]);
-        }
+        return view('leaderboard', [
+            'leaderboard' => $leaderboard,
+            'leaderboardUpdatedAt' => now()->format('H:i:s'),
+        ]);
+    }
 
-        return view('leaderboard', compact('users'));
+    public function leaderboardData()
+    {
+        return response()->json([
+            'leaderboard' => $this->leaderboardRows(),
+            'updated_at' => now()->format('H:i:s'),
+        ]);
+    }
+
+    public function leaderboardStream()
+    {
+        return response()->stream(function () {
+            ignore_user_abort(true);
+            set_time_limit(0);
+
+            $lastHash = null;
+            $startedAt = time();
+            $maxRuntime = 120;
+
+            while (!connection_aborted() && (time() - $startedAt) < $maxRuntime) {
+                $rows = $this->leaderboardRows()->values();
+                $payload = [
+                    'leaderboard' => $rows,
+                    'updated_at' => now()->format('H:i:s'),
+                ];
+                $hash = md5(json_encode($payload['leaderboard']));
+
+                if ($hash !== $lastHash) {
+                    echo "event: leaderboard\n";
+                    echo 'data: ' . json_encode($payload) . "\n\n";
+
+                    $lastHash = $hash;
+                } else {
+                    echo "event: heartbeat\n";
+                    echo 'data: ' . json_encode([
+                        'updated_at' => now()->format('H:i:s'),
+                    ]) . "\n\n";
+                }
+
+                if (ob_get_level() > 0) {
+                    ob_flush();
+                }
+
+                flush();
+                sleep(1);
+            }
+
+            echo "event: reconnect\n";
+            echo 'data: ' . json_encode(['message' => 'reconnect']) . "\n\n";
+
+            if (ob_get_level() > 0) {
+                ob_flush();
+            }
+
+            flush();
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache, no-transform',
+            'Connection' => 'keep-alive',
+            'X-Accel-Buffering' => 'no',
+        ]);
+    }
+
+    private function leaderboardRows()
+    {
+        return Progress::with('user')
+            ->whereHas('user', function ($query) {
+                $query->where('role', 'siswa');
+            })
+            ->orderByDesc('total_xp')
+            ->orderByDesc('high_score')
+            ->orderByDesc('correct_answer')
+            ->get()
+            ->values()
+            ->map(function ($progress, $index) {
+                $totalAnswered =
+                    ($progress->correct_answer ?? 0) +
+                    ($progress->wrong_answer ?? 0);
+
+                $accuracy = $totalAnswered > 0
+                    ? round((($progress->correct_answer ?? 0) / $totalAnswered) * 100)
+                    : 0;
+
+                $user = $progress->user;
+                $name = $user->name ?? 'Peserta';
+
+                return [
+                    'rank' => $index + 1,
+                    'user_id' => $user->id ?? null,
+                    'name' => $name,
+                    'initial' => strtoupper(substr($name, 0, 1)),
+                    'total_xp' => (int) ($progress->total_xp ?? 0),
+                    'high_score' => (int) ($progress->high_score ?? 0),
+                    'total_play' => (int) ($progress->total_play ?? 0),
+                    'correct_answer' => (int) ($progress->correct_answer ?? 0),
+                    'wrong_answer' => (int) ($progress->wrong_answer ?? 0),
+                    'accuracy' => (int) $accuracy,
+                    'level' => (int) ($progress->level ?? 1),
+                    'is_current_user' => auth()->id() === ($user->id ?? null),
+                ];
+            });
+    }
+
+    private function progressDefaults(): array
+    {
+        return [
+            'score' => 0,
+            'high_score' => 0,
+            'total_xp' => 0,
+            'last_soal_id' => 0,
+            'level' => 1,
+            'combo' => 0,
+            'last_index' => 0,
+            'health' => 3,
+            'login_streak' => 0,
+            'total_play' => 0,
+            'correct_answer' => 0,
+            'wrong_answer' => 0,
+        ];
+    }
+
+    private function updateProgressPerAnswer($user, Soal $soal, bool $isCorrect): void
+    {
+        $progress = Progress::firstOrCreate(
+            ['user_id' => $user->id],
+            $this->progressDefaults()
+        );
+
+        $answeredInGame =
+            session('game_benar', 0) +
+            session('game_salah', 0);
+
+        $currentScore = $answeredInGame > 0
+            ? round((session('game_benar', 0) / $answeredInGame) * 100)
+            : 0;
+
+        $newTotalXp =
+            ($progress->total_xp ?? 0) +
+            ($isCorrect ? 10 : 0);
+
+        $progress->update([
+            'score' => $currentScore,
+            'total_xp' => $newTotalXp,
+            'level' => (int) floor($newTotalXp / 100) + 1,
+            'last_soal_id' => $soal->id,
+            'last_index' => session('game_index', 0),
+            'correct_answer' => ($progress->correct_answer ?? 0) + ($isCorrect ? 1 : 0),
+            'wrong_answer' => ($progress->wrong_answer ?? 0) + ($isCorrect ? 0 : 1),
+        ]);
     }
 
 
@@ -72,11 +196,29 @@ class GameController extends Controller
     {
         $user = auth()->user();
 
+        $progress = Progress::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'score' => 0,
+                'high_score' => 0,
+                'total_xp' => 0,
+                'last_soal_id' => 0,
+                'level' => 1,
+                'combo' => 0,
+                'last_index' => 0,
+                'health' => 3,
+                'login_streak' => 0,
+                'total_play' => 0,
+                'correct_answer' => 0,
+                'wrong_answer' => 0,
+            ]
+        );
+
         $hasLevel1 = Soal::where('level', 1)->exists();
         $hasLevel2 = Soal::where('level', 2)->exists();
         $hasLevel3 = Soal::where('level', 3)->exists();
 
-        $playerLevel = $user->level ?? 1;
+        $playerLevel = $progress->level ?? 1;
 
         $jumlahLevelTerbuka =
             ($hasLevel1 ? 1 : 0) +
@@ -90,7 +232,8 @@ class GameController extends Controller
                 'hasLevel1',
                 'hasLevel2',
                 'hasLevel3',
-                'jumlahLevelTerbuka'
+                'jumlahLevelTerbuka',
+                'progress'
             )
         );
     }
@@ -132,6 +275,9 @@ class GameController extends Controller
             'game_salah',
             'game_total',
             'game_level',
+            'game_last_soal_id',
+            'game_result_saved',
+            'game_answered_soals',
         ]);
 
 
@@ -188,6 +334,7 @@ class GameController extends Controller
             'game_salah' => 0,
             'game_total' => $soals->count(),
             'game_level' => $level,
+            'game_answered_soals' => [],
         ]);
 
 
@@ -314,36 +461,70 @@ class GameController extends Controller
             $jawabanUser === $kunci;
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Simpan statistik
-        |--------------------------------------------------------------------------
-        */
-        if ($isCorrect) {
+        $answeredSoals = array_map(
+            'intval',
+            session('game_answered_soals', [])
+        );
+
+        $alreadyAnswered = in_array(
+            (int) $soal->id,
+            $answeredSoals,
+            true
+        );
+
+        if (!$alreadyAnswered) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Simpan statistik sesi
+            |--------------------------------------------------------------------------
+            */
+            if ($isCorrect) {
+
+                session([
+                    'game_benar' =>
+                        session('game_benar', 0) + 1,
+                ]);
+
+            } else {
+
+                session([
+                    'game_salah' =>
+                        session('game_salah', 0) + 1,
+                ]);
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Naik ke index berikutnya
+            |--------------------------------------------------------------------------
+            */
+            $answeredSoals[] = (int) $soal->id;
 
             session([
-                'game_benar' =>
-                    session('game_benar', 0) + 1,
+                'game_index' =>
+                    session('game_index', 0) + 1,
+                'game_last_soal_id' => $soal->id,
+                'game_answered_soals' => $answeredSoals,
             ]);
 
-        } else {
+            if (auth()->check()) {
 
-            session([
-                'game_salah' =>
-                    session('game_salah', 0) + 1,
-            ]);
+                try {
+                    $this->updateProgressPerAnswer(
+                        auth()->user(),
+                        $soal,
+                        $isCorrect
+                    );
+                } catch (\Exception $e) {
+
+                    /*
+                    | Jangan hentikan proses menjawab soal.
+                    */
+                }
+            }
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Naik ke index berikutnya
-        |--------------------------------------------------------------------------
-        */
-        session([
-            'game_index' =>
-                session('game_index', 0) + 1,
-        ]);
 
 
         /*
@@ -563,38 +744,44 @@ class GameController extends Controller
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Simpan hasil user
-        |--------------------------------------------------------------------------
-        */
-        if (auth()->check()) {
+        if (auth()->check() && !session('game_result_saved')) {
 
             try {
 
                 $user = auth()->user();
 
+                $progress = Progress::firstOrCreate(
+                    ['user_id' => $user->id],
+                    $this->progressDefaults()
+                );
 
-                /*
-                | Simpan skor tertinggi
-                */
-                if (
-                    $skor >
-                    ($user->score ?? 0)
-                ) {
+                $progress->update([
+                    'score' => $skor,
+                    'high_score' => max($skor, $progress->high_score ?? 0),
+                    'last_soal_id' => session('game_last_soal_id', 0),
+                    'last_index' => session('game_index', 0),
+                    'total_play' => ($progress->total_play ?? 0) + 1,
+                ]);
+
+                if ($skor > ($user->score ?? 0)) {
                     $user->score = $skor;
+                    $user->save();
                 }
 
+                GameHistory::create([
+                    'user_id' => $user->id,
+                    'level' => session('game_level', 1),
+                    'score' => $skor,
+                    'grade' => $grade,
+                    'correct_answer' => $benar,
+                    'wrong_answer' => $salah,
+                    'total_question' => $totalSoal,
+                    'accuracy' => $akurasi,
+                    'xp_earned' => $tambahanXp,
+                    'played_at' => now(),
+                ]);
 
-                /*
-                | Tambahkan XP
-                */
-                $user->total_xp =
-                    ($user->total_xp ?? 0) +
-                    $tambahanXp;
-
-
-                $user->save();
+                session(['game_result_saved' => true]);
 
             } catch (\Exception $e) {
 
@@ -632,8 +819,18 @@ class GameController extends Controller
      */
     public function riwayat()
     {
+        $user = auth()->user();
+
+        $histories = GameHistory::with('user')
+            ->when(!$user->isAdminOrGuru(), function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->latest('played_at')
+            ->paginate(10);
+
         return view(
-            'game.riwayat'
+            'game.riwayat',
+            compact('histories')
         );
     }
 

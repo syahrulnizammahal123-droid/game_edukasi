@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.app')
 
-<head>
+@section('title', 'Tambah Soal Ulangan IPA - QuizGo')
+@section('main_class', 'flex-1 overflow-x-hidden pb-28 lg:pb-8')
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tambah Soal Ulangan IPA - QuizGo</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -43,16 +24,11 @@
             transform: translateY(-1px);
             box-shadow: 0 8px 20px rgba(34, 211, 238, 0.08);
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body class="bg-[#070d19] text-white min-h-screen p-6">
-
-
-    <div class="max-w-3xl mx-auto space-y-6">
+@section('content')
+<div class="max-w-3xl mx-auto space-y-6">
 
 
         <!-- =====================================================
@@ -88,7 +64,7 @@
 
                     <i class="fa-solid fa-flask"></i>
 
-                    QuizGo • Ulangan IPA
+                    QuizGo â€¢ Ulangan IPA
 
                 </span>
 
@@ -859,8 +835,5 @@
         </form>
 
     </div>
+@endsection
 
-
-</body>
-
-</html>

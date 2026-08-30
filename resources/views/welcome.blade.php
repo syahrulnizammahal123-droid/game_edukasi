@@ -1,42 +1,14 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.guest')
 
-<head>
+@section('title', 'QuizGo - Ulangan IPA Interaktif')
+@section('body_class', 'min-h-screen bg-cover bg-center bg-fixed text-white overflow-x-hidden')
+@section('body_style')
+    background-image:url('{{ asset('images/bg-login.jpg') }}')
+@endsection
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>QuizGo - Ulangan IPA Interaktif</title>
-
-
-    <!-- TAILWIND -->
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-
-    <!-- FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- FONT AWESOME -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    >
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
         }
 
@@ -80,27 +52,11 @@
             }
 
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body
-    class="min-h-screen
-    bg-cover
-    bg-center
-    bg-fixed
-    text-white
-    overflow-x-hidden"
-    style="
-        background-image:
-        url('{{ asset('images/bg-login.jpg') }}');
-    "
->
-
-
-    <!-- =========================================================
+@section('content')
+<!-- =========================================================
          BACKGROUND OVERLAY
     ========================================================== -->
 
@@ -1227,7 +1183,7 @@
                 class="text-white/30
                 text-xs"
             >
-                © {{ date('Y') }} QuizGo
+                Â© {{ date('Y') }} QuizGo
             </p>
 
 
@@ -1241,8 +1197,5 @@
         </div>
 
     </footer>
+@endsection
 
-
-</body>
-
-</html>

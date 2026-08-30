@@ -1,34 +1,14 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿@extends('layouts.game')
 
-<head>
+@section('title', 'Ulangan IPA - QuizGo')
 
-    <meta charset="UTF-8">
+@push('head')
+@vite('resources/css/app.css')
+@endpush
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Ulangan IPA - QuizGo</title>
-
-    @vite('resources/css/app.css')
-
-    <!-- FONT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- ICON -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-
-
-    <style>
-
-        body {
+@push('styles')
+<style>
+body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
         }
@@ -74,16 +54,11 @@
         .option-card:hover {
             transform: translateY(-5px) scale(1.02);
         }
+</style>
+@endpush
 
-    </style>
-
-</head>
-
-
-<body class="bg-[#07111f] text-white min-h-screen">
-
-
-    <!-- =========================================================
+@section('content')
+<!-- =========================================================
          BACKGROUND
     ========================================================== -->
 
@@ -149,7 +124,7 @@
 
                         <i class="fa-solid fa-flask mr-1.5"></i>
 
-                        QuizGo • Ulangan IPA
+                        QuizGo â€¢ Ulangan IPA
 
                     </p>
 
@@ -165,7 +140,7 @@
 
                         <br>
 
-                        Dengan Semangat! ⚡
+                        Dengan Semangat! âš¡
 
                     </h1>
 
@@ -656,8 +631,5 @@
 
 
     @include('components.sound')
+@endsection
 
-
-</body>
-
-</html>

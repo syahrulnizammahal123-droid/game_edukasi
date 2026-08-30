@@ -17,6 +17,7 @@ class Progress extends Model
     'user_id',
     'score',
     'high_score',
+    'total_xp',
     'last_soal_id',
     'level',
     'combo',
@@ -29,6 +30,21 @@ class Progress extends Model
     'wrong_answer'
 
 ];
+
+    protected $casts = [
+        'score' => 'integer',
+        'high_score' => 'integer',
+        'total_xp' => 'integer',
+        'level' => 'integer',
+        'combo' => 'integer',
+        'last_index' => 'integer',
+        'health' => 'integer',
+        'login_streak' => 'integer',
+        'last_claim' => 'date',
+        'total_play' => 'integer',
+        'correct_answer' => 'integer',
+        'wrong_answer' => 'integer',
+    ];
     /*
     |--------------------------------------------------------------------------
     | RELASI USER
