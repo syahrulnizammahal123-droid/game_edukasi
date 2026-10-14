@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Edit Soal Ulangan IPA - QuizGo')
+@section('title', 'Edit Soal Ulangan IPA - QuizKU')
 @section('main_class', 'flex-1 overflow-x-hidden pb-28 lg:pb-8')
 
 @push('styles')
@@ -100,7 +100,7 @@ body {
 
                             <i class="fa-solid fa-flask mr-1.5"></i>
 
-                            QuizGo â€¢ Manajemen Soal IPA
+                            QuizKU â€¢ Manajemen Soal IPA
 
                         </p>
 

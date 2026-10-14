@@ -7,7 +7,7 @@
 
             <div>
                 <h1 class="font-extrabold text-lg tracking-wide text-white leading-tight">
-                    QuizGo
+                    QuizKU
                 </h1>
                 <p class="text-[10px] text-cyan-300 font-bold uppercase tracking-widest">
                     Media Pembelajaran IPA

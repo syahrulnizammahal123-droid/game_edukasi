@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Dashboard - QuizGo')
+@section('title', 'Dashboard - QuizKU')
 
 @push('head')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -64,7 +64,7 @@ body {
                 <div>
 
                     <h1 class="text-xl font-black">
-                        QuizGo
+                        QuizKU
                     </h1>
 
                     <p class="text-cyan-400 text-xs font-medium">
@@ -218,7 +218,7 @@ body {
                             pt-1"
                         >
 
-                            Gunakan QuizGo untuk belajar dan mengerjakan
+                            Gunakan QuizKU untuk belajar dan mengerjakan
                             ulangan IPA dengan cara yang lebih interaktif,
                             menarik, dan menyenangkan.
 
@@ -333,7 +333,7 @@ body {
                                     mt-0.5"
                                 >
 
-                                    {{ $title ?? 'Peserta QuizGo' }}
+                                    {{ $title ?? 'Peserta QuizKU' }}
 
                                 </span>
 

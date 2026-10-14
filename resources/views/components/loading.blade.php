@@ -1,5 +1,5 @@
 <!-- =========================================================
-     QUIZGO LOADING SCREEN
+     QuizKU LOADING SCREEN
 ========================================================= -->
 
 <div
@@ -77,7 +77,7 @@
             font-extrabold
             mb-3"
         >
-            Memuat QuizGo
+            Memuat QuizKU
         </h2>
 
 

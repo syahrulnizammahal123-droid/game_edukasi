@@ -1,6 +1,6 @@
 ﻿@extends('layouts.auth')
 
-@section('title', 'Daftar - QuizGo')
+@section('title', 'Daftar - QuizKU')
 
 @push('styles')
 <style>
@@ -201,7 +201,7 @@ html {
                     text-white
                     tracking-tight"
                 >
-                    Buat Akun QuizGo
+                    Buat Akun QuizKU
                 </h1>
 
 
@@ -637,7 +637,7 @@ html {
                             tracking-wide"
                         >
 
-                            Daftar di QuizGo
+                            Daftar di QuizKU
 
                             <i
                                 class="fa-solid
@@ -706,7 +706,7 @@ html {
                     >
 
                         Buat akun untuk mulai menggunakan
-                        QuizGo sebagai media ulangan IPA
+                        QuizKU sebagai media ulangan IPA
                         yang interaktif dan menyenangkan.
 
                     </p>

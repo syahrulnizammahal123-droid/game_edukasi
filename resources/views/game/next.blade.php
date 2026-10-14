@@ -1,6 +1,6 @@
 ﻿@extends('layouts.game')
 
-@section('title', 'Jawaban Ulangan - QuizGo')
+@section('title', 'Jawaban Ulangan - QuizKU')
 
 @push('styles')
 <style>
@@ -224,7 +224,7 @@ body {
         <!-- LABEL -->
 
         <div class="label">
-            QuizGo â€¢ Ulangan IPA
+            QuizKU â€¢ Ulangan IPA
         </div>
 
 
@@ -286,7 +286,7 @@ body {
 
         <div class="footer-text">
 
-            QuizGo â€” Media Pembelajaran IPA
+            QuizKU â€” Media Pembelajaran IPA
 
         </div>
 

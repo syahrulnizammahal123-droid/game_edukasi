@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Dashboard Admin - QuizGo')
+@section('title', 'Dashboard Admin - QuizKU')
 
 @push('styles')
 <style>

@@ -1,6 +1,6 @@
 ﻿@extends('layouts.game')
 
-@section('title', 'Ulangan IPA - QuizGo')
+@section('title', 'Ulangan IPA - QuizKU')
 
 @push('head')
 @vite('resources/css/app.css')
@@ -124,7 +124,7 @@ body {
 
                         <i class="fa-solid fa-flask mr-1.5"></i>
 
-                        QuizGo â€¢ Ulangan IPA
+                        QuizKU â€¢ Ulangan IPA
 
                     </p>
 

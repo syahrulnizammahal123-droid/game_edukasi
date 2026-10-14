@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Pilih Ulangan - QuizGo')
+@section('title', 'Pilih Ulangan - QuizKU')
 @section('main_class', 'flex-1 overflow-x-hidden pb-28 lg:pb-8')
 
 @push('styles')
@@ -99,7 +99,7 @@ body {
 
                             <i class="fa-solid fa-flask mr-1.5"></i>
 
-                            QuizGo â€¢ Ulangan IPA
+                            QuizKU â€¢ Ulangan IPA
 
                         </p>
 

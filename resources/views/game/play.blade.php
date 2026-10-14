@@ -1,6 +1,6 @@
 ﻿@extends('layouts.game')
 
-@section('title', 'QuizGo - Ulangan IPA')
+@section('title', 'QuizKU - Ulangan IPA')
 
 @push('styles')
 <style>
@@ -412,7 +412,7 @@
 
                         <i class="fa-solid fa-flask"></i>
 
-                        QuizGo â€¢ Ulangan IPA
+                        QuizKU â€¢ Ulangan IPA
 
                     </div>
 

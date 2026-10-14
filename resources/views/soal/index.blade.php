@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Kelola Soal IPA - QuizGo')
+@section('title', 'Kelola Soal IPA - QuizKU')
 
 @push('styles')
 <style>
@@ -90,7 +90,7 @@ body {
                         text-sm
                         mt-1"
                     >
-                        Tambahkan, ubah, atau hapus soal yang digunakan dalam ulangan IPA QuizGo.
+                        Tambahkan, ubah, atau hapus soal yang digunakan dalam ulangan IPA QuizKU.
                     </p>
 
                 </div>

@@ -1,5 +1,5 @@
 <!-- =========================================================
-     QUIZGO - PENCAPAIAN ULANGAN IPA
+     QuizKU - PENCAPAIAN ULANGAN IPA
 ========================================================= -->
 
 <div
@@ -57,7 +57,7 @@
                 text-3xl
                 font-bold"
             >
-                Pencapaian QuizGo
+                Pencapaian QuizKU
             </h2>
 
         </div>

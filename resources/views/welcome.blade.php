@@ -1,6 +1,6 @@
 ﻿@extends('layouts.guest')
 
-@section('title', 'QuizGo - Ulangan IPA Interaktif')
+@section('title', 'QuizKU - Ulangan IPA Interaktif')
 @section('body_class', 'min-h-screen bg-cover bg-center bg-fixed text-white overflow-x-hidden')
 @section('body_style')
     background-image:url('{{ asset('images/bg-login.jpg') }}')
@@ -162,7 +162,7 @@ body {
                         text-lg
                         leading-none"
                     >
-                        QuizGo
+                        QuizKU
                     </h1>
 
 
@@ -369,7 +369,7 @@ body {
                     >
 
                         <strong class="text-white">
-                            QuizGo
+                            QuizKU
                         </strong>
 
                         adalah media pembelajaran interaktif
@@ -665,7 +665,7 @@ body {
                                     uppercase
                                     tracking-wider"
                                 >
-                                    QuizGo
+                                    QuizKU
                                 </p>
 
 
@@ -966,7 +966,7 @@ body {
                     uppercase
                     tracking-widest"
                 >
-                    Kenapa QuizGo?
+                    Kenapa QuizKU?
                 </p>
 
 
@@ -1183,7 +1183,7 @@ body {
                 class="text-white/30
                 text-xs"
             >
-                Â© {{ date('Y') }} QuizGo
+                Â© {{ date('Y') }} QuizKU
             </p>
 
 

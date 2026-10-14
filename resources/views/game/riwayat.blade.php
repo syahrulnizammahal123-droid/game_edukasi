@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Riwayat Ulangan - QuizGo')
+@section('title', 'Riwayat Ulangan - QuizKU')
 
 @push('styles')
 <style>

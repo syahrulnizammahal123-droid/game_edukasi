@@ -1,6 +1,6 @@
 ﻿@extends('layouts.game')
 
-@section('title', 'Ulangan IPA - QuizGo')
+@section('title', 'Ulangan IPA - QuizKU')
 
 @push('styles')
 <style>

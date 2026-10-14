@@ -1,6 +1,6 @@
 ﻿@extends('layouts.auth')
 
-@section('title', 'Login - QuizGo')
+@section('title', 'Login - QuizKU')
 
 @push('styles')
 <style>
@@ -162,7 +162,7 @@
                 mt-4
                 mb-1"
             >
-                QuizGo
+                QuizKU
             </h1>
 
 
@@ -330,7 +330,7 @@
                         me-2"
                     ></i>
 
-                    Masuk ke QuizGo
+                    Masuk ke QuizKU
 
                 </button>
 
@@ -376,7 +376,7 @@
 
                 <p class="info-text mb-0">
 
-                    QuizGo merupakan media pembelajaran
+                    QuizKU merupakan media pembelajaran
                     untuk membantu siswa mengerjakan
                     ulangan IPA secara interaktif dan menyenangkan.
 
